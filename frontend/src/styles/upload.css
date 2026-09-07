@@ -1,0 +1,371 @@
+/**
+ * EduBridge Adaptive - Textbook Upload & Processing Styles
+ * Premium drag-and-drop experience with multi-stage progress tracking and high accessibility
+ */
+
+/* =========================================================================
+ * 1. Upload Dropzone
+ * ========================================================================= */
+.upload-dropzone {
+  position: relative;
+  border: 2px dashed var(--border-color);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-8) var(--spacing-6);
+  text-align: center;
+  background-color: var(--surface-secondary);
+  transition: border-color var(--transition-normal), background-color var(--transition-normal), transform var(--transition-fast);
+  cursor: pointer;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-4);
+  min-height: 280px;
+}
+
+.upload-dropzone:hover {
+  border-color: var(--color-primary-500);
+  background-color: var(--surface-tertiary);
+}
+
+.upload-dropzone:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+  border-color: var(--color-primary-600);
+}
+
+.upload-dropzone--dragging {
+  border-color: var(--color-primary-600);
+  border-style: solid;
+  background-color: rgba(37, 99, 235, 0.08);
+  transform: scale(1.005);
+  box-shadow: var(--shadow-lg);
+}
+
+.upload-dropzone--error {
+  border-color: var(--color-danger-500);
+  background-color: rgba(220, 38, 38, 0.05);
+}
+
+.upload-dropzone-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-full);
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform var(--transition-fast);
+}
+
+.upload-dropzone:hover .upload-dropzone-icon {
+  transform: translateY(-2px);
+}
+
+.upload-file-input-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================================================================
+ * 2. Image Preview & Configuration Studio
+ * ========================================================================= */
+.upload-preview-wrapper {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+  .upload-preview-wrapper {
+    grid-template-columns: 1.1fr 1fr;
+  }
+}
+
+.upload-preview-frame {
+  position: relative;
+  background-color: #0f172a;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 320px;
+  max-height: 480px;
+  border: 1px solid var(--border-color);
+}
+
+.upload-preview-img {
+  max-width: 100%;
+  max-height: 480px;
+  object-fit: contain;
+  display: block;
+}
+
+.upload-preview-badge-overlay {
+  position: absolute;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption);
+  backdrop-filter: blur(4px);
+}
+
+.upload-meta-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+/* =========================================================================
+ * 3. Step-by-Step Progress Pipeline UI
+ * ========================================================================= */
+.upload-steps-card {
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-md);
+}
+
+.upload-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.upload-step-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background-color: var(--surface-secondary);
+  transition: all var(--transition-normal);
+}
+
+.upload-step-item--completed {
+  border-color: rgba(22, 163, 74, 0.3);
+  background-color: rgba(22, 163, 74, 0.05);
+}
+
+.upload-step-item--active {
+  border-color: var(--color-primary-500);
+  background-color: rgba(37, 99, 235, 0.08);
+  box-shadow: 0 0 0 1px var(--color-primary-500);
+}
+
+.upload-step-item--pending {
+  opacity: 0.65;
+  border-color: transparent;
+  background-color: var(--surface-tertiary);
+}
+
+.upload-step-item--failed {
+  border-color: var(--color-danger-500);
+  background-color: rgba(220, 38, 38, 0.08);
+}
+
+.upload-step-content {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.upload-step-name {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-medium);
+  color: var(--text-primary);
+}
+
+.upload-step-item--pending .upload-step-name {
+  color: var(--text-muted);
+}
+
+.upload-step-indicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.upload-step-indicator--completed {
+  color: var(--color-success-600);
+}
+
+.upload-step-indicator--active {
+  color: var(--color-primary-600);
+  animation: upload-pulse 1.5s infinite ease-in-out;
+}
+
+.upload-step-indicator--pending {
+  color: var(--text-muted);
+  font-weight: normal;
+}
+
+@keyframes upload-pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.6; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* =========================================================================
+ * 4. Completed Success Card
+ * ========================================================================= */
+.upload-success-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-6);
+}
+
+.upload-success-header {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  color: var(--color-success-600);
+}
+
+.upload-result-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.upload-result-content {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+  padding: var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+  .upload-result-content {
+    grid-template-columns: 280px 1fr;
+  }
+}
+
+.upload-result-media {
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-height: 260px;
+}
+
+.upload-result-media img {
+  max-width: 100%;
+  max-height: 260px;
+  object-fit: contain;
+}
+
+.upload-result-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+}
+
+.upload-concept-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+  margin-top: var(--spacing-2);
+}
+
+/* =========================================================================
+ * 5. High Contrast Overrides
+ * ========================================================================= */
+[data-contrast="high"] .upload-dropzone {
+  border-width: 3px;
+  border-color: #ffffff;
+  background-color: #000000;
+}
+
+[data-contrast="high"] .upload-dropzone:hover,
+[data-contrast="high"] .upload-dropzone--dragging {
+  border-color: #ffff00;
+  background-color: #1a1a00;
+}
+
+[data-contrast="high"] .upload-step-item {
+  border-width: 2px;
+  border-color: #ffffff;
+  background-color: #000000;
+}
+
+[data-contrast="high"] .upload-step-item--active {
+  border-color: #ffff00;
+  background-color: #222200;
+}
+
+[data-contrast="high"] .upload-step-item--completed {
+  border-color: #00ff00;
+  background-color: #002200;
+}
+
+/* =========================================================================
+ * 6. Reduced Motion Overrides
+ * ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .upload-step-indicator--active {
+    animation: none;
+  }
+  .upload-dropzone,
+  .upload-step-item {
+    transition: none;
+  }
+}
+
+/* =========================================================================
+ * 7. Mobile Layout Optimizations (< 640px)
+ * ========================================================================= */
+@media (max-width: 640px) {
+  .upload-dropzone {
+    padding: var(--spacing-6) var(--spacing-4);
+    min-height: 220px;
+  }
+
+  .upload-preview-frame {
+    min-height: 220px;
+    max-height: 320px;
+  }
+
+  .upload-steps-card {
+    padding: var(--spacing-4);
+  }
+
+  .upload-result-content {
+    padding: var(--spacing-4);
+  }
+
+  .upload-result-media {
+    max-height: 200px;
+  }
+
+  .upload-result-media img {
+    max-height: 200px;
+  }
+}

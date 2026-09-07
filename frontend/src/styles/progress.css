@@ -1,0 +1,354 @@
+/**
+ * EduBridge Adaptive - Student Progress Center Styles
+ * Visual concept mastery cards, responsive radar charts, and accessible tabular metrics
+ */
+
+/* =========================================================================
+ * 1. Overview Metrics Grid
+ * ========================================================================= */
+.progress-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+}
+
+.progress-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.progress-metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 640px) {
+  .progress-metrics-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .progress-metrics-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.progress-metric-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.progress-metric-label {
+  font-size: var(--font-size-small);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.progress-metric-value {
+  font-size: 2.25rem;
+  font-weight: var(--font-weight-bold);
+  line-height: 1.1;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.progress-metric-footer {
+  font-size: var(--font-size-caption);
+  color: var(--text-muted);
+}
+
+/* =========================================================================
+ * 2. Visual Concept Mastery Cards
+ * ========================================================================= */
+.concept-cards-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-4);
+}
+
+@media (min-width: 768px) {
+  .concept-cards-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1200px) {
+  .concept-cards-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.concept-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  transition: transform var(--transition-fast), border-color var(--transition-fast);
+}
+
+.concept-card:hover {
+  border-color: var(--color-primary-400);
+}
+
+.concept-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--spacing-2);
+}
+
+.concept-card-title {
+  font-size: 1.1rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.3;
+}
+
+.concept-card-score-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.concept-card-score {
+  font-size: 1.75rem;
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.concept-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-size-caption);
+  color: var(--text-muted);
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--border-subtle);
+}
+
+/* =========================================================================
+ * 3. Accessible Radar Chart Section
+ * ========================================================================= */
+.radar-chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-4);
+  width: 100%;
+}
+
+.radar-chart-container {
+  width: 100%;
+  max-width: 420px;
+  margin: 0 auto;
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+}
+
+.radar-chart-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.radar-grid-line {
+  stroke: var(--border-color);
+  stroke-width: 1;
+  fill: none;
+  stroke-dasharray: 2 2;
+}
+
+.radar-grid-polygon {
+  stroke: var(--border-color);
+  stroke-width: 1;
+  fill: rgba(0, 0, 0, 0.01);
+}
+
+.radar-axis-line {
+  stroke: var(--border-subtle);
+  stroke-width: 1;
+}
+
+.radar-axis-text {
+  font-size: 11px;
+  fill: var(--text-secondary);
+  font-weight: var(--font-weight-medium);
+  font-family: inherit;
+}
+
+.radar-data-area {
+  fill: rgba(37, 99, 235, 0.25);
+  stroke: var(--color-primary-600);
+  stroke-width: 2.5;
+  transition: all 0.3s ease;
+}
+
+.radar-data-dot {
+  fill: var(--color-primary-600);
+  stroke: #ffffff;
+  stroke-width: 2;
+  cursor: pointer;
+  transition: r 0.2s ease;
+}
+
+.radar-data-dot:hover {
+  r: 6;
+}
+
+/* View Switcher (Radar Chart vs Table) */
+.view-toggle-group {
+  display: inline-flex;
+  align-items: center;
+  background-color: var(--surface-tertiary);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  gap: 2px;
+}
+
+.view-toggle-btn {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  min-height: 30px;
+  transition: all var(--transition-fast);
+}
+
+.view-toggle-btn--active {
+  background-color: var(--surface-primary);
+  color: var(--color-primary-700);
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.view-toggle-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* Accessible Table */
+.progress-table-container {
+  width: 100%;
+  overflow-x: auto;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  background-color: var(--surface-primary);
+}
+
+.progress-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: var(--font-size-small);
+}
+
+.progress-table th {
+  padding: var(--spacing-3) var(--spacing-4);
+  background-color: var(--surface-secondary);
+  color: var(--text-secondary);
+  font-weight: var(--font-weight-semibold);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.progress-table td {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-bottom: 1px solid var(--border-subtle);
+  color: var(--text-primary);
+}
+
+.progress-table tr:last-child td {
+  border-bottom: none;
+}
+
+/* =========================================================================
+ * 4. Weak & Strong Concept Sections
+ * ========================================================================= */
+.progress-split-layout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 1024px) {
+  .progress-split-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.focus-area-card {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.focus-area-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-2);
+}
+
+.focus-item-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+.focus-item-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* Learning Activity Timeline */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-secondary);
+  font-size: var(--font-size-small);
+  gap: var(--spacing-3);
+}

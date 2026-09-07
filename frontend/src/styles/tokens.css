@@ -1,0 +1,295 @@
+/**
+ * EduBridge Adaptive - Design System Tokens
+ * Accessible, High-Contrast Ready, AI-Enhanced Educational Experience
+ */
+
+:root {
+  /* =========================================================================
+   * Color Palette - Accessible WCAG 2.1 AA / AAA compliant
+   * ========================================================================= */
+  /* Primary Brand (Sapphire / Deep Indigo - Trust & Precision) */
+  --color-primary-50: #eff6ff;
+  --color-primary-100: #dbeafe;
+  --color-primary-200: #bfdbfe;
+  --color-primary-300: #93c5fd;
+  --color-primary-400: #60a5fa;
+  --color-primary-500: #3b82f6;
+  --color-primary-600: #2563eb;
+  --color-primary-700: #1d4ed8;
+  --color-primary-800: #1e40af;
+  --color-primary-900: #1e3a8a;
+  --color-primary-950: #172554;
+
+  /* AI & Multimodal Accent (Teal / Cyan - Innovation & Cognitive Adaptation) */
+  --color-accent-50: #f0fdfa;
+  --color-accent-100: #ccfbf1;
+  --color-accent-200: #99f6e4;
+  --color-accent-300: #5eead4;
+  --color-accent-400: #2dd4bf;
+  --color-accent-500: #14b8a6;
+  --color-accent-600: #0d9488;
+  --color-accent-700: #0f766e;
+  --color-accent-800: #115e59;
+  --color-accent-900: #134e4a;
+  --color-accent-950: #042f2e;
+
+  /* Neutrals (Slate Scale - High Legibility) */
+  --color-neutral-0: #ffffff;
+  --color-neutral-50: #f8fafc;
+  --color-neutral-100: #f1f5f9;
+  --color-neutral-200: #e2e8f0;
+  --color-neutral-300: #cbd5e1;
+  --color-neutral-400: #94a3b8;
+  --color-neutral-500: #64748b;
+  --color-neutral-600: #475569;
+  --color-neutral-700: #334155;
+  --color-neutral-800: #1e293b;
+  --color-neutral-900: #0f172a;
+  --color-neutral-950: #020617;
+
+  /* Status Colors */
+  --color-success-50: #f0fdf4;
+  --color-success-100: #dcfce7;
+  --color-success-500: #22c55e;
+  --color-success-700: #15803d;
+  --color-success-900: #14532d;
+
+  --color-warning-50: #fffbeb;
+  --color-warning-100: #fef3c7;
+  --color-warning-500: #f59e0b;
+  --color-warning-700: #b45309;
+  --color-warning-900: #78350f;
+
+  --color-danger-50: #fef2f2;
+  --color-danger-100: #fee2e2;
+  --color-danger-500: #ef4444;
+  --color-danger-700: #b91c1c;
+  --color-danger-900: #7f1d1d;
+
+  --color-info-50: #f0f9ff;
+  --color-info-100: #e0f2fe;
+  --color-info-500: #0ea5e9;
+  --color-info-700: #0369a1;
+  --color-info-900: #0c4a6e;
+
+  /* =========================================================================
+   * Semantic Surfaces & Tokens (Light Mode Default)
+   * ========================================================================= */
+  --bg-app: var(--color-neutral-50);
+  --bg-surface: var(--color-neutral-0);
+  --bg-surface-subtle: var(--color-neutral-100);
+  --bg-surface-elevated: var(--color-neutral-0);
+  --bg-surface-inverse: var(--color-neutral-900);
+
+  --text-primary: var(--color-neutral-900);
+  --text-secondary: var(--color-neutral-700);
+  --text-muted: var(--color-neutral-600);
+  --text-inverse: var(--color-neutral-0);
+  --text-link: var(--color-primary-700);
+  --text-link-hover: var(--color-primary-800);
+
+  --border-subtle: var(--color-neutral-200);
+  --border-strong: var(--color-neutral-300);
+  --border-focus: var(--color-primary-600);
+
+  /* Interactive Elements */
+  --btn-primary-bg: var(--color-primary-700);
+  --btn-primary-text: var(--color-neutral-0);
+  --btn-primary-hover: var(--color-primary-800);
+  --btn-primary-active: var(--color-primary-900);
+
+  --btn-secondary-bg: var(--color-neutral-0);
+  --btn-secondary-text: var(--color-neutral-900);
+  --btn-secondary-border: var(--color-neutral-300);
+  --btn-secondary-hover: var(--color-neutral-100);
+
+  --btn-accent-bg: var(--color-accent-700);
+  --btn-accent-text: var(--color-neutral-0);
+  --btn-accent-hover: var(--color-accent-800);
+
+  /* Focus Indicator Tokens (WCAG 2.4.7 & 2.4.11 Visible Focus) */
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+  --focus-ring-color: var(--color-primary-600);
+  --focus-ring-style: solid;
+
+  /* =========================================================================
+   * Typography Hierarchy Tokens (Minimum contrast 4.5:1, Headings 7:1)
+   * ========================================================================= */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+  --font-family-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+  /* Font Weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Hierarchy Font Sizes */
+  --font-size-display: clamp(2rem, 4vw + 1rem, 3.25rem); /* 32px to 52px */
+  --font-size-h1: clamp(1.75rem, 3vw + 0.75rem, 2.5rem);  /* 28px to 40px */
+  --font-size-h2: clamp(1.375rem, 2vw + 0.5rem, 1.875rem); /* 22px to 30px */
+  --font-size-h3: clamp(1.125rem, 1.2vw + 0.5rem, 1.375rem); /* 18px to 22px */
+  --font-size-body: 1rem;       /* 16px base */
+  --font-size-small: 0.875rem;  /* 14px */
+  --font-size-caption: 0.8125rem; /* 13px */
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.6;
+  --line-height-relaxed: 1.75;
+
+  /* =========================================================================
+   * Spacing & Layout Tokens
+   * ========================================================================= */
+  --spacing-0: 0;
+  --spacing-1: 0.25rem;  /* 4px */
+  --spacing-2: 0.5rem;   /* 8px */
+  --spacing-3: 0.75rem;  /* 12px */
+  --spacing-4: 1rem;     /* 16px */
+  --spacing-5: 1.25rem;  /* 20px */
+  --spacing-6: 1.5rem;   /* 24px */
+  --spacing-8: 2rem;     /* 32px */
+  --spacing-10: 2.5rem;  /* 40px */
+  --spacing-12: 3rem;    /* 48px */
+  --spacing-16: 4rem;    /* 64px */
+  --spacing-20: 5rem;    /* 80px */
+  --spacing-24: 6rem;    /* 96px */
+
+  /* Touch Targets (Minimum 44x44px for accessibility) */
+  --touch-target-min: 44px;
+
+  /* Border Radii */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows (Subtle, crisp, avoiding heavy blurred spreads) */
+  --shadow-xs: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.08);
+  --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04);
+  --shadow-focus: 0 0 0 3px rgba(37, 99, 235, 0.35);
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Container Max Widths */
+  --container-sm: 640px;
+  --container-md: 768px;
+  --container-lg: 1024px;
+  --container-xl: 1280px;
+  --container-2xl: 1440px;
+}
+
+/* =========================================================================
+ * High Contrast Theme (Activated via [data-contrast="high"])
+ * Designed for low-vision and visually impaired students
+ * ========================================================================= */
+[data-contrast="high"] {
+  --bg-app: #000000;
+  --bg-surface: #0a0a0a;
+  --bg-surface-subtle: #171717;
+  --bg-surface-elevated: #1a1a1a;
+  --bg-surface-inverse: #ffffff;
+
+  --text-primary: #ffffff;
+  --text-secondary: #facc15; /* Crisp readable yellow */
+  --text-muted: #e5e5e5;
+  --text-inverse: #000000;
+  --text-link: #38bdf8;
+  --text-link-hover: #7dd3fc;
+
+  --border-subtle: #ffffff;
+  --border-strong: #facc15;
+  --border-focus: #facc15;
+
+  --btn-primary-bg: #facc15;
+  --btn-primary-text: #000000;
+  --btn-primary-hover: #fde047;
+  --btn-primary-active: #eab308;
+
+  --btn-secondary-bg: #000000;
+  --btn-secondary-text: #ffffff;
+  --btn-secondary-border: #ffffff;
+  --btn-secondary-hover: #262626;
+
+  --btn-accent-bg: #38bdf8;
+  --btn-accent-text: #000000;
+  --btn-accent-hover: #7dd3fc;
+
+  --focus-ring-color: #facc15;
+  --focus-ring-width: 4px;
+  --focus-ring-offset: 3px;
+
+  --shadow-xs: none;
+  --shadow-sm: none;
+  --shadow-md: none;
+  --shadow-lg: none;
+  --shadow-focus: 0 0 0 4px #facc15;
+}
+
+html[data-font-size="large"] {
+  font-size: 112.5%; /* 18px rem base */
+}
+
+html[data-font-size="xlarge"] {
+  font-size: 125%; /* 20px rem base */
+}
+
+[data-font-size="large"] {
+  --font-size-display: clamp(2.25rem, 4.5vw + 1rem, 3.75rem);
+  --font-size-h1: clamp(2rem, 3.5vw + 0.8rem, 2.875rem);
+  --font-size-h2: clamp(1.5rem, 2.2vw + 0.6rem, 2.125rem);
+  --font-size-h3: clamp(1.25rem, 1.4vw + 0.6rem, 1.5rem);
+  --font-size-body: 1.125rem;  /* 18px */
+  --font-size-small: 1rem;      /* 16px */
+  --font-size-caption: 0.9375rem; /* 15px */
+}
+
+[data-font-size="xlarge"] {
+  --font-size-display: clamp(2.5rem, 5vw + 1rem, 4.25rem);
+  --font-size-h1: clamp(2.25rem, 4vw + 0.9rem, 3.25rem);
+  --font-size-h2: clamp(1.75rem, 2.5vw + 0.7rem, 2.375rem);
+  --font-size-h3: clamp(1.375rem, 1.6vw + 0.7rem, 1.75rem);
+  --font-size-body: 1.25rem;    /* 20px */
+  --font-size-small: 1.125rem;  /* 18px */
+  --font-size-caption: 1rem;    /* 16px */
+}
+
+/* =========================================================================
+ * Reduced Motion System (Explicit User Setting & OS Media Query)
+ * ========================================================================= */
+[data-reduced-motion="true"] {
+  --transition-fast: 0.001ms !important;
+  --transition-normal: 0.001ms !important;
+}
+
+[data-reduced-motion="true"] *,
+[data-reduced-motion="true"] *::before,
+[data-reduced-motion="true"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --transition-fast: 0.001ms !important;
+    --transition-normal: 0.001ms !important;
+  }
+
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

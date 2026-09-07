@@ -1,0 +1,292 @@
+/**
+ * EduBridge Adaptive - Web Speech API Read-Aloud Styles
+ * WCAG 2.1 AA/AAA accessible speech synthesis controls and text highlighting
+ */
+
+/* =========================================================================
+ * 1. Read-Aloud Container Card
+ * ========================================================================= */
+.read-aloud-panel {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: var(--surface-primary);
+  padding: var(--spacing-4) var(--spacing-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  margin-bottom: var(--spacing-4);
+  position: relative;
+  transition: border-color var(--transition-fast);
+}
+
+.read-aloud-panel--active {
+  border-color: var(--color-primary-500);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.03) 0%, var(--surface-primary) 100%);
+  box-shadow: 0 0 0 1px var(--color-primary-500), var(--shadow-sm);
+}
+
+/* =========================================================================
+ * 2. Header & Mode Switcher
+ * ========================================================================= */
+.read-aloud-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.read-aloud-title-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.read-aloud-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background-color: rgba(37, 99, 235, 0.1);
+  color: var(--color-primary-600);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.read-aloud-icon--active {
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.read-aloud-mode-tabs {
+  display: flex;
+  align-items: center;
+  background-color: var(--surface-tertiary);
+  padding: 3px;
+  border-radius: var(--radius-md);
+  gap: 2px;
+}
+
+.read-aloud-mode-btn {
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 30px;
+}
+
+.read-aloud-mode-btn:hover {
+  color: var(--text-primary);
+}
+
+.read-aloud-mode-btn--active {
+  background-color: var(--surface-primary);
+  color: var(--color-primary-700);
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+.read-aloud-mode-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* =========================================================================
+ * 3. Controls Toolbar (Play/Pause, Stop, Rate, Voice)
+ * ========================================================================= */
+.read-aloud-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+.read-aloud-btn-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.read-aloud-action-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-md);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  min-height: 40px;
+  transition: all var(--transition-fast);
+}
+
+.read-aloud-action-btn:hover:not(:disabled) {
+  background-color: var(--surface-tertiary);
+  border-color: var(--color-primary-400);
+}
+
+.read-aloud-action-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.read-aloud-action-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.read-aloud-action-btn--primary {
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  border-color: var(--color-primary-600);
+}
+
+.read-aloud-action-btn--primary:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+  border-color: var(--color-primary-700);
+}
+
+.read-aloud-action-btn--danger {
+  color: var(--color-danger-700);
+  background-color: var(--color-danger-50);
+  border-color: var(--color-danger-200);
+}
+
+.read-aloud-action-btn--danger:hover:not(:disabled) {
+  background-color: var(--color-danger-100);
+}
+
+/* Speed / Rate Selector */
+.read-aloud-rate-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+}
+
+.read-aloud-rate-btn {
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.75rem;
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border-subtle);
+  background: var(--surface-secondary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  min-height: 28px;
+}
+
+.read-aloud-rate-btn:hover {
+  background-color: var(--surface-tertiary);
+  color: var(--text-primary);
+}
+
+.read-aloud-rate-btn--active {
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  border-color: var(--color-primary-600);
+}
+
+/* =========================================================================
+ * 4. Active Reading Text Box & Dynamic Highlighting
+ * ========================================================================= */
+.read-aloud-text-preview {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-secondary);
+  border: 1px solid var(--border-subtle);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+  color: var(--text-primary);
+  max-height: 180px;
+  overflow-y: auto;
+  user-select: text;
+}
+
+/* Highlighting currently spoken word/sentence */
+.read-aloud-mark {
+  background-color: #fef08a; /* Accessible high-contrast yellow */
+  color: #854d0e;
+  padding: 1px 3px;
+  border-radius: 2px;
+  font-weight: var(--font-weight-semibold);
+  box-shadow: 0 0 0 2px rgba(250, 204, 21, 0.4);
+  transition: background-color 0.1s ease;
+}
+
+[data-contrast="high"] .read-aloud-mark {
+  background-color: #ffff00;
+  color: #000000;
+  outline: 2px solid #000000;
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .read-aloud-mark,
+  .read-aloud-panel,
+  .read-aloud-icon {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/* =========================================================================
+ * 5. Unavailable Fallback Banner
+ * ========================================================================= */
+.read-aloud-unavailable {
+  padding: var(--spacing-3) var(--spacing-4);
+  border-radius: var(--radius-md);
+  background-color: var(--surface-secondary);
+  border: 1px solid var(--border-color);
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+@media (max-width: 640px) {
+  .read-aloud-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .read-aloud-btn-group {
+    justify-content: space-between;
+  }
+
+  .read-aloud-rate-group {
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 480px) {
+  .read-aloud-panel {
+    padding: var(--spacing-3);
+  }
+
+  .read-aloud-mode-tabs {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .read-aloud-mode-btn {
+    flex: 1;
+    text-align: center;
+  }
+
+  .read-aloud-rate-group {
+    width: 100%;
+    justify-content: center;
+  }
+}

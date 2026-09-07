@@ -1,0 +1,59 @@
+{
+  "name": "edubridge-backend",
+  "version": "1.0.0",
+  "description": "EduBridge Adaptive - Production-grade accessible learning backend with Snowflake, Cloudinary, Gemini, Piper TTS, and faster-whisper",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "test": "jest --runInBand --detectOpenHandles --forceExit",
+    "test:coverage": "jest --coverage --runInBand --forceExit",
+    "migrate": "node src/database/snowflake/cli/migrate.js",
+    "db:init": "node src/database/snowflake/cli/init.js",
+    "db:verify": "node src/database/snowflake/cli/verify.js",
+    "db:migrate": "node src/database/snowflake/cli/migrate.js",
+    "db:health": "node src/database/snowflake/cli/health.js"
+  },
+  "keywords": [
+    "edubridge",
+    "accessibility",
+    "snowflake",
+    "cloudinary",
+    "piper-tts",
+    "faster-whisper",
+    "gemini",
+    "express"
+  ],
+  "author": "EduBridge Architecture Team",
+  "license": "ISC",
+  "dependencies": {
+    "@google/generative-ai": "^0.21.0",
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1",
+    "mysql2": "^3.12.0",
+    "sharp": "^0.33.5",
+    "snowflake-sdk": "^1.13.0",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/tests/**/*.test.js"
+    ],
+    "verbose": true
+  }
+}

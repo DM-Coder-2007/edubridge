@@ -1,0 +1,388 @@
+/**
+ * EduBridge Adaptive - Lesson Library Styles
+ * Premium accessible card grid, responsive filters, search, and sorting
+ */
+
+/* =========================================================================
+ * 1. Filter & Search Toolbar
+ * ========================================================================= */
+.lessons-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background-color: var(--surface-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+}
+
+.lessons-toolbar-top {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+}
+
+@media (min-width: 768px) {
+  .lessons-toolbar-top {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+}
+
+.lessons-search-input-wrapper {
+  position: relative;
+  flex: 1;
+  max-width: 100%;
+}
+
+@media (min-width: 768px) {
+  .lessons-search-input-wrapper {
+    max-width: 420px;
+  }
+}
+
+.lessons-search-icon {
+  position: absolute;
+  left: var(--spacing-3);
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.lessons-search-input {
+  width: 100%;
+  height: 44px;
+  padding: var(--spacing-2) var(--spacing-3) var(--spacing-2) calc(var(--spacing-3) + 24px);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-body);
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.lessons-search-input:focus {
+  outline: none;
+  border-color: var(--color-primary-600);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.lessons-controls-group {
+  display: flex;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.lessons-select {
+  height: 44px;
+  padding: var(--spacing-2) var(--spacing-3);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: var(--font-size-small);
+  cursor: pointer;
+}
+
+.lessons-select:focus {
+  outline: none;
+  border-color: var(--color-primary-600);
+  box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+}
+
+.lessons-chips-row {
+  display: flex;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.lessons-filter-chip {
+  height: 34px;
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-secondary);
+  color: var(--text-secondary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  transition: all var(--transition-fast);
+}
+
+.lessons-filter-chip:hover {
+  background-color: var(--surface-tertiary);
+  color: var(--text-primary);
+}
+
+.lessons-filter-chip--active {
+  background-color: var(--color-primary-600);
+  border-color: var(--color-primary-600);
+  color: #ffffff;
+}
+
+.lessons-filter-chip--active:hover {
+  background-color: var(--color-primary-700);
+  color: #ffffff;
+}
+
+/* =========================================================================
+ * 2. Responsive Lessons Grid
+ * ========================================================================= */
+.lessons-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 768px) {
+  .lessons-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1200px) {
+  .lessons-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* =========================================================================
+ * 3. Premium Lesson Card
+ * ========================================================================= */
+.lesson-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.lesson-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: var(--color-primary-400);
+}
+
+.lesson-card:focus-within {
+  border-color: var(--color-primary-600);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+.lesson-card-media {
+  position: relative;
+  height: 170px;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.lesson-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform var(--transition-normal);
+}
+
+.lesson-card:hover .lesson-card-img {
+  transform: scale(1.03);
+}
+
+.lesson-card-placeholder-media {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--spacing-2);
+  color: #94a3b8;
+  padding: var(--spacing-4);
+  text-align: center;
+}
+
+.lesson-card-badge-row {
+  position: absolute;
+  top: var(--spacing-3);
+  left: var(--spacing-3);
+  right: var(--spacing-3);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: none;
+}
+
+.lesson-card-audio-pill {
+  position: absolute;
+  bottom: var(--spacing-3);
+  right: var(--spacing-3);
+  background-color: rgba(15, 23, 42, 0.85);
+  color: #f8fafc;
+  padding: var(--spacing-1) var(--spacing-2);
+  border-radius: var(--radius-sm);
+  font-size: var(--font-size-caption);
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  backdrop-filter: blur(4px);
+}
+
+.lesson-card-body {
+  padding: var(--spacing-5);
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: var(--spacing-3);
+}
+
+.lesson-card-title {
+  font-size: 1.2rem;
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+  line-height: var(--line-height-heading);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lesson-card-subtitle {
+  font-size: var(--font-size-small);
+  color: var(--text-secondary);
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.lesson-card-meta-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--font-size-caption);
+  color: var(--text-muted);
+}
+
+.lesson-card-metrics {
+  background-color: var(--surface-secondary);
+  padding: var(--spacing-3);
+  border-radius: var(--radius-md);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+.lesson-card-metrics-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-size-small);
+}
+
+.lesson-card-actions {
+  margin-top: auto;
+  padding-top: var(--spacing-2);
+}
+
+/* =========================================================================
+ * 4. High Contrast Overrides
+ * ========================================================================= */
+[data-contrast="high"] .lesson-card {
+  border-width: 2px;
+  border-color: #ffffff;
+  background-color: #000000;
+}
+
+[data-contrast="high"] .lesson-card:hover {
+  border-color: #ffff00;
+  box-shadow: 0 0 0 2px #ffff00;
+}
+
+[data-contrast="high"] .lesson-card-metrics {
+  border: 1px solid #ffffff;
+  background-color: #000000;
+}
+
+[data-contrast="high"] .lessons-toolbar {
+  border-width: 2px;
+  border-color: #ffffff;
+  background-color: #000000;
+}
+
+[data-contrast="high"] .lessons-search-input,
+[data-contrast="high"] .lessons-select {
+  border-width: 2px;
+  border-color: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+[data-contrast="high"] .lessons-filter-chip {
+  border-width: 2px;
+  border-color: #ffffff;
+  background-color: #000000;
+  color: #ffffff;
+}
+
+[data-contrast="high"] .lessons-filter-chip--active {
+  background-color: #ffff00;
+  border-color: #ffff00;
+  color: #000000;
+  font-weight: bold;
+}
+
+/* =========================================================================
+ * 5. Reduced Motion
+ * ========================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .lesson-card,
+  .lesson-card-img {
+    transition: none;
+    transform: none !important;
+  }
+}
+
+/* =========================================================================
+ * 6. Responsive Mobile Overrides (< 640px)
+ * ========================================================================= */
+@media (max-width: 639px) {
+  .lessons-toolbar {
+    padding: var(--spacing-3);
+  }
+
+  .lessons-controls-group {
+    width: 100%;
+  }
+
+  .lessons-select {
+    width: 100%;
+  }
+
+  .lessons-chips-row {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: var(--spacing-1);
+    scrollbar-width: none;
+  }
+
+  .lesson-card-body {
+    padding: var(--spacing-4);
+  }
+}

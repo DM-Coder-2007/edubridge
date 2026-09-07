@@ -1,0 +1,517 @@
+/**
+ * EduBridge Adaptive - Custom Accessible Cloudinary Audio Player Styles
+ * WCAG 2.1 AA/AAA compliant, touch-friendly, keyboard operable
+ */
+
+/* =========================================================================
+ * 1. Player Container
+ * ========================================================================= */
+.custom-audio-player {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-color);
+  background: linear-gradient(135deg, var(--surface-primary) 0%, var(--surface-secondary) 100%);
+  padding: var(--spacing-5);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+  position: relative;
+  transition: border-color var(--transition-fast), box-shadow var(--transition-fast);
+}
+
+.custom-audio-player:focus-within {
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 1px var(--color-primary-500), var(--shadow-md);
+}
+
+/* =========================================================================
+ * 2. Header & Badges
+ * ========================================================================= */
+.audio-player-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.audio-player-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  flex-wrap: wrap;
+}
+
+.audio-offline-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--spacing-2);
+  padding: var(--spacing-1) var(--spacing-3);
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-tertiary);
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: 32px;
+}
+
+.audio-offline-btn:hover:not(:disabled) {
+  background-color: var(--surface-secondary);
+  color: var(--text-primary);
+  border-color: var(--color-primary-400);
+}
+
+.audio-offline-btn--cached {
+  background-color: rgba(22, 163, 74, 0.12);
+  border-color: rgba(22, 163, 74, 0.3);
+  color: var(--color-success-700);
+}
+
+.audio-offline-btn--remove {
+  color: var(--color-danger-700);
+  background-color: rgba(220, 38, 38, 0.05);
+  border-color: rgba(220, 38, 38, 0.2);
+}
+
+.audio-offline-btn--remove:hover:not(:disabled) {
+  background-color: rgba(220, 38, 38, 0.12);
+  border-color: var(--color-danger-400);
+  color: var(--color-danger-800);
+}
+
+.audio-offline-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* =========================================================================
+ * 3. Waveform Section (Cloudinary-Delivered Backend Waveform)
+ * ========================================================================= */
+.audio-waveform-container {
+  position: relative;
+  width: 100%;
+  height: 64px;
+  background-color: var(--surface-tertiary);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.audio-waveform-container:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.audio-waveform-img {
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  display: block;
+  opacity: 0.45;
+  filter: grayscale(30%);
+}
+
+.audio-waveform-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  overflow: hidden;
+  pointer-events: none;
+  border-right: 2px solid var(--color-primary-600);
+  background-color: rgba(37, 99, 235, 0.15);
+  transition: width 0.1s linear;
+}
+
+.audio-waveform-overlay-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  object-fit: fill;
+  filter: drop-shadow(0 0 2px var(--color-primary-500));
+}
+
+/* Fallback Animated Visualizer when no waveform image URL */
+.audio-waveform-fallback {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 0 var(--spacing-4);
+}
+
+.audio-fallback-bar {
+  flex: 1;
+  max-width: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-400);
+  transition: height 0.15s ease;
+  min-height: 4px;
+}
+
+.audio-fallback-bar--active {
+  animation: audioPulse 1.2s infinite ease-in-out alternate;
+}
+
+@keyframes audioPulse {
+  0% { height: 10%; }
+  50% { height: 75%; }
+  100% { height: 25%; }
+}
+
+/* =========================================================================
+ * 4. Timeline & Touch-Friendly Scrubber
+ * ========================================================================= */
+.audio-timeline-box {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  font-family: var(--font-family-mono);
+  font-size: var(--font-size-small);
+  color: var(--text-secondary);
+}
+
+.audio-time-label {
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  user-select: none;
+}
+
+.audio-scrubber-track {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 44px; /* Touch-friendly 44px hit area */
+  cursor: pointer;
+}
+
+.audio-scrubber-input {
+  width: 100%;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-tertiary);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  accent-color: var(--color-primary-600);
+  margin: 0;
+}
+
+.audio-scrubber-input:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.audio-scrubber-input::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  border: 3px solid #ffffff;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+}
+
+.audio-scrubber-input::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  background-color: var(--color-primary-700);
+}
+
+.audio-scrubber-input::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  border: 3px solid #ffffff;
+  box-shadow: var(--shadow-sm);
+  cursor: pointer;
+}
+
+/* =========================================================================
+ * 5. Controls Row: Play, Seek, Volume, Speed
+ * ========================================================================= */
+.audio-controls-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+}
+
+.audio-main-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+}
+
+.audio-big-play-btn {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: transform var(--transition-fast), background-color var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.audio-big-play-btn:hover:not(:disabled) {
+  background-color: var(--color-primary-700);
+  transform: scale(1.05);
+}
+
+.audio-big-play-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 3px;
+}
+
+.audio-big-play-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.audio-skip-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-color);
+  background-color: var(--surface-primary);
+  color: var(--text-primary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--transition-fast);
+  flex-shrink: 0;
+}
+
+.audio-skip-btn:hover:not(:disabled) {
+  background-color: var(--surface-tertiary);
+  border-color: var(--color-primary-400);
+  color: var(--color-primary-700);
+}
+
+.audio-skip-btn:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.audio-skip-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Secondary controls (Volume + Speeds) */
+.audio-secondary-controls {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+  flex-wrap: wrap;
+}
+
+/* Volume Control */
+.audio-volume-group {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.audio-volume-slider {
+  width: 80px;
+  height: 6px;
+  border-radius: var(--radius-full);
+  background-color: var(--surface-tertiary);
+  appearance: none;
+  -webkit-appearance: none;
+  cursor: pointer;
+  accent-color: var(--color-primary-600);
+}
+
+.audio-volume-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  background-color: var(--color-primary-600);
+  cursor: pointer;
+}
+
+/* Speed Pills */
+.audio-speed-pills {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-1);
+  background-color: var(--surface-tertiary);
+  padding: 3px;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.audio-speed-pill {
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-medium);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  cursor: pointer;
+  min-height: 30px;
+  transition: all var(--transition-fast);
+}
+
+.audio-speed-pill:hover {
+  color: var(--text-primary);
+}
+
+.audio-speed-pill:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.audio-speed-pill--active {
+  background-color: var(--color-primary-600);
+  color: #ffffff;
+  box-shadow: var(--shadow-sm);
+  font-weight: var(--font-weight-semibold);
+}
+
+/* =========================================================================
+ * 6. Keyboard Shortcuts Hint Banner
+ * ========================================================================= */
+.audio-keyboard-hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: var(--spacing-2);
+  border-top: 1px solid var(--border-subtle);
+  font-size: var(--font-size-caption);
+  color: var(--text-muted);
+}
+
+.audio-kbd-key {
+  display: inline-block;
+  padding: 1px 5px;
+  font-size: 0.75rem;
+  font-family: var(--font-family-mono);
+  background-color: var(--surface-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+}
+
+/* =========================================================================
+ * 7. Error & Loading Fallback States
+ * ========================================================================= */
+.audio-error-fallback {
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--color-danger-200);
+  background-color: var(--color-danger-50);
+  padding: var(--spacing-5);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--spacing-4);
+  color: var(--color-danger-900);
+}
+
+.audio-error-fallback-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .audio-controls-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--spacing-4);
+  }
+
+  .audio-main-controls {
+    justify-content: center;
+  }
+
+  .audio-secondary-controls {
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .audio-speed-pills {
+    overflow-x: auto;
+    max-width: 100%;
+    scrollbar-width: none;
+  }
+}
+
+@media (max-width: 480px) {
+  .custom-audio-player {
+    padding: var(--spacing-3);
+  }
+
+  .audio-secondary-controls {
+    flex-direction: column;
+    align-items: center;
+    gap: var(--spacing-3);
+    width: 100%;
+  }
+
+  .audio-volume-group {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .audio-volume-slider {
+    width: 120px;
+  }
+
+  .audio-speed-pills {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 3px;
+    gap: 3px;
+  }
+
+  .audio-speed-pill {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    min-height: 32px;
+  }
+
+  .audio-timeline-box {
+    gap: var(--spacing-2);
+  }
+
+  .audio-time-label {
+    min-width: 36px;
+    font-size: 0.75rem;
+  }
+
+  .audio-keyboard-hint {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-2);
+  }
+}

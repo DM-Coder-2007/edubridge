@@ -1,0 +1,462 @@
+{"level":"INFO","message":"[5:25:46.179 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:26:05.520 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:29:25.027 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:32:21.252 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:33:40.272 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:37:30.250 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:43:29.324 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:44:42.095 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:45:29.561 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:45:30.103 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:49:01.671 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:49:03.674 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:49:20.984 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:49:21.403 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:51:06.891 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:52:04.681 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:52:17.165 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:52:25.191 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:52:25.096 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:52:25.643 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:08.115 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:39.344 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:45.095 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:52.963 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:53.008 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:52.912 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:54:53.530 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:02.934 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:25.455 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:35.954 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:36.033 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:35.898 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:36.569 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:57:36.379 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:04.584 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:04.627 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:04.525 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:05.078 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:05.300 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:43.810 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:43.871 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:43.759 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:44.497 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:00:44.266 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:08.354 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:08.466 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:08.331 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:08.865 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:09.083 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:44.217 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:46.909 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:47.511 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:48.046 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:01:48.472 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:06:09.268 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:06:12.997 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:06:13.364 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:06:14.085 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:06:14.463 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:09:28.538 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:09:32.803 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:09:33.151 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:09:33.513 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:09:34.442 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:11:15.523 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:11:19.227 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:11:20.018 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:11:21.408 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:11:22.028 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:17.763 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:18.451 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:20.189 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:22.368 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:22.990 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:23.530 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:24.709 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:16:25.627 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:18:29.421 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:19:25.874 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:21:14.501 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:22:18.869 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:24:26.096 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:24:51.594 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:25:54.308 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:04.140 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:05.313 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:06.927 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:08.547 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:09.729 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:10.244 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:11.963 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:12.710 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[6:26:14.318 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:44:46.091 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:51:59.801 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:23.984 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:24.983 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:25.848 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:28.585 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:30.814 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:32.825 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:34.368 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:36.083 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:52:37.739 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:57:27.001 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:57:38.196 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:57:46.015 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:00.365 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:08.298 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:19.291 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:20.537 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:22.850 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:25.487 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:27.723 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:28.388 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:29.544 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:31.758 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:32.283 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:48.872 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:56.404 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:58:57.628 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:00.373 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:02.802 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:05.040 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:05.915 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:07.337 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:10.156 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[7:59:10.671 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:02:32.385 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:19:42.444 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:20:55.546 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:20:58.751 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:03.950 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:08.141 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:12.095 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:13.329 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:15.860 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:17.225 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:21:18.940 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:24:55.044 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:25:39.640 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:25:50.550 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:25:58.782 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:25:59.700 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:01.480 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:03.352 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:06.627 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:09.400 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:10.790 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:11.407 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:13.009 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:26:13.879 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:21:58.869 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:21:59.659 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:01.898 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:03.437 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:05.002 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:06.456 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:07.115 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:08.616 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:09.940 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:22:10.879 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:20.525 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:21.338 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:23.535 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:25.067 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:26.492 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:27.783 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:28.943 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:29.851 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:30.535 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:31.145 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:36:14.941 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:58:01.550 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:04:08.903 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:04:36.706 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:48:29.286 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:02:07.982 PM]: Creating new connection object"}
+{"level":"INFO","message":"[1:02:08.011 PM]: Creating Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.ifcbqbm-zh24416.centralindia.azure.postgres.snowflake.app.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.ifcbqbm-zh24416.centralindia.azure.postgres.snowflake.app.snowflakecomputing.com, user: snowflake_admin, password is provided, role: undefined, database: postgres, schema: APP, warehouse: COMPUTE_WH, region: ifcbqbm-zh24416.centralindi"}
+{"level":"INFO","message":"[1:02:08.012 PM]: Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[1:02:08.012 PM]: Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] - connection object created successfully."}
+{"level":"INFO","message":"[1:02:08.013 PM]: Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[1:02:08.014 PM]: Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[1:02:08.016 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[1:02:08.036 PM]: No client config detected."}
+{"level":"INFO","message":"[1:02:08.036 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[1:02:08.037 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[1:02:08.044 PM]: Connection[id: 8a28b9d2-033d-4a7c-89c6-2e4a2796ca2e] - connected successfully after 30.863399999998364 milliseconds"}
+{"level":"INFO","message":"[1:06:25.101 PM]: Creating new connection object"}
+{"level":"INFO","message":"[1:06:25.116 PM]: Creating Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, user: snowflake_admin, password is provided, role: undefined, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: COMPUTE_WH, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[1:06:25.116 PM]: Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[1:06:25.117 PM]: Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] - connection object created successfully."}
+{"level":"INFO","message":"[1:06:25.117 PM]: Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[1:06:25.119 PM]: Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[1:06:25.120 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[1:06:25.126 PM]: No client config detected."}
+{"level":"INFO","message":"[1:06:25.127 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[1:06:25.128 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[1:06:25.134 PM]: Connection[id: a0bdad4e-16dd-4ba3-934d-f6da13950a98] - connected successfully after 17.166000000000054 milliseconds"}
+{"level":"INFO","message":"[1:06:58.657 PM]: Creating new connection object"}
+{"level":"INFO","message":"[1:06:58.673 PM]: Creating Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, user: snowflake_admin, password is provided, role: undefined, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: COMPUTE_WH, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[1:06:58.674 PM]: Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[1:06:58.675 PM]: Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] - connection object created successfully."}
+{"level":"INFO","message":"[1:06:58.675 PM]: Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[1:06:58.677 PM]: Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[1:06:58.677 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[1:06:58.681 PM]: No client config detected."}
+{"level":"INFO","message":"[1:06:58.681 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[1:06:58.682 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[1:06:58.687 PM]: Connection[id: 7db0b7da-3215-4662-92f7-6bf8f40f4e9e] - connected successfully after 12.029899999999998 milliseconds"}
+{"level":"INFO","message":"[1:08:57.473 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:09:12.331 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:09:24.211 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:09:43.469 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:09:52.893 PM]: Creating new connection object"}
+{"level":"INFO","message":"[1:09:52.894 PM]: Creating Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.centralindia.azure.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.centralindia.azure.snowflakecomputing.com, user: snowflake_admin, password is provided, role: undefined, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: COMPUTE_WH, region: centralindia.azure, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0"}
+{"level":"INFO","message":"[1:09:52.895 PM]: Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[1:09:52.895 PM]: Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] - connection object created successfully."}
+{"level":"INFO","message":"[1:09:52.895 PM]: Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[1:09:52.895 PM]: Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[1:09:52.896 PM]: Connection[id: 9873fd7e-bf08-4e26-9f76-130b3a2031e0] - connected successfully after 0.9614000000001397 milliseconds"}
+{"level":"INFO","message":"[1:10:00.590 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:10:27.585 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:11:41.490 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:15:03.749 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:17:01.168 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:17:46.718 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:17.701 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:27.390 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:28.949 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:31.749 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:33.558 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:19:35.962 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:12.854 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:14.635 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:15.512 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:16.731 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:17.772 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:18.798 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:20.077 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:21.772 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:22.659 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:24.742 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:25.378 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:20:26.043 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:21:55.716 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:33.368 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:34.209 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:34.023 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:37.206 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:37.949 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:39.049 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:42.221 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:42.434 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:43.475 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:45.489 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:45.721 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:46.253 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:47.149 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:48.213 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:48.458 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:49.272 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:49.313 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:49.916 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:49.959 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:51.118 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:50.748 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:51.494 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:52.236 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:51.750 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:52.551 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:53.261 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:53.435 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:54.022 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:54.013 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:54.600 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:55.260 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:55.802 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:22:56.406 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:08.576 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:13.743 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:16.927 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:18.061 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:19.161 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:19.858 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:20.683 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:23.373 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:25.935 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:27.347 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:28.252 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:29.280 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:30.126 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:31.087 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:31.906 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:33.299 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:24:33.905 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:28:43.795 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:28:52.753 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:29:28.474 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:30:47.163 PM]: Creating new connection object"}
+{"level":"INFO","message":"[1:30:47.204 PM]: Creating Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, user: snowflake_admin, password is provided, role: ACCOUNTADMIN, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: COMPUTE_WH, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[1:30:47.206 PM]: Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[1:30:47.207 PM]: Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] - connection object created successfully."}
+{"level":"INFO","message":"[1:30:47.208 PM]: Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[1:30:47.210 PM]: Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[1:30:47.211 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[1:30:47.219 PM]: No client config detected."}
+{"level":"INFO","message":"[1:30:47.219 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[1:30:47.219 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[1:30:47.226 PM]: Connection[id: eb78d3ec-d201-41bd-93a5-6f4f620cef46] - connected successfully after 18.50490000000002 milliseconds"}
+{"level":"INFO","message":"[1:31:23.468 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:32:15.818 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:32:54.468 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:33:09.050 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:33:36.495 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:37:32.567 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:40:56.281 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:58:07.931 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:04:10.224 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:04:18.036 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:04:33.015 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:06:13.608 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:06:58.587 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:07:43.736 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:07:44.230 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:07:57.979 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:02.510 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:03.287 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:05.855 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:06.653 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:07.154 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:07.800 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:09.708 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:10.656 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:12.708 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:13.746 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:14.516 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:15.212 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:15.803 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:16.421 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:17.055 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:08:18.129 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:09:31.730 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:23:02.702 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:33:53.119 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:37:55.165 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:37:55.812 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:37:55.815 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:37:55.571 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:09.453 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:12.450 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:12.841 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:14.195 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:14.590 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:14.931 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:16.019 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:17.521 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:18.035 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:18.644 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:19.384 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:19.850 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:20.340 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:20.776 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:21.182 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:21.871 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:22.251 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:38:40.495 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:39:48.213 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:44:51.045 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:47:26.836 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[3:28:23.799 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[3:28:52.556 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[3:29:08.331 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:43.386 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:45.248 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:46.007 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:46.772 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:49.176 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:50.027 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:50.841 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:51.568 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:52.460 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:53.170 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:53.937 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:54.669 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:55.374 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:56.089 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:56.737 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:57.258 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:53:57.850 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:17.792 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:18.534 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:20.690 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:21.787 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:22.692 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:23.484 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:24.738 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:25.510 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:26.447 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:27.117 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:28.554 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:29.188 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:30.354 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:31.424 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:32.209 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:32.984 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:33.892 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:38.766 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:42.236 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:47.335 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:48.015 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:49.846 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:50.591 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:51.398 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:52.084 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:52.857 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:53.623 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:54.865 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:55.510 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:56.014 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:56.524 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:57.429 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:54:58.312 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:02.610 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:03.605 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:05.631 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:38.268 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:43.899 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:48.580 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:49.255 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:51.494 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:54.028 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:56.106 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:57.261 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:57.942 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:58.631 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:55:59.403 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:00.223 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:01.486 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:02.327 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:02.859 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:03.287 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:03.697 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:04.147 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:15.634 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:20.033 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:22.614 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:24.710 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:26.529 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:27.422 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:28.053 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:28.834 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:29.347 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:29.976 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:30.565 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:31.170 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:31.728 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:32.727 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:33.184 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:33.642 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:56:34.101 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[4:57:03.172 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}

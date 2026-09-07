@@ -1,0 +1,529 @@
+/**
+ * EduBridge Adaptive - Accessibility Center Stylesheet
+ * WCAG 2.1 AA / AAA Compliant
+ */
+
+.settings-container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-8);
+  max-width: var(--container-xl);
+  margin: 0 auto;
+  padding-bottom: var(--spacing-12);
+}
+
+/* =========================================================================
+ * Header & Quick Action Bar
+ * ========================================================================= */
+.settings-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: var(--spacing-4);
+  padding-bottom: var(--spacing-6);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.settings-header-text {
+  max-width: 680px;
+}
+
+.settings-header-title {
+  font-size: var(--font-size-h1);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+.settings-header-subtitle {
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+}
+
+.settings-header-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+}
+
+/* =========================================================================
+ * Settings Section Layout
+ * ========================================================================= */
+.settings-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--spacing-6);
+}
+
+@media (min-width: 1024px) {
+  .settings-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .settings-section--full {
+    grid-column: 1 / -1;
+  }
+}
+
+.settings-card {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-5);
+  transition: border-color var(--transition-fast);
+}
+
+.settings-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--spacing-3);
+}
+
+.settings-card-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-1);
+}
+
+.settings-card-title {
+  font-size: var(--font-size-h3);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-2);
+}
+
+.settings-card-icon {
+  width: 22px;
+  height: 22px;
+  color: var(--color-primary-600);
+  flex-shrink: 0;
+}
+
+.settings-card-description {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
+}
+
+/* =========================================================================
+ * Text Size Selector Cards
+ * ========================================================================= */
+.font-size-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--spacing-4);
+}
+
+.font-size-card {
+  background: var(--bg-surface-subtle);
+  border: 2px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: var(--spacing-5);
+  cursor: pointer;
+  text-align: left;
+  transition: all var(--transition-fast);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  min-height: 140px;
+}
+
+.font-size-card:hover {
+  border-color: var(--color-primary-400);
+  background: var(--bg-surface);
+}
+
+.font-size-card:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+  border-color: var(--color-primary-600);
+}
+
+.font-size-card--selected {
+  border-color: var(--color-primary-600);
+  background: var(--color-primary-50);
+  box-shadow: 0 0 0 1px var(--color-primary-600);
+}
+
+.font-size-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.font-size-card-name {
+  font-weight: var(--font-weight-bold);
+  font-size: var(--font-size-body);
+  color: var(--text-primary);
+}
+
+.font-size-card-scale {
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-semibold);
+  color: var(--color-primary-700);
+  background: var(--color-primary-100);
+  padding: 2px var(--spacing-2);
+  border-radius: var(--radius-sm);
+}
+
+.font-size-card-preview {
+  color: var(--text-secondary);
+  line-height: var(--line-height-normal);
+  flex-grow: 1;
+}
+
+.font-size-card-preview--normal {
+  font-size: 1rem;
+}
+
+.font-size-card-preview--large {
+  font-size: 1.125rem;
+}
+
+.font-size-card-preview--xlarge {
+  font-size: 1.25rem;
+}
+
+.font-size-card-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--font-size-caption);
+  font-weight: var(--font-weight-bold);
+  color: var(--color-primary-700);
+}
+
+/* =========================================================================
+ * Toggle Switch Row Component
+ * ========================================================================= */
+.settings-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--spacing-4);
+  padding: var(--spacing-4);
+  background: var(--bg-surface-subtle);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.settings-toggle-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.settings-toggle-label {
+  font-size: var(--font-size-body);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-primary);
+}
+
+.settings-toggle-subtext {
+  font-size: var(--font-size-small);
+  color: var(--text-muted);
+  line-height: var(--line-height-normal);
+}
+
+/* Accessible Switch Button */
+.settings-switch {
+  position: relative;
+  width: 56px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  background: var(--color-neutral-300);
+  border: 2px solid transparent;
+  cursor: pointer;
+  padding: 2px;
+  flex-shrink: 0;
+  transition: background-color var(--transition-fast);
+  display: flex;
+  align-items: center;
+}
+
+.settings-switch:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.settings-switch--active {
+  background: var(--color-primary-600);
+}
+
+.settings-switch-handle {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: var(--color-neutral-0);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-switch--active .settings-switch-handle {
+  transform: translateX(24px);
+}
+
+.settings-switch-icon {
+  width: 14px;
+  height: 14px;
+  color: var(--color-primary-700);
+}
+
+/* =========================================================================
+ * Speed & Rate Selector Options (Chips / Pill Radios)
+ * ========================================================================= */
+.speed-selector-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-2);
+}
+
+.speed-option-btn {
+  padding: var(--spacing-2) var(--spacing-4);
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-strong);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-medium);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+  min-height: var(--touch-target-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+}
+
+.speed-option-btn:hover {
+  background: var(--bg-surface-subtle);
+  border-color: var(--color-primary-500);
+}
+
+.speed-option-btn:focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring-color);
+  outline-offset: var(--focus-ring-offset);
+}
+
+.speed-option-btn--active {
+  background: var(--color-primary-700);
+  color: var(--color-neutral-0);
+  border-color: var(--color-primary-700);
+  font-weight: var(--font-weight-bold);
+}
+
+/* =========================================================================
+ * Live Interactive Preview Card
+ * ========================================================================= */
+.preview-container {
+  background: var(--bg-surface);
+  border: 2px dashed var(--border-strong);
+  border-radius: var(--radius-lg);
+  padding: var(--spacing-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-4);
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: var(--spacing-3);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.preview-sample-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  padding: var(--spacing-4);
+  background: var(--bg-app);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.preview-sample-title {
+  font-size: var(--font-size-h2);
+  font-weight: var(--font-weight-bold);
+  color: var(--text-primary);
+}
+
+.preview-sample-body {
+  font-size: var(--font-size-body);
+  color: var(--text-secondary);
+  line-height: var(--line-height-relaxed);
+}
+
+.preview-sample-highlight {
+  background-color: #fef08a;
+  color: #713f12;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-weight: var(--font-weight-semibold);
+}
+
+.preview-sample-actions {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  flex-wrap: wrap;
+  padding-top: var(--spacing-2);
+}
+
+/* =========================================================================
+ * High Contrast Overrides (WCAG 1.4.1 Non-reliance on color alone)
+ * ========================================================================= */
+[data-contrast="high"] .settings-header {
+  border-bottom: 2px solid var(--border-strong);
+}
+
+[data-contrast="high"] .settings-card {
+  background: #0a0a0a;
+  border: 2px solid #ffffff;
+}
+
+[data-contrast="high"] .font-size-card {
+  background: #000000;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+[data-contrast="high"] .font-size-card:hover {
+  border-color: #facc15;
+  background: #171717;
+}
+
+[data-contrast="high"] .font-size-card--selected {
+  border: 3px solid #facc15;
+  background: #171717;
+}
+
+[data-contrast="high"] .font-size-card-scale {
+  background: #facc15;
+  color: #000000;
+  font-weight: bold;
+}
+
+[data-contrast="high"] .font-size-card-badge {
+  color: #facc15;
+  text-decoration: underline;
+}
+
+[data-contrast="high"] .settings-toggle-row {
+  background: #000000;
+  border: 2px solid #ffffff;
+}
+
+[data-contrast="high"] .settings-switch {
+  background: #000000;
+  border: 2px solid #ffffff;
+}
+
+[data-contrast="high"] .settings-switch--active {
+  background: #facc15;
+  border-color: #facc15;
+}
+
+[data-contrast="high"] .settings-switch-handle {
+  background: #ffffff;
+}
+
+[data-contrast="high"] .settings-switch--active .settings-switch-handle {
+  background: #000000;
+}
+
+[data-contrast="high"] .speed-option-btn {
+  background: #000000;
+  border: 2px solid #ffffff;
+  color: #ffffff;
+}
+
+[data-contrast="high"] .speed-option-btn:hover {
+  background: #262626;
+  border-color: #facc15;
+}
+
+[data-contrast="high"] .speed-option-btn--active {
+  background: #facc15;
+  color: #000000;
+  border: 3px solid #facc15;
+  font-weight: bold;
+}
+
+[data-contrast="high"] .preview-container {
+  background: #0a0a0a;
+  border: 2px solid #ffffff;
+}
+
+[data-contrast="high"] .preview-sample-content {
+  background: #000000;
+  border: 2px solid #facc15;
+}
+
+[data-contrast="high"] .preview-sample-highlight {
+  background-color: #facc15;
+  color: #000000;
+  font-weight: bold;
+  border-bottom: 2px solid #ffffff;
+}
+
+/* =========================================================================
+ * Reduced Motion Overrides
+ * ========================================================================= */
+[data-reduced-motion="true"] .font-size-card,
+[data-reduced-motion="true"] .settings-card,
+[data-reduced-motion="true"] .settings-switch,
+[data-reduced-motion="true"] .settings-switch-handle,
+[data-reduced-motion="true"] .speed-option-btn {
+  transition: none !important;
+  transform: none !important;
+}
+
+/* =========================================================================
+ * Mobile Responsive Rules (< 640px)
+ * ========================================================================= */
+@media (max-width: 639px) {
+  .settings-container {
+    gap: var(--spacing-5);
+  }
+
+  .settings-card {
+    padding: var(--spacing-4);
+  }
+
+  .font-size-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .settings-header-actions {
+    width: 100%;
+  }
+
+  .settings-header-actions button {
+    flex: 1;
+    min-width: 120px;
+  }
+
+  .settings-toggle-row {
+    padding: var(--spacing-3);
+  }
+
+  .preview-container {
+    padding: var(--spacing-4);
+  }
+}
