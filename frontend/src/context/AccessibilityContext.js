@@ -5,6 +5,8 @@ import { useAuth } from './AuthContext';
 
 // Storage keys for safe non-sensitive client preferences
 const STORAGE_KEYS = {
+  THEME: 'edubridge_pref_theme',
+  LEGACY_THEME: 'theme',
   CONTRAST: 'edubridge_pref_contrast',
   LEGACY_CONTRAST: 'edubridge_contrast',
   FONT_SIZE: 'edubridge_pref_fontsize',
@@ -16,6 +18,7 @@ const STORAGE_KEYS = {
 };
 
 const DEFAULT_PREFERENCES = {
+  theme: 'light', // 'light' | 'dark'
   isHighContrast: false,
   fontSize: 'normal', // 'normal' | 'large' | 'xlarge'
   reducedMotion: false,
@@ -28,6 +31,8 @@ const AccessibilityContext = createContext({
   ...DEFAULT_PREFERENCES,
   systemReducedMotion: false,
   isSaving: false,
+  setTheme: () => {},
+  toggleTheme: () => {},
   toggleHighContrast: () => {},
   setHighContrast: () => {},
   setFontSize: () => {},
@@ -45,6 +50,7 @@ const AccessibilityContext = createContext({
 export function AccessibilityProvider({ children }) {
   const { user, updatePreferences: authUpdatePreferences } = useAuth();
 
+  const [theme, setThemeState] = useState(DEFAULT_PREFERENCES.theme);
   const [isHighContrast, setIsHighContrast] = useState(DEFAULT_PREFERENCES.isHighContrast);
   const [fontSize, setFontSizeState] = useState(DEFAULT_PREFERENCES.fontSize);
   const [reducedMotion, setReducedMotionState] = useState(DEFAULT_PREFERENCES.reducedMotion);
@@ -59,24 +65,39 @@ export function AccessibilityProvider({ children }) {
   const initializedRef = useRef(false);
 
   // Apply DOM attributes to document.documentElement
-  const applyDomAttributes = useCallback((contrast, fSize, rMotion) => {
+  const applyDomAttributes = useCallback((contrast, fSize, rMotion, activeTheme) => {
     if (typeof document === 'undefined') return;
 
-    // High Contrast attribute
+    // 1. High Contrast attribute
     if (contrast) {
       document.documentElement.setAttribute('data-contrast', 'high');
     } else {
       document.documentElement.removeAttribute('data-contrast');
     }
 
-    // Font size scaling attribute
+    // 2. Theme attribute: apply explicit activeTheme if provided, otherwise preserve existing DOM theme
+    const effectiveTheme = activeTheme !== undefined
+      ? activeTheme
+      : (document.documentElement.getAttribute('data-theme') ||
+         (document.documentElement.classList.contains('dark') ? 'dark' : 'light'));
+
+    if (effectiveTheme) {
+      document.documentElement.setAttribute('data-theme', effectiveTheme);
+      if (effectiveTheme === 'dark') {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    // 3. Font size scaling attribute
     if (fSize && fSize !== 'normal') {
       document.documentElement.setAttribute('data-font-size', fSize);
     } else {
       document.documentElement.removeAttribute('data-font-size');
     }
 
-    // Reduced motion attribute
+    // 4. Reduced motion attribute
     if (rMotion) {
       document.documentElement.setAttribute('data-reduced-motion', 'true');
     } else {
@@ -127,6 +148,12 @@ export function AccessibilityProvider({ children }) {
     if (typeof window === 'undefined') return;
 
     // 1. Read safe localStorage keys (safe fallback, no credentials)
+    const domTheme = document.documentElement.getAttribute('data-theme') ||
+      (document.documentElement.classList.contains('dark') ? 'dark' : null);
+    const storedTheme =
+      localStorage.getItem(STORAGE_KEYS.THEME) ||
+      localStorage.getItem(STORAGE_KEYS.LEGACY_THEME);
+
     const storedContrast =
       localStorage.getItem(STORAGE_KEYS.CONTRAST) === 'high' ||
       localStorage.getItem(STORAGE_KEYS.LEGACY_CONTRAST) === 'high';
@@ -154,6 +181,7 @@ export function AccessibilityProvider({ children }) {
     // 2. Reconcile with authenticated backend user profile if present
     const backendPrefs = user?.accessibilityPreferences || {};
 
+    const effectiveTheme = backendPrefs.theme || backendPrefs.colorTheme || domTheme || storedTheme || DEFAULT_PREFERENCES.theme;
     const effectiveContrast = backendPrefs.highContrast !== undefined ? Boolean(backendPrefs.highContrast) : storedContrast;
     const effectiveFontSize = backendPrefs.fontSize || storedFontSize;
     const effectiveReducedMotion =
@@ -166,6 +194,7 @@ export function AccessibilityProvider({ children }) {
       backendPrefs.autoReadAloud !== undefined ? Boolean(backendPrefs.autoReadAloud) : storedAutoReadAloud;
 
     // 3. Update React states
+    setThemeState(effectiveTheme);
     setIsHighContrast(effectiveContrast);
     setFontSizeState(effectiveFontSize);
     setReducedMotionState(effectiveReducedMotion);
@@ -174,10 +203,38 @@ export function AccessibilityProvider({ children }) {
     setAutoReadAloudState(effectiveAutoReadAloud);
 
     // 4. Apply to DOM root
-    applyDomAttributes(effectiveContrast, effectiveFontSize, effectiveReducedMotion);
+    applyDomAttributes(effectiveContrast, effectiveFontSize, effectiveReducedMotion, effectiveTheme);
 
     initializedRef.current = true;
   }, [user, applyDomAttributes]);
+
+  // Synchronize external changes to data-theme or class on document.documentElement
+  useEffect(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return;
+
+    const syncDomTheme = () => {
+      const domTheme = document.documentElement.getAttribute('data-theme') ||
+        (document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+      if (domTheme && (domTheme === 'dark' || domTheme === 'light') && domTheme !== theme) {
+        setThemeState(domTheme);
+      }
+    };
+
+    const observer = new MutationObserver((mutations) => {
+      for (const mutation of mutations) {
+        if (mutation.type === 'attributes' && (mutation.attributeName === 'data-theme' || mutation.attributeName === 'class')) {
+          syncDomTheme();
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme', 'class']
+    });
+
+    return () => observer.disconnect();
+  }, [theme]);
 
   // Synchronize a preference change to safe localStorage and backend
   const persistPreference = useCallback(
@@ -202,15 +259,36 @@ export function AccessibilityProvider({ children }) {
     [user, authUpdatePreferences]
   );
 
+  // Set theme explicitly ('light' | 'dark')
+  const setTheme = useCallback(
+    (newTheme) => {
+      const validTheme = newTheme === 'dark' ? 'dark' : 'light';
+      setThemeState(validTheme);
+      applyDomAttributes(isHighContrast, fontSize, reducedMotion, validTheme);
+      persistPreference(STORAGE_KEYS.THEME, validTheme, 'theme');
+      announce(`Theme changed to ${validTheme} mode`);
+    },
+    [isHighContrast, fontSize, reducedMotion, applyDomAttributes, persistPreference, announce]
+  );
+
+  // Toggle theme
+  const toggleTheme = useCallback(() => {
+    setTheme(theme === 'dark' ? 'light' : 'dark');
+  }, [theme, setTheme]);
+
   // Set high contrast explicitly
   const setHighContrast = useCallback(
     (enabled) => {
       setIsHighContrast(enabled);
-      applyDomAttributes(enabled, fontSize, reducedMotion);
+      const currentTheme = typeof document !== 'undefined'
+        ? (document.documentElement.getAttribute('data-theme') ||
+           (document.documentElement.classList.contains('dark') ? 'dark' : theme))
+        : theme;
+      applyDomAttributes(enabled, fontSize, reducedMotion, currentTheme);
       persistPreference(STORAGE_KEYS.CONTRAST, enabled ? 'high' : 'normal', 'highContrast');
       announce(enabled ? 'High contrast mode enabled' : 'Standard contrast mode restored');
     },
-    [fontSize, reducedMotion, applyDomAttributes, persistPreference, announce]
+    [theme, fontSize, reducedMotion, applyDomAttributes, persistPreference, announce]
   );
 
   // Toggle high contrast
@@ -292,6 +370,11 @@ export function AccessibilityProvider({ children }) {
     async (partial) => {
       setIsSaving(true);
       try {
+        if (partial.theme !== undefined) {
+          const validTheme = partial.theme === 'dark' ? 'dark' : 'light';
+          setThemeState(validTheme);
+          localStorage.setItem(STORAGE_KEYS.THEME, validTheme);
+        }
         if (partial.isHighContrast !== undefined || partial.highContrast !== undefined) {
           const val = partial.isHighContrast !== undefined ? partial.isHighContrast : partial.highContrast;
           setIsHighContrast(val);
@@ -318,13 +401,15 @@ export function AccessibilityProvider({ children }) {
           localStorage.setItem(STORAGE_KEYS.AUTO_READ_ALOUD, partial.autoReadAloud ? 'true' : 'false');
         }
 
+        const effectiveTheme = partial.theme !== undefined ? (partial.theme === 'dark' ? 'dark' : 'light') : theme;
         const effectiveContrast = partial.highContrast ?? partial.isHighContrast ?? isHighContrast;
         const effectiveFontSize = partial.fontSize ?? fontSize;
         const effectiveMotion = partial.reducedMotion ?? reducedMotion;
-        applyDomAttributes(effectiveContrast, effectiveFontSize, effectiveMotion);
+        applyDomAttributes(effectiveContrast, effectiveFontSize, effectiveMotion, effectiveTheme);
 
         if (user && authUpdatePreferences) {
           await authUpdatePreferences({
+            theme: effectiveTheme,
             highContrast: effectiveContrast,
             fontSize: effectiveFontSize,
             reducedMotion: effectiveMotion,
@@ -341,13 +426,14 @@ export function AccessibilityProvider({ children }) {
         setIsSaving(false);
       }
     },
-    [isHighContrast, fontSize, reducedMotion, readAloudRate, audioPlaybackSpeed, autoReadAloud, user, authUpdatePreferences, applyDomAttributes, announce]
+    [theme, isHighContrast, fontSize, reducedMotion, readAloudRate, audioPlaybackSpeed, autoReadAloud, user, authUpdatePreferences, applyDomAttributes, announce]
   );
 
   // Reset to platform defaults
   const resetToDefaults = useCallback(async () => {
     setIsSaving(true);
     try {
+      setThemeState(DEFAULT_PREFERENCES.theme);
       setIsHighContrast(DEFAULT_PREFERENCES.isHighContrast);
       setFontSizeState(DEFAULT_PREFERENCES.fontSize);
       setReducedMotionState(DEFAULT_PREFERENCES.reducedMotion);
@@ -358,10 +444,12 @@ export function AccessibilityProvider({ children }) {
       applyDomAttributes(
         DEFAULT_PREFERENCES.isHighContrast,
         DEFAULT_PREFERENCES.fontSize,
-        DEFAULT_PREFERENCES.reducedMotion
+        DEFAULT_PREFERENCES.reducedMotion,
+        DEFAULT_PREFERENCES.theme
       );
 
       if (typeof window !== 'undefined') {
+        localStorage.setItem(STORAGE_KEYS.THEME, DEFAULT_PREFERENCES.theme);
         localStorage.setItem(STORAGE_KEYS.CONTRAST, 'normal');
         localStorage.setItem(STORAGE_KEYS.FONT_SIZE, 'normal');
         localStorage.setItem(STORAGE_KEYS.REDUCED_MOTION, 'false');
@@ -372,6 +460,7 @@ export function AccessibilityProvider({ children }) {
 
       if (user && authUpdatePreferences) {
         await authUpdatePreferences({
+          theme: DEFAULT_PREFERENCES.theme,
           highContrast: false,
           fontSize: 'normal',
           reducedMotion: false,
@@ -391,6 +480,9 @@ export function AccessibilityProvider({ children }) {
   return (
     <AccessibilityContext.Provider
       value={{
+        theme,
+        setTheme,
+        toggleTheme,
         isHighContrast,
         fontSize,
         reducedMotion,

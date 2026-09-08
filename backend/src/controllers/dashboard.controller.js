@@ -24,18 +24,30 @@ class DashboardController {
    */
   async getDashboardSummary(req, res, next) {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id || req.user?.userId;
       logger.info(`[DashboardController] Getting dashboard summary for user ${userId}`);
 
-      const [textbooks, lessons, attempts, conceptMasteries] = await Promise.all([
+      const results = await Promise.allSettled([
         mediaRepository.findByUserId(userId),
         lessonRepository.findByUserId(userId),
         attemptRepository.findByUserId(userId),
         masteryRepository.findAllByUserId(userId)
       ]);
 
-      const masteredConcepts = conceptMasteries.filter(m => m.masteryScore >= 85);
-      const weakConcepts = conceptMasteries.filter(m => m.masteryScore < 60);
+      const textbooks = results[0].status === 'fulfilled' ? (results[0].value || []) : [];
+      const lessons = results[1].status === 'fulfilled' ? (results[1].value || []) : [];
+      const attempts = results[2].status === 'fulfilled' ? (results[2].value || []) : [];
+      const conceptMasteries = results[3].status === 'fulfilled' ? (results[3].value || []) : [];
+
+      results.forEach((r, idx) => {
+        if (r.status === 'rejected') {
+          const names = ['mediaRepository', 'lessonRepository', 'attemptRepository', 'masteryRepository'];
+          logger.warn(`[DashboardController] Sub-query ${names[idx]} rejected: ${r.reason?.message}`);
+        }
+      });
+
+      const masteredConcepts = conceptMasteries.filter(m => (m.masteryScore || 0) >= 85);
+      const weakConcepts = conceptMasteries.filter(m => (m.masteryScore || 0) < 60);
 
       const totalScore = conceptMasteries.reduce((sum, m) => sum + (m.masteryScore || 0), 0);
       const overallMasteryScore = conceptMasteries.length > 0
@@ -46,12 +58,12 @@ class DashboardController {
 
       return ApiResponse.success(res, 200, 'Dashboard overview retrieved successfully', {
         student: {
-          id: req.user.id,
-          fullName: req.user.fullName,
-          email: req.user.email,
-          gradeLevel: req.user.gradeLevel,
-          preferredLanguage: req.user.preferredLanguage,
-          accessibilityPreferences: req.user.accessibilityPreferences || {}
+          id: req.user?.id || req.user?.userId,
+          fullName: req.user?.fullName || req.user?.name || 'Student',
+          email: req.user?.email || '',
+          gradeLevel: req.user?.gradeLevel || 'Standard',
+          preferredLanguage: req.user?.preferredLanguage || 'en',
+          accessibilityPreferences: req.user?.accessibilityPreferences || {}
         },
         overview: {
           totalTextbooks: textbooks.length,
@@ -80,16 +92,28 @@ class DashboardController {
    */
   async getDashboardProgress(req, res, next) {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id || req.user?.userId;
       logger.info(`[DashboardController] Getting progress analytics for user ${userId}`);
 
-      const [lessons, progressList] = await Promise.all([
+      const results = await Promise.allSettled([
         lessonRepository.findByUserId(userId),
         progressRepository.getAllProgressForUser(userId)
       ]);
 
+      const lessons = results[0].status === 'fulfilled' ? (results[0].value || []) : [];
+      const progressList = results[1].status === 'fulfilled' ? (results[1].value || []) : [];
+
+      results.forEach((r, idx) => {
+        if (r.status === 'rejected') {
+          const names = ['lessonRepository', 'progressRepository'];
+          logger.warn(`[DashboardController] Sub-query ${names[idx]} rejected: ${r.reason?.message}`);
+        }
+      });
+
       const progressMap = new Map();
-      progressList.forEach(p => progressMap.set(p.lessonId, p));
+      progressList.forEach(p => {
+        if (p?.lessonId) progressMap.set(p.lessonId, p);
+      });
 
       const lessonProgress = lessons.map(lesson => {
         const prog = progressMap.get(lesson.id);
@@ -110,7 +134,7 @@ class DashboardController {
       const inProgressCount = lessonProgress.filter(lp => lp.status === 'IN_PROGRESS').length;
       const notStartedCount = lessonProgress.filter(lp => lp.status === 'NOT_STARTED').length;
 
-      const totalCompletion = lessonProgress.reduce((sum, lp) => sum + lp.completionPercentage, 0);
+      const totalCompletion = lessonProgress.reduce((sum, lp) => sum + (lp.completionPercentage || 0), 0);
       const avgCompletionPercentage = lessonProgress.length > 0
         ? Math.round(totalCompletion / lessonProgress.length)
         : 0;
@@ -137,14 +161,20 @@ class DashboardController {
    */
   async getDashboardMastery(req, res, next) {
     try {
-      const userId = req.user.id;
+      const userId = req.user?.id || req.user?.userId;
       logger.info(`[DashboardController] Getting mastery analytics for user ${userId}`);
 
-      const conceptMasteries = await masteryRepository.findAllByUserId(userId);
+      let conceptMasteries = [];
+      try {
+        conceptMasteries = (await masteryRepository.findAllByUserId(userId)) || [];
+      } catch (repoErr) {
+        logger.warn(`[DashboardController] masteryRepository.findAllByUserId error: ${repoErr.message}`);
+        conceptMasteries = [];
+      }
 
-      const mastered = conceptMasteries.filter(m => m.masteryScore >= 85);
-      const proficient = conceptMasteries.filter(m => m.masteryScore >= 60 && m.masteryScore < 85);
-      const weak = conceptMasteries.filter(m => m.masteryScore < 60);
+      const mastered = conceptMasteries.filter(m => (m.masteryScore || 0) >= 85);
+      const proficient = conceptMasteries.filter(m => (m.masteryScore || 0) >= 60 && (m.masteryScore || 0) < 85);
+      const weak = conceptMasteries.filter(m => (m.masteryScore || 0) < 60);
 
       const totalScore = conceptMasteries.reduce((sum, m) => sum + (m.masteryScore || 0), 0);
       const overallMasteryScore = conceptMasteries.length > 0

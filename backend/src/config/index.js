@@ -5,7 +5,19 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-dotenv.config({ path: path.resolve(__dirname, '..', '..', '.env') });
+const fs = require('fs');
+
+const envPaths = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'backend', '.env'),
+  path.resolve(__dirname, '..', '..', '.env')
+];
+for (const p of envPaths) {
+  if (fs.existsSync(p)) {
+    dotenv.config({ path: p });
+    break;
+  }
+}
 
 const env = process.env.NODE_ENV || 'development';
 const isProduction = env === 'production';
@@ -38,11 +50,11 @@ const config = {
     account: process.env.SNOWFLAKE_ACCOUNT || '',
     username: process.env.SNOWFLAKE_USERNAME || '',
     password: process.env.SNOWFLAKE_PASSWORD || '',
-    database: process.env.SNOWFLAKE_DATABASE || 'EDUBRIDGE_DB',
-    schema: process.env.SNOWFLAKE_SCHEMA || 'PUBLIC',
-    warehouse: process.env.SNOWFLAKE_WAREHOUSE || 'COMPUTE_WH',
+    database: process.env.SNOWFLAKE_DATABASE || 'EDUBRIDGE_ADAPTIVE',
+    schema: process.env.SNOWFLAKE_SCHEMA || 'APP',
+    warehouse: process.env.SNOWFLAKE_WAREHOUSE || 'edubridge',
     role: process.env.SNOWFLAKE_ROLE || 'ACCOUNTADMIN',
-    mockFallback: process.env.SNOWFLAKE_MOCK_FALLBACK === 'true' || !process.env.SNOWFLAKE_ACCOUNT
+    mockFallback: false
   },
 
   // Cloudinary - MANDATORY media storage and delivery layer
@@ -57,7 +69,7 @@ const config = {
   // Gemini - MANDATORY Multimodal AI API
   gemini: {
     apiKey: process.env.GEMINI_API_KEY || '',
-    model: process.env.GEMINI_MODEL || 'gemini-1.5-flash',
+    model: process.env.GEMINI_MODEL || 'gemini-3-flash-preview',
     mockFallback: process.env.GEMINI_MOCK_FALLBACK === 'true' || !process.env.GEMINI_API_KEY
   },
 

@@ -19,6 +19,7 @@ const textbookRepository = require('./textbookRepository');
 const progressRepository = require('./progressRepository');
 const processingStatusRepository = require('./processingStatusRepository');
 const aiMetadataRepository = require('./aiMetadataRepository');
+const quizRepository = require('./quizRepository');
 
 module.exports = {
   // Mandated Repository Abstractions
@@ -34,6 +35,9 @@ module.exports = {
   conceptRepository,
   textbookRepository,
   progressRepository,
+  learningSessionRepository: progressRepository,
+  auditRepository: processingStatusRepository,
   processingStatusRepository,
-  aiMetadataRepository
+  aiMetadataRepository,
+  quizRepository
 };

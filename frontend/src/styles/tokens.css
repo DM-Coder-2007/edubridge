@@ -3,7 +3,8 @@
  * Accessible, High-Contrast Ready, AI-Enhanced Educational Experience
  */
 
-:root {
+:root,
+[data-theme="light"] {
   /* =========================================================================
    * Color Palette - Accessible WCAG 2.1 AA / AAA compliant
    * ========================================================================= */
@@ -188,10 +189,104 @@
 }
 
 /* =========================================================================
+ * Dark Theme (Activated via [data-theme="dark"], html.dark, or body.dark)
+ * Standard comfortable dark mode with WCAG 2.1 AA / AAA compliant contrast
+ * ========================================================================= */
+[data-theme="dark"],
+html.dark,
+body.dark {
+  --bg-app: var(--color-neutral-950);
+  --bg-surface: var(--color-neutral-900);
+  --bg-surface-subtle: var(--color-neutral-800);
+  --bg-surface-elevated: var(--color-neutral-800);
+  --bg-surface-inverse: var(--color-neutral-0);
+
+  --text-primary: var(--color-neutral-50);
+  --text-secondary: var(--color-neutral-300);
+  --text-muted: var(--color-neutral-400);
+  --text-inverse: var(--color-neutral-950);
+  --text-link: var(--color-primary-400);
+  --text-link-hover: var(--color-primary-300);
+
+  --border-subtle: var(--color-neutral-800);
+  --border-strong: var(--color-neutral-700);
+  --border-focus: var(--color-primary-500);
+
+  /* Interactive Elements */
+  --btn-primary-bg: var(--color-primary-600);
+  --btn-primary-text: var(--color-neutral-0);
+  --btn-primary-hover: var(--color-primary-500);
+  --btn-primary-active: var(--color-primary-700);
+
+  --btn-secondary-bg: var(--color-neutral-800);
+  --btn-secondary-text: var(--color-neutral-100);
+  --btn-secondary-border: var(--color-neutral-700);
+  --btn-secondary-hover: var(--color-neutral-700);
+
+  --btn-accent-bg: var(--color-accent-600);
+  --btn-accent-text: var(--color-neutral-0);
+  --btn-accent-hover: var(--color-accent-500);
+
+  --focus-ring-color: var(--color-primary-400);
+  --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+  --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+  --shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.4);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg-app: var(--color-neutral-950);
+    --bg-surface: var(--color-neutral-900);
+    --bg-surface-subtle: var(--color-neutral-800);
+    --bg-surface-elevated: var(--color-neutral-800);
+    --bg-surface-inverse: var(--color-neutral-0);
+
+    --text-primary: var(--color-neutral-50);
+    --text-secondary: var(--color-neutral-300);
+    --text-muted: var(--color-neutral-400);
+    --text-inverse: var(--color-neutral-950);
+    --text-link: var(--color-primary-400);
+    --text-link-hover: var(--color-primary-300);
+
+    --border-subtle: var(--color-neutral-800);
+    --border-strong: var(--color-neutral-700);
+    --border-focus: var(--color-primary-500);
+
+    --btn-primary-bg: var(--color-primary-600);
+    --btn-primary-text: var(--color-neutral-0);
+    --btn-primary-hover: var(--color-primary-500);
+    --btn-primary-active: var(--color-primary-700);
+
+    --btn-secondary-bg: var(--color-neutral-800);
+    --btn-secondary-text: var(--color-neutral-100);
+    --btn-secondary-border: var(--color-neutral-700);
+    --btn-secondary-hover: var(--color-neutral-700);
+
+    --btn-accent-bg: var(--color-accent-600);
+    --btn-accent-text: var(--color-neutral-0);
+    --btn-accent-hover: var(--color-accent-500);
+
+    --focus-ring-color: var(--color-primary-400);
+    --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.4), 0 1px 2px -1px rgba(0, 0, 0, 0.4);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.4), 0 2px 4px -2px rgba(0, 0, 0, 0.3);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -4px rgba(0, 0, 0, 0.3);
+    --shadow-focus: 0 0 0 3px rgba(59, 130, 246, 0.4);
+  }
+}
+
+/* =========================================================================
  * High Contrast Theme (Activated via [data-contrast="high"])
  * Designed for low-vision and visually impaired students
+ * Overrides both Light and Dark themes when active
  * ========================================================================= */
-[data-contrast="high"] {
+[data-contrast="high"],
+[data-theme="dark"][data-contrast="high"],
+[data-theme="light"][data-contrast="high"],
+html.dark[data-contrast="high"],
+body.dark[data-contrast="high"] {
   --bg-app: #000000;
   --bg-surface: #0a0a0a;
   --bg-surface-subtle: #171717;

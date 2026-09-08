@@ -32,6 +32,7 @@ class QuestionRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      QUESTION_ID: id,
       LESSON_ID: lessonId,
       CONCEPT_ID: conceptId,
       QUESTION_TEXT: questionText,
@@ -45,6 +46,7 @@ class QuestionRepository {
         ? adaptiveRubric
         : (adaptiveRubric ? JSON.stringify(adaptiveRubric) : null),
       DIFFICULTY_LEVEL: difficultyLevel,
+      DIFFICULTY: difficultyLevel,
       ORDER_INDEX: parseInt(orderIndex || 0, 10),
       CREATED_AT: new Date().toISOString(),
       UPDATED_AT: new Date().toISOString()
@@ -81,7 +83,7 @@ class QuestionRepository {
    */
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM QUESTIONS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE ID = ? OR QUESTION_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
@@ -93,7 +95,7 @@ class QuestionRepository {
   async findByLessonId(lessonId) {
     if (!lessonId) return [];
     const rows = await db.query(
-      'SELECT * FROM QUESTIONS WHERE LESSON_ID = ? ORDER BY ORDER_INDEX ASC, CREATED_AT ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE LESSON_ID = ? ORDER BY ORDER_INDEX ASC, CREATED_AT ASC',
       [lessonId]
     );
     return rows.map(r => this._format(r));
@@ -107,7 +109,7 @@ class QuestionRepository {
   async findByConceptId(conceptId) {
     if (!conceptId) return [];
     const rows = await db.query(
-      'SELECT * FROM QUESTIONS WHERE CONCEPT_ID = ? ORDER BY CREATED_AT ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE CONCEPT_ID = ? ORDER BY CREATED_AT ASC',
       [conceptId]
     );
     return rows.map(r => this._format(r));
@@ -122,8 +124,8 @@ class QuestionRepository {
   async findByDifficulty(lessonId, difficultyLevel) {
     if (!lessonId) return [];
     const rows = await db.query(
-      'SELECT * FROM QUESTIONS WHERE LESSON_ID = ? AND DIFFICULTY_LEVEL = ? ORDER BY ORDER_INDEX ASC',
-      [lessonId, difficultyLevel]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE LESSON_ID = ? AND (DIFFICULTY_LEVEL = ? OR DIFFICULTY = ?) ORDER BY ORDER_INDEX ASC',
+      [lessonId, difficultyLevel, difficultyLevel]
     );
     return rows.map(r => this._format(r));
   }
@@ -140,7 +142,7 @@ class QuestionRepository {
     if (audioPromptHint !== undefined) updates.AUDIO_PROMPT_HINT = audioPromptHint;
 
     if (Object.keys(updates).length > 0) {
-      await db.update('QUESTIONS', updates, 'ID = ?', [id]);
+      await db.update('QUESTIONS', updates, 'ID = ? OR QUESTION_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -152,7 +154,7 @@ class QuestionRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM QUESTIONS WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE ID = ? OR QUESTION_ID = ?', [id, id]);
     return true;
   }
 
@@ -186,7 +188,8 @@ class QuestionRepository {
     }
 
     return {
-      id: row.ID,
+      id: row.ID || row.QUESTION_ID,
+      questionId: row.QUESTION_ID || row.ID,
       lessonId: row.LESSON_ID,
       conceptId: row.CONCEPT_ID,
       questionText: row.QUESTION_TEXT,
@@ -197,7 +200,7 @@ class QuestionRepository {
       audioPromptHint: row.AUDIO_PROMPT_HINT,
       audioPromptUrl: row.AUDIO_PROMPT_URL,
       adaptiveRubric: rubric,
-      difficultyLevel: row.DIFFICULTY_LEVEL,
+      difficultyLevel: row.DIFFICULTY_LEVEL || row.DIFFICULTY,
       orderIndex: parseInt(row.ORDER_INDEX || 0, 10),
       createdAt: row.CREATED_AT,
       updatedAt: row.UPDATED_AT

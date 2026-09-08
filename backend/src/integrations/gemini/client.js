@@ -12,7 +12,7 @@ const logger = require('../../utils/logger');
 class GeminiClient {
   constructor() {
     this.apiKey = process.env.GEMINI_API_KEY || '';
-    this.modelName = process.env.GEMINI_MODEL || 'gemini-1.5-flash';
+    this.modelName = process.env.GEMINI_MODEL || 'gemini-3-flash-preview';
 
     const forceMock = process.env.GEMINI_MOCK_FALLBACK === 'true';
     const hasKey = Boolean(this.apiKey && this.apiKey.trim() && !this.apiKey.includes('placeholder'));

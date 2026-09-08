@@ -5,8 +5,20 @@
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables from .env file
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+const fs = require('fs');
+
+// Load environment variables from .env file reliably across working directories
+const envPaths = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'backend', '.env'),
+  path.resolve(__dirname, '..', '..', '.env')
+];
+for (const p of envPaths) {
+  if (fs.existsSync(p)) {
+    dotenv.config({ path: p });
+    break;
+  }
+}
 
 const REQUIRED_ENV_VARS = ['NODE_ENV', 'PORT'];
 const ALLOWED_ENVIRONMENTS = ['development', 'production', 'test', 'staging'];

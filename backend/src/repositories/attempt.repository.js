@@ -25,6 +25,7 @@ class AttemptRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      ATTEMPT_ID: id,
       USER_ID: userId,
       LESSON_ID: lessonId,
       TOTAL_QUESTIONS: parseInt(totalQuestions || 0, 10),
@@ -42,7 +43,7 @@ class AttemptRepository {
     };
 
     logger.debug(`[AttemptRepository] Starting assessment attempt for user ${userId}, lesson ${lessonId} (${id})`);
-    await db.insert('ATTEMPTS', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', record);
     return this._format(record);
   }
 
@@ -53,7 +54,7 @@ class AttemptRepository {
    */
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM ATTEMPTS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE ID = ? OR ATTEMPT_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
@@ -65,7 +66,7 @@ class AttemptRepository {
   async findByUserId(userId) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM ATTEMPTS WHERE USER_ID = ? ORDER BY STARTED_AT DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE USER_ID = ? ORDER BY STARTED_AT DESC',
       [userId]
     );
     return rows.map(r => this._format(r));
@@ -80,7 +81,7 @@ class AttemptRepository {
   async findByLessonId(userId, lessonId) {
     if (!userId || !lessonId) return [];
     const rows = await db.query(
-      'SELECT * FROM ATTEMPTS WHERE USER_ID = ? AND LESSON_ID = ? ORDER BY STARTED_AT DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE USER_ID = ? AND LESSON_ID = ? ORDER BY STARTED_AT DESC',
       [userId, lessonId]
     );
     return rows.map(r => this._format(r));
@@ -135,7 +136,7 @@ class AttemptRepository {
       ANSWERS_SUMMARY: JSON.stringify(currentSummary)
     };
 
-    await db.update('ATTEMPTS', updates, 'ID = ?', [attemptId]);
+    await db.update('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', updates, 'ID = ? OR ATTEMPT_ID = ?', [attemptId, attemptId]);
     return this.findById(attemptId);
   }
 
@@ -175,7 +176,7 @@ class AttemptRepository {
         : JSON.stringify(aiEvaluationMetadata);
     }
 
-    await db.update('ATTEMPTS', updates, 'ID = ?', [attemptId]);
+    await db.update('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', updates, 'ID = ? OR ATTEMPT_ID = ?', [attemptId, attemptId]);
     return this.findById(attemptId);
   }
 
@@ -189,7 +190,7 @@ class AttemptRepository {
   async updateStatus(attemptId, status, errorMessage = null) {
     const updates = { STATUS: status };
     if (errorMessage !== undefined) updates.ERROR_MESSAGE = errorMessage;
-    await db.update('ATTEMPTS', updates, 'ID = ?', [attemptId]);
+    await db.update('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', updates, 'ID = ? OR ATTEMPT_ID = ?', [attemptId, attemptId]);
     return this.findById(attemptId);
   }
 
@@ -200,7 +201,7 @@ class AttemptRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM ATTEMPTS WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE ID = ? OR ATTEMPT_ID = ?', [id, id]);
     return true;
   }
 

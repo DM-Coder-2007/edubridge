@@ -22,14 +22,18 @@ class TextbookRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      IMAGE_ID: id,
       USER_ID: userId,
       TITLE: title,
       SUBJECT: subject,
       GRADE_LEVEL: gradeLevel,
       CHAPTER_TITLE: chapterTitle,
       RAW_IMAGE_URL: rawImageUrl,
+      ORIGINAL_URL: rawImageUrl,
       RAW_IMAGE_PUBLIC_ID: rawImagePublicId,
+      CLOUDINARY_PUBLIC_ID: rawImagePublicId,
       PROCESSED_IMAGE_URL: processedImageUrl,
+      PROCESSED_URL: processedImageUrl,
       PROCESSED_IMAGE_PUBLIC_ID: processedImagePublicId,
       PROCESSING_STATUS: processingStatus,
       METADATA: typeof metadata === 'string' ? metadata : JSON.stringify(metadata),
@@ -37,7 +41,7 @@ class TextbookRepository {
       UPDATED_AT: new Date().toISOString()
     };
 
-    await db.insert('TEXTBOOKS', record);
+    await db.insert('TEXTBOOK_ASSETS', record);
     return this._format(record);
   }
 
@@ -47,28 +51,31 @@ class TextbookRepository {
 
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM TEXTBOOKS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE ID = ? OR IMAGE_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
   async findByUserId(userId) {
     if (!userId) return [];
-    const rows = await db.query('SELECT * FROM TEXTBOOKS WHERE USER_ID = ? ORDER BY CREATED_AT DESC', [userId]);
+    const rows = await db.query('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE USER_ID = ? ORDER BY CREATED_AT DESC', [userId]);
     return rows.map(r => this._format(r));
   }
 
   async updateProcessingStatus(id, status, extraFields = {}) {
     const updates = { PROCESSING_STATUS: status };
-    if (extraFields.processedImageUrl) updates.PROCESSED_IMAGE_URL = extraFields.processedImageUrl;
+    if (extraFields.processedImageUrl) {
+      updates.PROCESSED_IMAGE_URL = extraFields.processedImageUrl;
+      updates.PROCESSED_URL = extraFields.processedImageUrl;
+    }
     if (extraFields.processedImagePublicId) updates.PROCESSED_IMAGE_PUBLIC_ID = extraFields.processedImagePublicId;
     if (extraFields.metadata) updates.METADATA = JSON.stringify(extraFields.metadata);
 
-    await db.update('TEXTBOOKS', updates, 'ID = ?', [id]);
+    await db.update('TEXTBOOK_ASSETS', updates, 'ID = ? OR IMAGE_ID = ?', [id, id]);
     return this.findById(id);
   }
 
   async delete(id, userId) {
-    const res = await db.query('DELETE FROM TEXTBOOKS WHERE ID = ? AND USER_ID = ?', [id, userId]);
+    const res = await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE (ID = ? OR IMAGE_ID = ?) AND USER_ID = ?', [id, id, userId]);
     return res;
   }
 

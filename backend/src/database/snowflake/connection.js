@@ -3,87 +3,47 @@
  *
  * CRITICAL ARCHITECTURE RULE:
  * Snowflake is the PRIMARY and MANDATORY database.
- * Never replace it with MongoDB, PostgreSQL, or MySQL.
+ * Never replace it with MongoDB, PostgreSQL, SQLite, or mock databases.
  */
 
 const fs = require('fs');
 const path = require('path');
+const dotenv = require('dotenv');
 const snowflake = require('snowflake-sdk');
 const logger = require('../../utils/logger');
 
-// Disable noisy SDK logging by default
+// Load environment variables reliably across working directories
+const envPaths = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'backend', '.env'),
+  path.resolve(__dirname, '..', '..', '..', '.env')
+];
+for (const p of envPaths) {
+  if (fs.existsSync(p)) {
+    dotenv.config({ path: p });
+    break;
+  }
+}
+
+// Configure SDK logging
 snowflake.configure({
-  logLevel: 'ERROR'
+  logLevel: process.env.SNOWFLAKE_LOG_LEVEL || 'ERROR'
 });
+
+const REQUIRED_DATABASE = 'EDUBRIDGE_ADAPTIVE';
+const REQUIRED_SCHEMA = 'APP';
 
 class SnowflakeConnection {
   constructor() {
     this.connection = null;
     this.isConnecting = false;
-    this._mockMode = false;
-    this._currentDatabase = process.env.SNOWFLAKE_DATABASE || 'EDUBRIDGE_ADAPTIVE';
-    this._currentSchema = process.env.SNOWFLAKE_SCHEMA || 'APP';
-
-    this._mockFilePath = path.resolve(__dirname, '..', '..', '..', '.snowflake_mock.json');
-    this._mockStore = this._loadMockStore();
-
-    this._checkMockMode();
-  }
-
-  _loadMockStore() {
-    try {
-      if (fs.existsSync(this._mockFilePath)) {
-        const raw = fs.readFileSync(this._mockFilePath, 'utf8');
-        const parsed = JSON.parse(raw);
-        if (parsed && typeof parsed === 'object' && parsed.databases) {
-          return parsed;
-        }
-      }
-    } catch (err) {
-      logger.warn('[SnowflakeConnection] Could not read mock file:', err.message);
-    }
-    return {
-      databases: {
-        'EDUBRIDGE_ADAPTIVE': {
-          schemas: {
-            'APP': {
-              tables: {}
-            }
-          }
-        }
-      }
-    };
-  }
-
-  saveMockStore() {
-    try {
-      fs.writeFileSync(this._mockFilePath, JSON.stringify(this._mockStore, null, 2), 'utf8');
-    } catch (err) {
-      logger.warn('[SnowflakeConnection] Could not save mock file:', err.message);
-    }
-  }
-
-  _checkMockMode() {
-    const hasAccount = Boolean(process.env.SNOWFLAKE_ACCOUNT && process.env.SNOWFLAKE_ACCOUNT.trim());
-    const hasUsername = Boolean(process.env.SNOWFLAKE_USERNAME && process.env.SNOWFLAKE_USERNAME.trim());
-    const hasPassword = Boolean(process.env.SNOWFLAKE_PASSWORD && process.env.SNOWFLAKE_PASSWORD.trim());
-    const isTest = process.env.NODE_ENV === 'test';
-
-    if (this._fallbackTriggered) {
-      this._mockMode = true;
-      return;
-    }
-
-    this._mockMode = isTest || !hasAccount || !hasUsername || !hasPassword;
+    this._currentDatabase = (process.env.SNOWFLAKE_DATABASE || REQUIRED_DATABASE).toUpperCase();
+    this._currentSchema = (process.env.SNOWFLAKE_SCHEMA || REQUIRED_SCHEMA).toUpperCase();
+    this._sessionContext = null;
   }
 
   isMockMode() {
-    this._checkMockMode();
-    return this._mockMode;
-  }
-
-  setMockMode(isMock) {
-    this._mockMode = Boolean(isMock);
+    return false;
   }
 
   getCurrentDatabase() {
@@ -95,40 +55,31 @@ class SnowflakeConnection {
   }
 
   setCurrentDatabase(db) {
-    this._currentDatabase = (db || '').toUpperCase();
+    this._currentDatabase = (db || REQUIRED_DATABASE).toUpperCase();
   }
 
   setCurrentSchema(schema) {
-    this._currentSchema = (schema || '').toUpperCase();
-  }
-
-  getMockStore() {
-    return this._mockStore;
+    this._currentSchema = (schema || REQUIRED_SCHEMA).toUpperCase();
   }
 
   resetMockStore() {
-    this._mockStore = {
-      databases: {}
-    };
-    try {
-      if (fs.existsSync(this._mockFilePath)) {
-        fs.unlinkSync(this._mockFilePath);
-      }
-    } catch {}
+    // Compatibility method for test isolation
+  }
+
+  getSessionContext() {
+    return this._sessionContext;
   }
 
   /**
-   * Connect to Snowflake or initialize mock session.
-   * Never exposes credentials in logs.
+   * Connect to Snowflake and return the active snowflake-sdk Connection instance.
+   * Explicitly sets session warehouse, logs safe diagnostics, and does NOT leak credentials.
+   *
+   * @returns {Promise<object>} Active Snowflake SDK connection instance
    */
   async getConnection() {
-    if (this.isMockMode()) {
-      return { mock: true, database: this._currentDatabase, schema: this._currentSchema };
-    }
-
     if (this.connection) {
       if (typeof this.connection.isUp === 'function' && !this.connection.isUp()) {
-        logger.warn('[SnowflakeConnection] Cached connection is no longer active (isUp=false). Re-establishing...');
+        logger.warn('[SnowflakeConnection] Cached connection is no longer active. Re-establishing...');
         this.connection = null;
       } else {
         return this.connection;
@@ -136,62 +87,162 @@ class SnowflakeConnection {
     }
 
     if (this.isConnecting) {
-      // Wait for existing connection attempt to complete
-      await new Promise(resolve => setTimeout(resolve, 100));
+      await new Promise(resolve => setTimeout(resolve, 150));
       return this.getConnection();
     }
 
     this.isConnecting = true;
 
     try {
+      const account = process.env.SNOWFLAKE_ACCOUNT;
+      const username = process.env.SNOWFLAKE_USERNAME;
+      const password = process.env.SNOWFLAKE_PASSWORD;
+      const warehouse = process.env.SNOWFLAKE_WAREHOUSE || 'edubridge';
+      const role = process.env.SNOWFLAKE_ROLE || 'ACCOUNTADMIN';
+
+      if (!account || !username || !password) {
+        const missing = [];
+        if (!account) missing.push('SNOWFLAKE_ACCOUNT');
+        if (!username) missing.push('SNOWFLAKE_USERNAME');
+        if (!password) missing.push('SNOWFLAKE_PASSWORD');
+        throw new Error(`Missing mandatory Snowflake credentials in environment: ${missing.join(', ')}`);
+      }
+
+      const timeoutMs = parseInt(process.env.SNOWFLAKE_TIMEOUT_MS, 10) || 30000;
+
+      logger.info('[SnowflakeConnection] Establishing live connection to Snowflake...', {
+        account,
+        user: username,
+        role,
+        warehouse,
+        database: this._currentDatabase,
+        schema: this._currentSchema
+      });
+
       const connConfig = {
-        account: process.env.SNOWFLAKE_ACCOUNT,
-        username: process.env.SNOWFLAKE_USERNAME,
-        password: process.env.SNOWFLAKE_PASSWORD,
+        account,
+        username,
+        password,
+        role,
+        warehouse,
         database: this._currentDatabase,
         schema: this._currentSchema,
-        warehouse: process.env.SNOWFLAKE_WAREHOUSE || 'COMPUTE_WH',
-        role: process.env.SNOWFLAKE_ROLE || 'ACCOUNTADMIN',
         clientSessionKeepAlive: true
       };
 
-      const timeoutMs = parseInt(process.env.SNOWFLAKE_TIMEOUT_MS, 10) || 20000;
+      let conn;
+      try {
+        conn = await Promise.race([
+          new Promise((resolve, reject) => {
+            const client = snowflake.createConnection(connConfig);
+            client.connect((err, establishedConn) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(establishedConn);
+              }
+            });
+          }),
+          new Promise((_, reject) =>
+            setTimeout(() => reject(new Error(`Snowflake connection timeout (${timeoutMs}ms)`)), timeoutMs)
+          )
+        ]);
+      } catch (connErr) {
+        // If connection failed because database or schema does not exist yet (e.g. before initial migration)
+        const errMsg = connErr.message || '';
+        if (errMsg.includes('does not exist') || connErr.code === '002003' || connErr.code === '390144') {
+          logger.warn(`[SnowflakeConnection] Target database/schema not found on connect. Connecting without DB/schema context to permit initialization...`);
+          const fallbackConfig = {
+            account,
+            username,
+            password,
+            role,
+            warehouse,
+            clientSessionKeepAlive: true
+          };
+          conn = await Promise.race([
+            new Promise((resolve, reject) => {
+              const client = snowflake.createConnection(fallbackConfig);
+              client.connect((err, establishedConn) => {
+                if (err) {
+                  reject(new Error(`Failed to authenticate with Snowflake: ${err.message}`));
+                } else {
+                  resolve(establishedConn);
+                }
+              });
+            }),
+            new Promise((_, reject) =>
+              setTimeout(() => reject(new Error(`Snowflake connection timeout (${timeoutMs}ms)`)), timeoutMs)
+            )
+          ]);
+        } else {
+          throw new Error(`Failed to authenticate with Snowflake: ${connErr.message}`);
+        }
+      }
 
-      logger.info('[SnowflakeConnection] Establishing live connection to Snowflake...', {
-        account: connConfig.account,
-        database: connConfig.database,
-        schema: connConfig.schema,
-        warehouse: connConfig.warehouse,
-        timeoutMs
+      // Ensure active session context is explicitly set to target warehouse, database, and schema
+      try {
+        await new Promise((resolve) => {
+          conn.execute({
+            sqlText: `USE WAREHOUSE ${warehouse}`,
+            complete: () => resolve()
+          });
+        });
+        await new Promise((resolve) => {
+          conn.execute({
+            sqlText: `USE DATABASE ${this._currentDatabase}`,
+            complete: () => resolve()
+          });
+        });
+        await new Promise((resolve) => {
+          conn.execute({
+            sqlText: `USE SCHEMA ${this._currentDatabase}.${this._currentSchema}`,
+            complete: () => resolve()
+          });
+        });
+      } catch (contextErr) {
+        logger.debug('[SnowflakeConnection] Notice while setting session context:', contextErr.message);
+      }
+
+      // Query active session diagnostics safely
+      const sessionDiagnostics = await new Promise((resolve, reject) => {
+        conn.execute({
+          sqlText: 'SELECT CURRENT_ACCOUNT() AS ACCOUNT, CURRENT_REGION() AS REGION, CURRENT_USER() AS "USER", CURRENT_ROLE() AS "ROLE", CURRENT_DATABASE() AS DB, CURRENT_SCHEMA() AS SCH, CURRENT_WAREHOUSE() AS WH',
+          complete: (err, stmt, rows) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve((rows && rows[0]) || {});
+            }
+          }
+        });
       });
 
-      this.connection = await Promise.race([
-        new Promise((resolve, reject) => {
-          const conn = snowflake.createConnection(connConfig);
-          conn.connect((err, establishedConn) => {
-            if (err) {
-              reject(new Error(`Failed to connect to Snowflake: ${err.message}`));
-            } else {
-              resolve(establishedConn);
-            }
-          });
-        }),
-        new Promise((_, reject) =>
-          setTimeout(() => reject(new Error(`Snowflake connection timeout (${timeoutMs}ms)`)), timeoutMs)
-        )
-      ]);
+      this._sessionContext = {
+        account: sessionDiagnostics.ACCOUNT || account,
+        region: sessionDiagnostics.REGION || 'UNKNOWN',
+        user: sessionDiagnostics.USER || username,
+        role: sessionDiagnostics.ROLE || role,
+        database: sessionDiagnostics.DB || this._currentDatabase,
+        schema: sessionDiagnostics.SCH || this._currentSchema,
+        warehouse: sessionDiagnostics.WH || warehouse
+      };
 
-      logger.info('[SnowflakeConnection] Successfully connected to live Snowflake warehouse.');
+      logger.info('[SnowflakeConnection] Successfully connected to Snowflake warehouse.', {
+        account: this._sessionContext.account,
+        region: this._sessionContext.region,
+        user: this._sessionContext.user,
+        role: this._sessionContext.role,
+        warehouse: this._sessionContext.warehouse,
+        database: this._sessionContext.database || 'NONE',
+        schema: this._sessionContext.schema || 'NONE'
+      });
+
+      this.connection = conn;
       return this.connection;
     } catch (error) {
       this.connection = null;
       logger.error('[SnowflakeConnection] Connection error:', { message: error.message });
-      if (process.env.SNOWFLAKE_MOCK_FALLBACK === 'true') {
-        logger.warn('[SnowflakeConnection] Falling back to mock mode due to live connection failure.');
-        this._fallbackTriggered = true;
-        this._mockMode = true;
-        return { mock: true, database: this._currentDatabase, schema: this._currentSchema };
-      }
       throw error;
     } finally {
       this.isConnecting = false;
@@ -199,35 +250,20 @@ class SnowflakeConnection {
   }
 
   /**
-   * Test connection liveness
+   * Test connection liveness against live Snowflake
+   * @returns {Promise<object>}
    */
   async testConnection() {
-    if (this.isMockMode()) {
-      return {
-        connected: true,
-        mode: 'MOCK_SIMULATION',
-        database: this._currentDatabase,
-        schema: this._currentSchema,
-        latencyMs: 1
-      };
-    }
-
     const start = Date.now();
     try {
       const conn = await this.getConnection();
-      if (!conn || conn.mock || this.isMockMode() || typeof conn.execute !== 'function') {
-        return {
-          connected: true,
-          mode: 'MOCK_SIMULATION',
-          database: this._currentDatabase,
-          schema: this._currentSchema,
-          latencyMs: Date.now() - start
-        };
+      if (!conn || typeof conn.execute !== 'function') {
+        throw new Error('Snowflake connection is invalid: execute is not a function');
       }
 
       return new Promise((resolve, reject) => {
         conn.execute({
-          sqlText: 'SELECT CURRENT_DATABASE() AS DB, CURRENT_SCHEMA() AS SCH, CURRENT_WAREHOUSE() AS WH',
+          sqlText: 'SELECT CURRENT_ACCOUNT() AS ACCOUNT, CURRENT_REGION() AS REGION, CURRENT_USER() AS "USER", CURRENT_ROLE() AS "ROLE", CURRENT_DATABASE() AS DB, CURRENT_SCHEMA() AS SCH, CURRENT_WAREHOUSE() AS WH',
           complete: (err, stmt, rows) => {
             if (err) {
               reject(new Error(`Snowflake ping query failed: ${err.message}`));
@@ -236,6 +272,10 @@ class SnowflakeConnection {
               resolve({
                 connected: true,
                 mode: 'LIVE_SNOWFLAKE',
+                account: row.ACCOUNT,
+                region: row.REGION,
+                user: row.USER,
+                role: row.ROLE,
                 database: row.DB || this._currentDatabase,
                 schema: row.SCH || this._currentSchema,
                 warehouse: row.WH || 'UNKNOWN',
@@ -269,8 +309,13 @@ class SnowflakeConnection {
         });
       });
       this.connection = null;
+      this._sessionContext = null;
       logger.info('[SnowflakeConnection] Snowflake connection closed.');
     }
+  }
+
+  async destroyConnection() {
+    return this.closeConnection();
   }
 }
 

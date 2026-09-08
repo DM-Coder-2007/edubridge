@@ -45,7 +45,9 @@ class AudioRepository {
       ENTITY_ID: entityId || lessonId,
       AUDIO_URL: audioUrl,
       AUDIO_PUBLIC_ID: audioPublicId,
+      CLOUDINARY_PUBLIC_ID: audioPublicId,
       AUDIO_FORMAT: audioFormat,
+      FORMAT: audioFormat,
       DURATION_SECONDS: parseFloat(durationSeconds || 0.0),
       FILE_SIZE_BYTES: fileSizeBytes ? parseInt(fileSizeBytes, 10) : null,
       BITRATE_KBPS: parseInt(bitrateKbps || 128, 10),
@@ -54,6 +56,7 @@ class AudioRepository {
       WAVEFORM_DATA: typeof waveformData === 'string'
         ? waveformData
         : (waveformData ? JSON.stringify(waveformData) : null),
+      VOICE: voiceId,
       VOICE_ID: voiceId,
       TTS_ENGINE: ttsEngine,
       STATUS: status,
@@ -65,7 +68,7 @@ class AudioRepository {
     };
 
     logger.debug(`[AudioRepository] Inserting audio asset for ${entityType}:${entityId} (${id})`);
-    await db.insert('AUDIO_ASSETS', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS', record);
     return this._format(record);
   }
 
@@ -76,7 +79,7 @@ class AudioRepository {
    */
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM AUDIO_ASSETS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS WHERE ID = ? OR AUDIO_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
@@ -89,8 +92,8 @@ class AudioRepository {
   async findByEntity(entityType, entityId) {
     if (!entityType || !entityId) return null;
     const row = await db.queryOne(
-      'SELECT * FROM AUDIO_ASSETS WHERE ENTITY_TYPE = ? AND ENTITY_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
-      [String(entityType).toUpperCase(), entityId]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS WHERE (ENTITY_TYPE = ? AND ENTITY_ID = ?) OR LESSON_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
+      [String(entityType).toUpperCase(), entityId, entityId]
     );
     return this._format(row);
   }
@@ -103,8 +106,8 @@ class AudioRepository {
   async findByEntityId(entityId) {
     if (!entityId) return null;
     const row = await db.queryOne(
-      'SELECT * FROM AUDIO_ASSETS WHERE ENTITY_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
-      [entityId]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS WHERE ENTITY_ID = ? OR LESSON_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
+      [entityId, entityId]
     );
     return this._format(row);
   }
@@ -117,8 +120,8 @@ class AudioRepository {
   async findByPublicId(audioPublicId) {
     if (!audioPublicId) return null;
     const row = await db.queryOne(
-      'SELECT * FROM AUDIO_ASSETS WHERE AUDIO_PUBLIC_ID = ? LIMIT 1',
-      [audioPublicId]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS WHERE AUDIO_PUBLIC_ID = ? OR CLOUDINARY_PUBLIC_ID = ? LIMIT 1',
+      [audioPublicId, audioPublicId]
     );
     return this._format(row);
   }
@@ -139,7 +142,7 @@ class AudioRepository {
     }
 
     if (Object.keys(updates).length > 0) {
-      await db.update('AUDIO_ASSETS', updates, 'ID = ?', [id]);
+      await db.update('EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS', updates, 'ID = ? OR AUDIO_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -157,7 +160,7 @@ class AudioRepository {
     if (retryCount !== undefined) updates.RETRY_COUNT = parseInt(retryCount, 10);
 
     if (Object.keys(updates).length > 0) {
-      await db.update('AUDIO_ASSETS', updates, 'ID = ?', [id]);
+      await db.update('EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS', updates, 'ID = ? OR AUDIO_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -169,7 +172,7 @@ class AudioRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM AUDIO_ASSETS WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.AUDIO_ASSETS WHERE ID = ? OR AUDIO_ID = ?', [id, id]);
     return true;
   }
 

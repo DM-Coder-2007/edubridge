@@ -1,5 +1,6 @@
 /**
  * EduBridge Adaptive - AI Generation Metadata Repository (Snowflake)
+ * Mapped to EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS
  */
 
 const { v4: uuidv4 } = require('uuid');
@@ -18,27 +19,34 @@ class AIMetadataRepository {
     rawResponse = ''
   }) {
     const id = uuidv4();
+    const metaObj = {
+      modelName,
+      promptTokens,
+      candidateTokens,
+      totalTokens,
+      rawResponse: typeof rawResponse === 'object' ? rawResponse : String(rawResponse || '')
+    };
+
     const record = {
       ID: id,
+      AUDIT_ID: id,
       ENTITY_TYPE: entityType,
       ENTITY_ID: entityId,
-      MODEL_NAME: modelName,
-      PROMPT_TOKENS: promptTokens,
-      CANDIDATE_TOKENS: candidateTokens,
-      TOTAL_TOKENS: totalTokens,
-      LATENCY_MS: latencyMs,
-      PROMPT_PREVIEW: promptPreview ? promptPreview.substring(0, 1000) : '',
-      RAW_RESPONSE: typeof rawResponse === 'object' ? JSON.stringify(rawResponse) : rawResponse,
+      ACTION: 'AI_GENERATION',
+      STATUS: 'COMPLETED',
+      EXECUTION_TIME_MS: parseInt(latencyMs || 0, 10),
+      DETAILS: promptPreview ? promptPreview.substring(0, 1000) : '',
+      METADATA: JSON.stringify(metaObj),
       CREATED_AT: new Date().toISOString()
     };
 
-    await db.insert('AI_GENERATION_METADATA', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS', record);
     return this._format(record);
   }
 
   async getAuditForEntity(entityId) {
     const rows = await db.query(
-      'SELECT * FROM AI_GENERATION_METADATA WHERE ENTITY_ID = ? ORDER BY CREATED_AT DESC',
+      "SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS WHERE ENTITY_ID = ? AND ACTION = 'AI_GENERATION' ORDER BY CREATED_AT DESC",
       [entityId]
     );
     return rows.map(r => this._format(r));
@@ -46,17 +54,25 @@ class AIMetadataRepository {
 
   _format(row) {
     if (!row) return null;
+    let meta = {};
+    if (row.METADATA) {
+      try {
+        meta = typeof row.METADATA === 'string' ? JSON.parse(row.METADATA) : row.METADATA;
+      } catch {
+        meta = {};
+      }
+    }
     return {
-      id: row.ID,
+      id: row.ID || row.AUDIT_ID,
       entityType: row.ENTITY_TYPE,
       entityId: row.ENTITY_ID,
-      modelName: row.MODEL_NAME,
-      promptTokens: parseInt(row.PROMPT_TOKENS || 0, 10),
-      candidateTokens: parseInt(row.CANDIDATE_TOKENS || 0, 10),
-      totalTokens: parseInt(row.TOTAL_TOKENS || 0, 10),
-      latencyMs: parseInt(row.LATENCY_MS || 0, 10),
-      promptPreview: row.PROMPT_PREVIEW,
-      rawResponse: row.RAW_RESPONSE,
+      modelName: meta.modelName || 'gemini-3-flash-preview',
+      promptTokens: parseInt(meta.promptTokens || 0, 10),
+      candidateTokens: parseInt(meta.candidateTokens || 0, 10),
+      totalTokens: parseInt(meta.totalTokens || 0, 10),
+      latencyMs: parseInt(row.EXECUTION_TIME_MS || 0, 10),
+      promptPreview: row.DETAILS || '',
+      rawResponse: meta.rawResponse || '',
       createdAt: row.CREATED_AT
     };
   }

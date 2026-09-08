@@ -43,16 +43,19 @@ class MasteryRepository {
 
       const updates = {
         MASTERY_SCORE: parseFloat(masteryScore),
+        ATTEMPTS: parseInt(attemptsCount, 10),
         ATTEMPTS_COUNT: parseInt(attemptsCount, 10),
+        CORRECT_ATTEMPTS: parseInt(correctCount, 10),
         CORRECT_COUNT: parseInt(correctCount, 10),
         CONSECUTIVE_CORRECT: parseInt(consecutiveCorrect, 10),
         MASTERY_LEVEL: masteryLevel,
         DECAY_RATE: parseFloat(decayRate || 0.0500),
         LAST_PRACTICED_AT: new Date().toISOString(),
+        LAST_UPDATED: new Date().toISOString(),
         MASTERY_HISTORY: JSON.stringify(history)
       };
 
-      await db.update('CONCEPT_MASTERY', updates, 'ID = ?', [existing.id]);
+      await db.update('EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY', updates, 'ID = ?', [existing.id]);
       return this.findByUserAndConcept(userId, conceptId);
     } else {
       const id = uuidv4();
@@ -67,18 +70,21 @@ class MasteryRepository {
         USER_ID: userId,
         CONCEPT_ID: conceptId,
         MASTERY_SCORE: parseFloat(masteryScore),
+        ATTEMPTS: parseInt(attemptsCount || 1, 10),
         ATTEMPTS_COUNT: parseInt(attemptsCount || 1, 10),
+        CORRECT_ATTEMPTS: parseInt(correctCount || 0, 10),
         CORRECT_COUNT: parseInt(correctCount || 0, 10),
         CONSECUTIVE_CORRECT: parseInt(consecutiveCorrect || 0, 10),
         MASTERY_LEVEL: masteryLevel,
         DECAY_RATE: parseFloat(decayRate || 0.0500),
         LAST_PRACTICED_AT: new Date().toISOString(),
+        LAST_UPDATED: new Date().toISOString(),
         MASTERY_HISTORY: JSON.stringify(initialHistory),
         CREATED_AT: new Date().toISOString(),
         UPDATED_AT: new Date().toISOString()
       };
 
-      await db.insert('CONCEPT_MASTERY', record);
+      await db.insert('EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY', record);
       return this._format(record);
     }
   }
@@ -92,7 +98,7 @@ class MasteryRepository {
   async findByUserAndConcept(userId, conceptId) {
     if (!userId || !conceptId) return null;
     const row = await db.queryOne(
-      'SELECT * FROM CONCEPT_MASTERY WHERE USER_ID = ? AND CONCEPT_ID = ? LIMIT 1',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY WHERE USER_ID = ? AND CONCEPT_ID = ? LIMIT 1',
       [userId, conceptId]
     );
     return this._format(row);
@@ -106,7 +112,7 @@ class MasteryRepository {
   async findAllByUserId(userId) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM CONCEPT_MASTERY WHERE USER_ID = ? ORDER BY MASTERY_SCORE ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY WHERE USER_ID = ? ORDER BY MASTERY_SCORE ASC',
       [userId]
     );
     return rows.map(r => this._format(r));
@@ -121,7 +127,7 @@ class MasteryRepository {
   async getWeakConcepts(userId, threshold = 60) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM CONCEPT_MASTERY WHERE USER_ID = ? AND MASTERY_SCORE < ? ORDER BY MASTERY_SCORE ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY WHERE USER_ID = ? AND MASTERY_SCORE < ? ORDER BY MASTERY_SCORE ASC',
       [userId, threshold]
     );
     return rows.map(r => this._format(r));
@@ -136,7 +142,7 @@ class MasteryRepository {
   async getMasteredConcepts(userId, threshold = 85) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM CONCEPT_MASTERY WHERE USER_ID = ? AND MASTERY_SCORE >= ? ORDER BY MASTERY_SCORE DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY WHERE USER_ID = ? AND MASTERY_SCORE >= ? ORDER BY MASTERY_SCORE DESC',
       [userId, threshold]
     );
     return rows.map(r => this._format(r));
@@ -149,7 +155,7 @@ class MasteryRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM CONCEPT_MASTERY WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.CONCEPT_MASTERY WHERE ID = ?', [id]);
     return true;
   }
 

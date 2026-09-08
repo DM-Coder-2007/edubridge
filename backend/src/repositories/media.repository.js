@@ -71,7 +71,7 @@ class MediaRepository {
    */
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM TEXTBOOK_ASSETS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE ID = ? OR IMAGE_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
@@ -83,7 +83,7 @@ class MediaRepository {
   async findByUserId(userId) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM TEXTBOOK_ASSETS WHERE USER_ID = ? ORDER BY CREATED_AT DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE USER_ID = ? ORDER BY CREATED_AT DESC',
       [userId]
     );
     return rows.map(r => this._format(r));
@@ -110,7 +110,7 @@ class MediaRepository {
     if (completedAt) updates.PROCESSING_COMPLETED_AT = completedAt;
 
     if (Object.keys(updates).length > 0) {
-      await db.update('TEXTBOOK_ASSETS', updates, 'ID = ?', [id]);
+      await db.update('TEXTBOOK_ASSETS', updates, 'ID = ? OR IMAGE_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -148,7 +148,7 @@ class MediaRepository {
     if (accessibleImagePublicId) updates.ACCESSIBLE_IMAGE_PUBLIC_ID = accessibleImagePublicId;
 
     if (Object.keys(updates).length > 0) {
-      await db.update('TEXTBOOK_ASSETS', updates, 'ID = ?', [id]);
+      await db.update('TEXTBOOK_ASSETS', updates, 'ID = ? OR IMAGE_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -160,7 +160,7 @@ class MediaRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM TEXTBOOK_ASSETS WHERE ID = ? OR IMAGE_ID = ?', [id, id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE ID = ? OR IMAGE_ID = ?', [id, id]);
     return true;
   }
 

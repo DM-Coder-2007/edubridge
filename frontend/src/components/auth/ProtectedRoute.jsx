@@ -22,7 +22,7 @@ export default function ProtectedRoute({ children, allowedRoles }) {
   useEffect(() => {
     if (!loading && !authenticated) {
       const redirectUrl = encodeURIComponent(pathname);
-      router.push(`/login?redirect=${redirectUrl}`);
+      router.replace(`/login?redirect=${redirectUrl}`);
     }
   }, [loading, authenticated, router, pathname]);
 

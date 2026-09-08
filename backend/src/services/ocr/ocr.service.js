@@ -228,7 +228,7 @@ class OcrService {
         AI_METADATA: {
           confidenceScore: structuredResult.qualityMetrics.confidenceScore,
           isLowQuality,
-          model: 'gemini-1.5-flash'
+          model: 'gemini-3-flash-preview'
         },
         PROCESSING_COMPLETED_AT: new Date().toISOString()
       });

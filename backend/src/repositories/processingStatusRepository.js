@@ -1,5 +1,6 @@
 /**
  * EduBridge Adaptive - Processing Status Repository (Snowflake)
+ * Mapped to EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS
  */
 
 const { v4: uuidv4 } = require('uuid');
@@ -18,18 +19,19 @@ class ProcessingStatusRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      AUDIT_ID: id,
       ENTITY_TYPE: entityType,
       ENTITY_ID: entityId,
-      STAGE: stage,
+      ACTION: stage,
       STATUS: status,
-      PROGRESS_PERCENT: progressPercent,
+      PROGRESS_PERCENT: parseFloat(progressPercent || 0.0),
       ERROR_MESSAGE: errorMessage,
       METADATA: typeof metadata === 'string' ? metadata : JSON.stringify(metadata),
-      CREATED_AT: new Date().toISOString(),
-      UPDATED_AT: new Date().toISOString()
+      DETAILS: stage,
+      CREATED_AT: new Date().toISOString()
     };
 
-    await db.insert('PROCESSING_STATUS', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS', record);
     return this._format(record);
   }
 
@@ -69,7 +71,7 @@ class ProcessingStatusRepository {
 
   async getLatestForEntity(entityId) {
     const row = await db.queryOne(
-      'SELECT * FROM PROCESSING_STATUS WHERE ENTITY_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS WHERE ENTITY_ID = ? ORDER BY CREATED_AT DESC LIMIT 1',
       [entityId]
     );
     return this._format(row);
@@ -77,7 +79,7 @@ class ProcessingStatusRepository {
 
   async getAllForEntity(entityId) {
     const rows = await db.query(
-      'SELECT * FROM PROCESSING_STATUS WHERE ENTITY_ID = ? ORDER BY CREATED_AT ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.AUDIT_LOGS WHERE ENTITY_ID = ? ORDER BY CREATED_AT ASC',
       [entityId]
     );
     return rows.map(r => this._format(r));
@@ -95,16 +97,16 @@ class ProcessingStatusRepository {
     }
 
     return {
-      id: row.ID,
+      id: row.ID || row.AUDIT_ID,
       entityType: row.ENTITY_TYPE,
       entityId: row.ENTITY_ID,
-      stage: row.STAGE,
+      stage: row.ACTION || row.STAGE,
+      action: row.ACTION,
       status: row.STATUS,
       progressPercent: parseFloat(row.PROGRESS_PERCENT || 0),
       errorMessage: row.ERROR_MESSAGE,
       metadata: meta,
-      createdAt: row.CREATED_AT,
-      updatedAt: row.UPDATED_AT
+      createdAt: row.CREATED_AT
     };
   }
 }

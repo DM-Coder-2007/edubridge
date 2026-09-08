@@ -41,8 +41,9 @@ class LessonRepository {
 
     const record = {
       ID: lessonId,
+      LESSON_ID: lessonId,
       TEXTBOOK_ASSET_ID: assetId,
-      TEXTBOOK_ID: assetId, // Dual column compatibility
+      IMAGE_ID: assetId,
       USER_ID: userId,
       TITLE: title,
       SUMMARY: summary,
@@ -54,7 +55,9 @@ class LessonRepository {
       AUDIO_DURATION_SECONDS: parseFloat(audioDurationSeconds || 0.0),
       WAVEFORM_URL: waveformUrl,
       DIFFICULTY_LEVEL: difficultyLevel,
+      DIFFICULTY: difficultyLevel,
       STATUS: status,
+      PROCESSING_STATUS: 'COMPLETED',
       ERROR_MESSAGE: errorMessage,
       SENSORY_ANALOGIES: typeof sensoryAnalogies === 'string' ? sensoryAnalogies : JSON.stringify(sensoryAnalogies),
       KEY_TAKEAWAYS: typeof keyTakeaways === 'string' ? keyTakeaways : JSON.stringify(keyTakeaways),
@@ -63,7 +66,7 @@ class LessonRepository {
       UPDATED_AT: new Date().toISOString()
     };
 
-    logger.debug(`[LessonRepository] Inserting lesson "${title}" (${id}) into Snowflake`);
+    logger.debug(`[LessonRepository] Inserting lesson "${title}" (${lessonId}) into Snowflake`);
     await db.insert('LESSONS', record);
     return this._format(record);
   }
@@ -75,7 +78,7 @@ class LessonRepository {
    */
   async findById(id) {
     if (!id) return null;
-    const row = await db.queryOne('SELECT * FROM LESSONS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne('SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.LESSONS WHERE ID = ? OR LESSON_ID = ? LIMIT 1', [id, id]);
     return this._format(row);
   }
 
@@ -86,9 +89,8 @@ class LessonRepository {
    */
   async findByTextbookAssetId(textbookAssetId) {
     if (!textbookAssetId) return [];
-    // Check both TEXTBOOK_ASSET_ID and legacy TEXTBOOK_ID column
     const rows = await db.query(
-      'SELECT * FROM LESSONS WHERE TEXTBOOK_ASSET_ID = ? OR TEXTBOOK_ID = ? ORDER BY CREATED_AT ASC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.LESSONS WHERE TEXTBOOK_ASSET_ID = ? OR IMAGE_ID = ? ORDER BY CREATED_AT ASC',
       [textbookAssetId, textbookAssetId]
     );
     return rows.map(r => this._format(r));
@@ -109,7 +111,7 @@ class LessonRepository {
   async findByUserId(userId) {
     if (!userId) return [];
     const rows = await db.query(
-      'SELECT * FROM LESSONS WHERE USER_ID = ? ORDER BY CREATED_AT DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.LESSONS WHERE USER_ID = ? ORDER BY CREATED_AT DESC',
       [userId]
     );
     return rows.map(r => this._format(r));
@@ -130,7 +132,7 @@ class LessonRepository {
     if (waveformUrl) updates.WAVEFORM_URL = waveformUrl;
 
     if (Object.keys(updates).length > 0) {
-      await db.update('LESSONS', updates, 'ID = ?', [id]);
+      await db.update('LESSONS', updates, 'ID = ? OR LESSON_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -145,7 +147,7 @@ class LessonRepository {
   async updateStatus(id, status, errorMessage = null) {
     const updates = { STATUS: status };
     if (errorMessage !== undefined) updates.ERROR_MESSAGE = errorMessage;
-    await db.update('LESSONS', updates, 'ID = ?', [id]);
+    await db.update('LESSONS', updates, 'ID = ? OR LESSON_ID = ?', [id, id]);
     return this.findById(id);
   }
 
@@ -175,7 +177,7 @@ class LessonRepository {
     }
 
     if (Object.keys(updates).length > 0) {
-      await db.update('LESSONS', updates, 'ID = ?', [id]);
+      await db.update('LESSONS', updates, 'ID = ? OR LESSON_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -187,7 +189,7 @@ class LessonRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM LESSONS WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.LESSONS WHERE ID = ? OR LESSON_ID = ?', [id, id]);
     return true;
   }
 

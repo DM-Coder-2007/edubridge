@@ -1,9 +1,24 @@
-/**
- * CLI Command: npm run db:health
- * Checks Snowflake connection, warehouse, database, and schema health.
- */
+const path = require('path');
+const fs = require('fs');
+const dotenv = require('dotenv');
+
+// Robust multi-path .env resolution
+const envCandidates = [
+  path.resolve(process.cwd(), '.env'),
+  path.resolve(process.cwd(), 'backend', '.env'),
+  path.resolve(__dirname, '../../../../.env'),
+  path.resolve(__dirname, '../../../.env')
+];
+
+for (const envPath of envCandidates) {
+  if (fs.existsSync(envPath)) {
+    dotenv.config({ path: envPath });
+    break;
+  }
+}
 
 const databaseManager = require('../databaseManager');
+const connectionManager = require('../connection');
 const logger = require('../../../utils/logger');
 
 async function main() {
@@ -14,6 +29,7 @@ async function main() {
         status: report.status,
         error: report.error
       });
+      await connectionManager.destroyConnection().catch(() => {});
       process.exit(1);
     }
 
@@ -26,11 +42,15 @@ async function main() {
       tablesCount: report.tablesCount,
       latencyMs: report.latencyMs
     });
+
+    await connectionManager.destroyConnection().catch(() => {});
     process.exit(0);
   } catch (error) {
     logger.error('[CLI db:health] Database health check failed:', { error: error.message });
+    await connectionManager.destroyConnection().catch(() => {});
     process.exit(1);
   }
 }
 
 main();
+

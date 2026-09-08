@@ -110,6 +110,8 @@ describe('EduBridge Adaptive Complete REST API Test Suite', () => {
   let sampleImageBuffer;
   let sampleWavBuffer;
 
+  jest.setTimeout(45000);
+
   beforeAll(async () => {
     // Initialize Snowflake schema
     await databaseManager.initializeDatabase();

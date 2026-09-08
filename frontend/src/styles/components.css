@@ -96,6 +96,16 @@
   background-color: var(--color-primary-50);
 }
 
+[data-theme="dark"] .btn-outline,
+html.dark .btn-outline {
+  color: var(--color-primary-400);
+  border-color: var(--color-primary-500);
+}
+[data-theme="dark"] .btn-outline:hover:not(:disabled),
+html.dark .btn-outline:hover:not(:disabled) {
+  background-color: var(--color-neutral-800);
+}
+
 .btn-ghost {
   background-color: transparent;
   color: var(--text-primary);
@@ -103,6 +113,11 @@
 }
 .btn-ghost:hover:not(:disabled) {
   background-color: var(--color-neutral-100);
+}
+
+[data-theme="dark"] .btn-ghost:hover:not(:disabled),
+html.dark .btn-ghost:hover:not(:disabled) {
+  background-color: var(--color-neutral-800);
 }
 
 .btn-danger {
@@ -772,6 +787,13 @@
 .dropdown-item:hover,
 .dropdown-item:focus-visible {
   background-color: var(--color-neutral-100);
+}
+
+[data-theme="dark"] .dropdown-item:hover,
+[data-theme="dark"] .dropdown-item:focus-visible,
+html.dark .dropdown-item:hover,
+html.dark .dropdown-item:focus-visible {
+  background-color: var(--color-neutral-800);
 }
 
 .dropdown-item-danger {

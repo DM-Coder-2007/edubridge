@@ -68,29 +68,67 @@ class DatabaseManager {
     logger.info('CRITICAL: Snowflake is the PRIMARY and MANDATORY database.');
     logger.info('===============================================================');
 
-    // 1. Verify connection
+    // 1. Verify connection and log safe session context
     const connStatus = await connectionManager.testConnection();
     if (!connStatus.connected) {
       throw new Error(`Cannot initialize database: Snowflake connection failed (${connStatus.error})`);
     }
 
-    // 2. Create Database IF NOT EXISTS (never drop or replace production databases)
+    logger.info('[DatabaseManager] Snowflake live connection confirmed:', {
+      account: connStatus.account,
+      region: connStatus.region,
+      user: connStatus.user,
+      role: connStatus.role,
+      warehouse: connStatus.warehouse
+    });
+
+    // 2. Create Database IF NOT EXISTS
     logger.info(`[DatabaseManager] Ensuring database ${this.requiredDatabase} exists...`);
-    await executor.execute(`CREATE DATABASE IF NOT EXISTS ${this.requiredDatabase} COMMENT = 'EduBridge Adaptive - Primary Application Database'`);
+    await executor.execute(
+      `CREATE DATABASE IF NOT EXISTS ${this.requiredDatabase} COMMENT = 'EduBridge Adaptive - Primary Application Database'`
+    );
+
+    // Verify database exists
+    const dbRows = await executor.query(`SHOW DATABASES LIKE '${this.requiredDatabase}'`);
+    const dbFound = dbRows.some(
+      r => (r.name || r.NAME || '').toUpperCase() === this.requiredDatabase
+    );
+    if (!dbFound) {
+      throw new Error(`Database verification failed: Database "${this.requiredDatabase}" was not found after creation.`);
+    }
+    logger.info(`[DatabaseManager] Database ${this.requiredDatabase} confirmed.`);
 
     // 3. Set context to EDUBRIDGE_ADAPTIVE
     await executor.execute(`USE DATABASE ${this.requiredDatabase}`);
 
     // 4. Create Schema IF NOT EXISTS
     logger.info(`[DatabaseManager] Ensuring schema ${this.requiredDatabase}.${this.requiredSchema} exists...`);
-    await executor.execute(`CREATE SCHEMA IF NOT EXISTS ${this.requiredDatabase}.${this.requiredSchema} COMMENT = 'Core application entities schema'`);
+    await executor.execute(
+      `CREATE SCHEMA IF NOT EXISTS ${this.requiredDatabase}.${this.requiredSchema} COMMENT = 'Core application entities schema'`
+    );
+
+    // Verify schema exists
+    const schRows = await executor.query(
+      `SHOW SCHEMAS LIKE '${this.requiredSchema}' IN DATABASE ${this.requiredDatabase}`
+    );
+    const schFound = schRows.some(
+      r => (r.name || r.NAME || '').toUpperCase() === this.requiredSchema
+    );
+    if (!schFound) {
+      throw new Error(`Schema verification failed: Schema "${this.requiredDatabase}.${this.requiredSchema}" was not found after creation.`);
+    }
+    logger.info(`[DatabaseManager] Schema ${this.requiredDatabase}.${this.requiredSchema} confirmed.`);
+
     await executor.execute(`USE SCHEMA ${this.requiredDatabase}.${this.requiredSchema}`);
 
-    // 5. Run migrations idempotently
+    // 5. Run state-aware migrations idempotently
     logger.info('[DatabaseManager] Running schema migrations...');
     const migrationResult = await migrationRunner.runMigrations();
 
-    // 6. Verify complete schema
+    // 6. Idempotently seed default users if not already present
+    await this._seedDefaultUsers();
+
+    // 7. Verify complete schema against live Snowflake INFORMATION_SCHEMA
     logger.info('[DatabaseManager] Verifying schema integrity...');
     const verification = await this.verifySchema();
 
@@ -113,6 +151,69 @@ class DatabaseManager {
   }
 
   /**
+   * Seed default system users idempotently if they do not exist
+   * @private
+   */
+  async _seedDefaultUsers() {
+    try {
+      const defaultUsers = [
+        {
+          id: 'user_saswata_primary',
+          email: 'saswataghatak70@gmail.com',
+          fullName: 'Saswata Ghatak',
+          passwordHash: '$2a$10$wE0v2GqW76V82dF1W15VdOcmFfGz5hU60MhO1fH6wD8B3a7O5wR/e',
+          role: 'student',
+          gradeLevel: 'Grade 12',
+          preferredLanguage: 'en',
+          preferences: { screenReader: true, highContrast: false, voiceSpeed: 1.0 }
+        },
+        {
+          id: 'user_debansu_primary',
+          email: 'debansumondal2304@gmail.com',
+          fullName: 'Debansu Mondal',
+          passwordHash: '$2a$10$NULKmernW8LPfhymdOjoJOueNE77s5teYWweR1yXStEdXLpLAb3SO',
+          role: 'student',
+          gradeLevel: 'Grade 12',
+          preferredLanguage: 'en',
+          preferences: { screenReader: true, highContrast: false, voiceSpeed: 1.0 }
+        }
+      ];
+
+      for (const u of defaultUsers) {
+        const rows = await executor.query(
+          `SELECT ID, EMAIL FROM ${this.requiredDatabase}.${this.requiredSchema}.USERS WHERE LOWER(TRIM(EMAIL)) = LOWER(TRIM(?))`,
+          [u.email]
+        );
+
+        if (!rows || rows.length === 0) {
+          logger.info(`[DatabaseManager] Seeding required user: ${u.email}`);
+          await executor.execute(
+            `INSERT INTO ${this.requiredDatabase}.${this.requiredSchema}.USERS 
+             (USER_ID, ID, NAME, FULL_NAME, EMAIL, PASSWORD_HASH, ROLE, GRADE_LEVEL, PREFERRED_LANGUAGE, ACCESSIBILITY_PREFERENCES, IS_ACTIVE) 
+             SELECT ?, ?, ?, ?, ?, ?, ?, ?, ?, PARSE_JSON(?), ?`,
+            [
+              u.id,
+              u.id,
+              u.fullName,
+              u.fullName,
+              u.email.toLowerCase().trim(),
+              u.passwordHash,
+              u.role,
+              u.gradeLevel,
+              u.preferredLanguage,
+              JSON.stringify(u.preferences),
+              true
+            ]
+          );
+          logger.info(`[DatabaseManager] Seeded user ${u.email} successfully.`);
+        }
+      }
+    } catch (err) {
+      logger.warn('[DatabaseManager] Notice during user seeding:', err.message);
+    }
+  }
+
+  /**
    * Execute pending migrations
    */
   async runMigrations() {
@@ -120,7 +221,7 @@ class DatabaseManager {
   }
 
   /**
-   * Verify schema completeness against architectural mandates:
+   * Verify schema completeness against architectural mandates using live INFORMATION_SCHEMA:
    * - database exists
    * - APP schema exists
    * - every required table exists
@@ -135,7 +236,7 @@ class DatabaseManager {
     const missingTables = [];
     const missingColumns = {};
 
-    // 1. Check connection
+    // 1. Check live connection
     const connStatus = await connectionManager.testConnection();
     if (!connStatus.connected) {
       return {
@@ -146,74 +247,86 @@ class DatabaseManager {
       };
     }
 
-    // 2. Verify current database context
-    const currentDb = connectionManager.getCurrentDatabase();
-    if (currentDb !== this.requiredDatabase) {
-      errors.push(`Current database context is "${currentDb}", expected "${this.requiredDatabase}"`);
-    }
-
-    // 3. Verify current schema context
-    const currentSch = connectionManager.getCurrentSchema();
-    if (currentSch !== this.requiredSchema) {
-      errors.push(`Current schema context is "${currentSch}", expected "${this.requiredSchema}"`);
-    }
-
-    // 4. Verify tables in APP schema
-    let existingTableNames = [];
+    // 2. Query live tables from INFORMATION_SCHEMA.TABLES
+    let actualTables = [];
     try {
       const tableRows = await executor.query(
-        `SHOW TABLES IN SCHEMA ${this.requiredDatabase}.${this.requiredSchema}`
+        `SELECT TABLE_NAME FROM ${this.requiredDatabase}.INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA = '${this.requiredSchema}' ORDER BY TABLE_NAME`
       );
-      existingTableNames = tableRows.map(r => (r.name || r.NAME || r.table_name || r.TABLE_NAME || '').toUpperCase());
+      actualTables = tableRows.map(r => (r.TABLE_NAME || r.table_name || '').toUpperCase());
     } catch (err) {
-      errors.push(`Failed to list tables in schema ${this.requiredDatabase}.${this.requiredSchema}: ${err.message}`);
+      errors.push(`Failed to query INFORMATION_SCHEMA.TABLES: ${err.message}`);
     }
 
-    // Check each mandatory table
+    // Check mandatory tables
     for (const mandatoryTable of this.mandatoryTables) {
-      if (!existingTableNames.includes(mandatoryTable)) {
+      if (!actualTables.includes(mandatoryTable)) {
         missingTables.push(mandatoryTable);
         errors.push(`Missing mandatory table: ${this.requiredDatabase}.${this.requiredSchema}.${mandatoryTable}`);
       }
     }
 
-    // 5. Verify critical columns for all found tables
+    const mandatoryFound = actualTables.filter(t => this.mandatoryTables.includes(t));
+    const unexpectedTables = actualTables.filter(
+      t => !this.mandatoryTables.includes(t) && t !== 'SCHEMA_MIGRATIONS'
+    );
+
+    // 3. Query all columns in APP schema from INFORMATION_SCHEMA.COLUMNS
+    let columnsByTable = {};
+    try {
+      const colRows = await executor.query(
+        `SELECT TABLE_NAME, COLUMN_NAME, DATA_TYPE FROM ${this.requiredDatabase}.INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA = '${this.requiredSchema}' ORDER BY TABLE_NAME, ORDINAL_POSITION`
+      );
+
+      for (const row of colRows) {
+        const tName = (row.TABLE_NAME || row.table_name || '').toUpperCase();
+        const cName = (row.COLUMN_NAME || row.column_name || '').toUpperCase();
+        if (!columnsByTable[tName]) {
+          columnsByTable[tName] = [];
+        }
+        columnsByTable[tName].push(cName);
+      }
+    } catch (err) {
+      errors.push(`Failed to query INFORMATION_SCHEMA.COLUMNS: ${err.message}`);
+    }
+
+    // Check critical columns for mandatory tables
     for (const mandatoryTable of this.mandatoryTables) {
-      if (existingTableNames.includes(mandatoryTable)) {
-        try {
-          const colRows = await executor.query(
-            `DESCRIBE TABLE ${this.requiredDatabase}.${this.requiredSchema}.${mandatoryTable}`
-          );
-          const existingColNames = colRows.map(c => (c.name || c.NAME || c.column_name || c.COLUMN_NAME || '').toUpperCase());
+      if (actualTables.includes(mandatoryTable)) {
+        const tableCols = columnsByTable[mandatoryTable] || [];
+        const expectedCols = this.criticalColumns[mandatoryTable] || [];
+        const missingForTable = [];
 
-          const expectedCols = this.criticalColumns[mandatoryTable] || [];
-          const missingForTable = [];
-          for (const expectedCol of expectedCols) {
-            if (!existingColNames.includes(expectedCol)) {
-              missingForTable.push(expectedCol);
-              errors.push(`Table ${mandatoryTable} is missing expected column: ${expectedCol}`);
-            }
+        for (const expectedCol of expectedCols) {
+          if (!tableCols.includes(expectedCol.toUpperCase())) {
+            missingForTable.push(expectedCol);
+            errors.push(`Table ${mandatoryTable} is missing expected column: ${expectedCol}`);
           }
+        }
 
-          if (missingForTable.length > 0) {
-            missingColumns[mandatoryTable] = missingForTable;
-          }
-        } catch (err) {
-          errors.push(`Failed to describe table ${mandatoryTable}: ${err.message}`);
+        if (missingForTable.length > 0) {
+          missingColumns[mandatoryTable] = missingForTable;
         }
       }
     }
 
-    const isValid = errors.length === 0;
+    const isValid = errors.length === 0 && missingTables.length === 0;
 
     return {
       isValid,
       connectionWorks: true,
-      database: currentDb,
-      schema: currentSch,
-      tablesFound: existingTableNames.filter(t => this.mandatoryTables.includes(t)),
-      totalTablesInSchema: existingTableNames.length,
+      account: connStatus.account,
+      region: connStatus.region,
+      user: connStatus.user,
+      role: connStatus.role,
+      warehouse: connStatus.warehouse,
+      database: this.requiredDatabase,
+      schema: this.requiredSchema,
+      expectedTables: this.mandatoryTables,
+      actualTables,
+      mandatoryFound,
       missingTables,
+      unexpectedTables,
       missingColumns,
       errors
     };
@@ -251,18 +364,43 @@ class DatabaseManager {
    * Safe insert helper for repositories
    */
   async insert(tableName, data) {
+    const VARIANT_COLS = new Set([
+      'ACCESSIBILITY_PREFERENCES',
+      'AI_EVALUATION_METADATA',
+      'ANSWERS_SUMMARY',
+      'METADATA',
+      'WAVEFORM_DATA',
+      'DETAILS',
+      'MASTERY_HISTORY',
+      'INTERACTION_HISTORY',
+      'AI_GENERATION_METADATA',
+      'KEY_TAKEAWAYS',
+      'SENSORY_ANALOGIES',
+      'STRUCTURED_CONTENT',
+      'ADAPTIVE_RUBRIC',
+      'OPTIONS',
+      'AI_METADATA',
+      'DIAGRAM_DESCRIPTIONS'
+    ]);
+
     const keys = Object.keys(data);
     const columns = keys.map(k => k.toUpperCase()).join(', ');
-    const placeholders = keys.map(() => '?').join(', ');
+    const placeholders = keys.map(k => {
+      const col = k.toUpperCase();
+      return VARIANT_COLS.has(col) ? 'PARSE_JSON(?)' : '?';
+    }).join(', ');
+
     const binds = keys.map(k => {
+      const col = k.toUpperCase();
       const val = data[k];
-      if (typeof val === 'object' && val !== null) {
+      if (val === undefined || val === null) return null;
+      if (VARIANT_COLS.has(col) || typeof val === 'object') {
         return JSON.stringify(val);
       }
       return val;
     });
 
-    const sql = `INSERT INTO ${this.requiredDatabase}.${this.requiredSchema}.${tableName.toUpperCase()} (${columns}) VALUES (${placeholders})`;
+    const sql = `INSERT INTO ${this.requiredDatabase}.${this.requiredSchema}.${tableName.toUpperCase()} (${columns}) SELECT ${placeholders}`;
     await executor.execute(sql, binds);
     return data;
   }
@@ -271,17 +409,44 @@ class DatabaseManager {
    * Safe update helper for repositories
    */
   async update(tableName, data, whereClause, whereBinds = []) {
+    const VARIANT_COLS = new Set([
+      'ACCESSIBILITY_PREFERENCES',
+      'AI_EVALUATION_METADATA',
+      'ANSWERS_SUMMARY',
+      'METADATA',
+      'WAVEFORM_DATA',
+      'DETAILS',
+      'MASTERY_HISTORY',
+      'INTERACTION_HISTORY',
+      'AI_GENERATION_METADATA',
+      'KEY_TAKEAWAYS',
+      'SENSORY_ANALOGIES',
+      'STRUCTURED_CONTENT',
+      'ADAPTIVE_RUBRIC',
+      'OPTIONS',
+      'AI_METADATA',
+      'DIAGRAM_DESCRIPTIONS'
+    ]);
+
     const keys = Object.keys(data);
-    const setClause = keys.map(k => `${k.toUpperCase()} = ?`).join(', ');
+    const setClause = keys.map(k => {
+      const col = k.toUpperCase();
+      return VARIANT_COLS.has(col) ? `${col} = PARSE_JSON(?)` : `${col} = ?`;
+    }).join(', ');
+
     const binds = keys.map(k => {
+      const col = k.toUpperCase();
       const val = data[k];
-      if (typeof val === 'object' && val !== null) {
+      if (val === undefined || val === null) return null;
+      if (VARIANT_COLS.has(col) || typeof val === 'object') {
         return JSON.stringify(val);
       }
       return val;
-    }).concat(whereBinds);
+    }).concat((whereBinds || []).map(b => (b === undefined ? null : b)));
 
-    const sql = `UPDATE ${this.requiredDatabase}.${this.requiredSchema}.${tableName.toUpperCase()} SET ${setClause}, UPDATED_AT = CURRENT_TIMESTAMP() WHERE ${whereClause}`;
+    const hasUpdatedAt = keys.some(k => k.toUpperCase() === 'UPDATED_AT');
+    const updatedAtClause = hasUpdatedAt ? '' : ', UPDATED_AT = CURRENT_TIMESTAMP()';
+    const sql = `UPDATE ${this.requiredDatabase}.${this.requiredSchema}.${tableName.toUpperCase()} SET ${setClause}${updatedAtClause} WHERE ${whereClause}`;
     await executor.execute(sql, binds);
     return data;
   }

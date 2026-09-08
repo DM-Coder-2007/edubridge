@@ -1,5 +1,6 @@
 /**
  * EduBridge Adaptive - Quiz Repository (Snowflake)
+ * Mapped to EDUBRIDGE_ADAPTIVE.APP.QUESTIONS and EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS
  */
 
 const { v4: uuidv4 } = require('uuid');
@@ -21,6 +22,7 @@ class QuizRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      QUESTION_ID: id,
       LESSON_ID: lessonId,
       CONCEPT_ID: conceptId,
       QUESTION_TEXT: questionText,
@@ -34,7 +36,7 @@ class QuizRepository {
       CREATED_AT: new Date().toISOString()
     };
 
-    await db.insert('QUESTIONS', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.QUESTIONS', record);
     return this._formatQuestion(record);
   }
 
@@ -60,12 +62,18 @@ class QuizRepository {
   }
 
   async findQuestionsByLessonId(lessonId) {
-    const rows = await db.query('SELECT * FROM QUESTIONS WHERE LESSON_ID = ? ORDER BY ORDER_INDEX ASC', [lessonId]);
+    const rows = await db.query(
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE LESSON_ID = ? ORDER BY ORDER_INDEX ASC',
+      [lessonId]
+    );
     return rows.map(r => this._formatQuestion(r));
   }
 
   async findQuestionById(id) {
-    const row = await db.queryOne('SELECT * FROM QUESTIONS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne(
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.QUESTIONS WHERE ID = ? OR QUESTION_ID = ? LIMIT 1',
+      [id, id]
+    );
     return this._formatQuestion(row);
   }
 
@@ -73,17 +81,22 @@ class QuizRepository {
     const id = uuidv4();
     const record = {
       ID: id,
+      ATTEMPT_ID: id,
       USER_ID: userId,
       LESSON_ID: lessonId,
-      TOTAL_QUESTIONS: totalQuestions,
+      TOTAL_QUESTIONS: parseInt(totalQuestions || 0, 10),
       CORRECT_QUESTIONS: 0,
       SCORE_PERCENTAGE: 0.0,
       TIME_SPENT_SECONDS: 0,
+      STATUS: 'IN_PROGRESS',
+      ANSWERS_SUMMARY: JSON.stringify([]),
       STARTED_AT: new Date().toISOString(),
-      COMPLETED_AT: null
+      COMPLETED_AT: null,
+      CREATED_AT: new Date().toISOString(),
+      UPDATED_AT: new Date().toISOString()
     };
 
-    await db.insert('ATTEMPTS', record);
+    await db.insert('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', record);
     return this._formatAttempt(record);
   }
 
@@ -93,21 +106,26 @@ class QuizRepository {
       TOTAL_QUESTIONS: totalQuestions,
       SCORE_PERCENTAGE: scorePercentage,
       TIME_SPENT_SECONDS: timeSpentSeconds,
-      COMPLETED_AT: new Date().toISOString()
+      STATUS: 'COMPLETED',
+      COMPLETED_AT: new Date().toISOString(),
+      UPDATED_AT: new Date().toISOString()
     };
 
-    await db.update('ATTEMPTS', record, 'ID = ?', [attemptId]);
+    await db.update('EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS', record, 'ID = ? OR ATTEMPT_ID = ?', [attemptId, attemptId]);
     return this.findAttemptById(attemptId);
   }
 
   async findAttemptById(id) {
-    const row = await db.queryOne('SELECT * FROM ATTEMPTS WHERE ID = ? LIMIT 1', [id]);
+    const row = await db.queryOne(
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE ID = ? OR ATTEMPT_ID = ? LIMIT 1',
+      [id, id]
+    );
     return this._formatAttempt(row);
   }
 
   async findAttemptsByUserAndLesson(userId, lessonId) {
     const rows = await db.query(
-      'SELECT * FROM ATTEMPTS WHERE USER_ID = ? AND LESSON_ID = ? ORDER BY STARTED_AT DESC',
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS WHERE USER_ID = ? AND LESSON_ID = ? ORDER BY STARTED_AT DESC',
       [userId, lessonId]
     );
     return rows.map(r => this._formatAttempt(r));
@@ -123,27 +141,49 @@ class QuizRepository {
     aiFeedback = null,
     adaptiveFollowupQuestion = null
   }) {
+    const attempt = await this.findAttemptById(attemptId);
     const id = uuidv4();
-    const record = {
-      ID: id,
-      ATTEMPT_ID: attemptId,
-      QUESTION_ID: questionId,
-      USER_ID: userId,
-      USER_ANSWER_TEXT: userAnswerText,
-      IS_CORRECT: Boolean(isCorrect),
-      AI_SCORE: aiScore,
-      AI_FEEDBACK: aiFeedback,
-      ADAPTIVE_FOLLOWUP_QUESTION: adaptiveFollowupQuestion,
-      CREATED_AT: new Date().toISOString()
+    const answerRecord = {
+      id,
+      attemptId,
+      questionId,
+      userId,
+      userAnswerText,
+      studentAnswer: userAnswerText,
+      isCorrect: Boolean(isCorrect),
+      aiScore: parseFloat(aiScore || 0),
+      aiFeedback,
+      adaptiveFollowupQuestion,
+      createdAt: new Date().toISOString()
     };
 
-    await db.insert('ANSWERS', record);
-    return this._formatAnswer(record);
+    let summary = [];
+    if (attempt && attempt.answersSummary) {
+      summary = Array.isArray(attempt.answersSummary)
+        ? [...attempt.answersSummary]
+        : (typeof attempt.answersSummary === 'string' ? JSON.parse(attempt.answersSummary) : []);
+    }
+    summary.push(answerRecord);
+
+    await db.update(
+      'EDUBRIDGE_ADAPTIVE.APP.ATTEMPTS',
+      {
+        ANSWERS_SUMMARY: JSON.stringify(summary),
+        UPDATED_AT: new Date().toISOString()
+      },
+      'ID = ? OR ATTEMPT_ID = ?',
+      [attemptId, attemptId]
+    );
+
+    return answerRecord;
   }
 
   async findAnswersByAttemptId(attemptId) {
-    const rows = await db.query('SELECT * FROM ANSWERS WHERE ATTEMPT_ID = ? ORDER BY CREATED_AT ASC', [attemptId]);
-    return rows.map(r => this._formatAnswer(r));
+    const attempt = await this.findAttemptById(attemptId);
+    if (!attempt || !attempt.answersSummary) return [];
+    return Array.isArray(attempt.answersSummary)
+      ? attempt.answersSummary
+      : (typeof attempt.answersSummary === 'string' ? JSON.parse(attempt.answersSummary) : []);
   }
 
   _formatQuestion(row) {
@@ -157,7 +197,8 @@ class QuizRepository {
       }
     }
     return {
-      id: row.ID,
+      id: row.ID || row.QUESTION_ID,
+      questionId: row.QUESTION_ID || row.ID,
       lessonId: row.LESSON_ID,
       conceptId: row.CONCEPT_ID,
       questionText: row.QUESTION_TEXT,
@@ -174,33 +215,27 @@ class QuizRepository {
 
   _formatAttempt(row) {
     if (!row) return null;
+    let summary = [];
+    if (row.ANSWERS_SUMMARY) {
+      try {
+        summary = typeof row.ANSWERS_SUMMARY === 'string' ? JSON.parse(row.ANSWERS_SUMMARY) : row.ANSWERS_SUMMARY;
+      } catch {
+        summary = [];
+      }
+    }
     return {
-      id: row.ID,
+      id: row.ID || row.ATTEMPT_ID,
+      attemptId: row.ATTEMPT_ID || row.ID,
       userId: row.USER_ID,
       lessonId: row.LESSON_ID,
       totalQuestions: parseInt(row.TOTAL_QUESTIONS || 0, 10),
       correctQuestions: parseInt(row.CORRECT_QUESTIONS || 0, 10),
       scorePercentage: parseFloat(row.SCORE_PERCENTAGE || 0),
       timeSpentSeconds: parseInt(row.TIME_SPENT_SECONDS || 0, 10),
+      answersSummary: summary,
       startedAt: row.STARTED_AT,
       completedAt: row.COMPLETED_AT,
-      status: row.COMPLETED_AT ? 'COMPLETED' : 'IN_PROGRESS'
-    };
-  }
-
-  _formatAnswer(row) {
-    if (!row) return null;
-    return {
-      id: row.ID,
-      attemptId: row.ATTEMPT_ID,
-      questionId: row.QUESTION_ID,
-      userId: row.USER_ID,
-      userAnswerText: row.USER_ANSWER_TEXT,
-      isCorrect: Boolean(row.IS_CORRECT),
-      aiScore: parseFloat(row.AI_SCORE || 0),
-      aiFeedback: row.AI_FEEDBACK,
-      adaptiveFollowupQuestion: row.ADAPTIVE_FOLLOWUP_QUESTION,
-      createdAt: row.CREATED_AT
+      status: row.STATUS || (row.COMPLETED_AT ? 'COMPLETED' : 'IN_PROGRESS')
     };
   }
 }

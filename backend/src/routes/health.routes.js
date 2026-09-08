@@ -100,7 +100,7 @@ router.get('/ai', async (req, res) => {
     return ApiResponse.success(res, isHealthy ? 200 : 503, 'Gemini multimodal AI health check', {
       provider: 'Google Gemini',
       status: isHealthy ? 'healthy' : 'degraded',
-      model: typeof gemini.getModelName === 'function' ? gemini.getModelName() : 'gemini-1.5-flash',
+      model: typeof gemini.getModelName === 'function' ? gemini.getModelName() : 'gemini-3-flash-preview',
       mode: typeof gemini.isMockMode === 'function' && gemini.isMockMode() ? 'MOCK_SIMULATION' : 'LIVE_API',
       latencyMs: ping.latencyMs || 1
     });

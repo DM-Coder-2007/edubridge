@@ -27,9 +27,11 @@ class UserRepository {
     const id = uuidv4();
     const userRecord = {
       ID: id,
+      USER_ID: id,
+      NAME: fullName.trim(),
+      FULL_NAME: fullName.trim(),
       EMAIL: email.toLowerCase().trim(),
       PASSWORD_HASH: passwordHash,
-      FULL_NAME: fullName.trim(),
       ROLE: role.toLowerCase().trim(),
       GRADE_LEVEL: gradeLevel,
       PREFERRED_LANGUAGE: preferredLanguage,
@@ -53,9 +55,10 @@ class UserRepository {
    */
   async findByEmail(email) {
     if (!email) return null;
+    const cleanEmail = email.toLowerCase().trim();
     const row = await db.queryOne(
-      'SELECT * FROM USERS WHERE EMAIL = ? LIMIT 1',
-      [email.toLowerCase().trim()]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.USERS WHERE LOWER(TRIM(EMAIL)) = LOWER(TRIM(?)) LIMIT 1',
+      [cleanEmail]
     );
     return this._format(row);
   }
@@ -68,8 +71,8 @@ class UserRepository {
   async findById(id) {
     if (!id) return null;
     const row = await db.queryOne(
-      'SELECT * FROM USERS WHERE ID = ? LIMIT 1',
-      [id]
+      'SELECT * FROM EDUBRIDGE_ADAPTIVE.APP.USERS WHERE ID = ? OR USER_ID = ? LIMIT 1',
+      [id, id]
     );
     return this._format(row);
   }
@@ -86,8 +89,8 @@ class UserRepository {
       : JSON.stringify(preferences);
 
     await db.query(
-      'UPDATE USERS SET ACCESSIBILITY_PREFERENCES = ?, UPDATED_AT = CURRENT_TIMESTAMP() WHERE ID = ?',
-      [prefJson, id]
+      'UPDATE EDUBRIDGE_ADAPTIVE.APP.USERS SET ACCESSIBILITY_PREFERENCES = ?, UPDATED_AT = CURRENT_TIMESTAMP() WHERE ID = ? OR USER_ID = ?',
+      [prefJson, id, id]
     );
     return this.findById(id);
   }
@@ -100,12 +103,15 @@ class UserRepository {
    */
   async updateProfile(id, { fullName, gradeLevel, preferredLanguage }) {
     const updates = {};
-    if (fullName) updates.FULL_NAME = fullName.trim();
+    if (fullName) {
+      updates.FULL_NAME = fullName.trim();
+      updates.NAME = fullName.trim();
+    }
     if (gradeLevel) updates.GRADE_LEVEL = gradeLevel;
     if (preferredLanguage) updates.PREFERRED_LANGUAGE = preferredLanguage;
 
     if (Object.keys(updates).length > 0) {
-      await db.update('USERS', updates, 'ID = ?', [id]);
+      await db.update('USERS', updates, 'ID = ? OR USER_ID = ?', [id, id]);
     }
     return this.findById(id);
   }
@@ -117,7 +123,7 @@ class UserRepository {
    * @returns {Promise<object|null>}
    */
   async updateStatus(id, isActive) {
-    await db.update('USERS', { IS_ACTIVE: Boolean(isActive) }, 'ID = ?', [id]);
+    await db.update('USERS', { IS_ACTIVE: Boolean(isActive) }, 'ID = ? OR USER_ID = ?', [id, id]);
     return this.findById(id);
   }
 
@@ -128,7 +134,7 @@ class UserRepository {
    */
   async deleteById(id) {
     if (!id) return false;
-    await db.query('DELETE FROM USERS WHERE ID = ?', [id]);
+    await db.query('DELETE FROM EDUBRIDGE_ADAPTIVE.APP.USERS WHERE ID = ? OR USER_ID = ?', [id, id]);
     return true;
   }
 
@@ -150,10 +156,12 @@ class UserRepository {
     }
 
     return {
-      id: row.ID,
+      id: row.ID || row.USER_ID,
+      userId: row.USER_ID || row.ID,
       email: row.EMAIL,
       passwordHash: row.PASSWORD_HASH,
-      fullName: row.FULL_NAME,
+      fullName: row.FULL_NAME || row.NAME,
+      name: row.NAME || row.FULL_NAME,
       role: row.ROLE,
       gradeLevel: row.GRADE_LEVEL,
       preferredLanguage: row.PREFERRED_LANGUAGE,

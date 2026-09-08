@@ -460,3 +460,297 @@
 {"level":"INFO","message":"[4:56:33.642 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
 {"level":"INFO","message":"[4:56:34.101 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
 {"level":"INFO","message":"[4:57:03.172 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:22:47.987 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:30:54.152 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:03:00.356 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:04:44.651 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:27:06.809 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:06.853 PM]: Creating Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:06.860 PM]: Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:06.861 PM]: Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:06.862 PM]: Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:06.866 PM]: Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:06.869 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:27:06.888 PM]: No client config detected."}
+{"level":"INFO","message":"[11:27:06.889 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:27:06.889 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:27:06.895 PM]: Connection[id: 231543a0-276e-43d6-9d3f-4c41b59af292] - connected successfully after 32.68140000000005 milliseconds"}
+{"level":"INFO","message":"[11:27:50.666 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:50.684 PM]: Creating Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:50.685 PM]: Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:50.688 PM]: Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:50.689 PM]: Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:50.694 PM]: Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:50.696 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:27:50.728 PM]: No client config detected."}
+{"level":"INFO","message":"[11:27:50.729 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:27:50.729 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:27:50.739 PM]: Connection[id: b49d38d4-8d34-4b37-bc8b-8878f7b8b6da] - connected successfully after 49.504999999999995 milliseconds"}
+{"level":"INFO","message":"[11:27:51.565 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:51.565 PM]: Creating Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: debansum, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:51.565 PM]: Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:51.565 PM]: Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:51.565 PM]: Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:51.565 PM]: Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:51.566 PM]: Connection[id: 9d93ae52-af2e-4baf-a205-02f3a1879c24] - connected successfully after 0.5037999999999556 milliseconds"}
+{"level":"INFO","message":"[11:27:51.891 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:51.891 PM]: Creating Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: debansumondal2304@gmail.com, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:51.891 PM]: Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:51.892 PM]: Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:51.892 PM]: Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:51.892 PM]: Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:51.893 PM]: Connection[id: 153bdd88-ccbc-4231-b31f-9a06344c547c] - connected successfully after 0.7806000000000495 milliseconds"}
+{"level":"INFO","message":"[11:27:52.087 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:52.087 PM]: Creating Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: Debansu, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:52.087 PM]: Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:52.088 PM]: Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:52.088 PM]: Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:52.088 PM]: Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:52.088 PM]: Connection[id: 6aae7f7c-e9c8-44f0-8f80-2f75d6166682] - connected successfully after 0.42990000000008877 milliseconds"}
+{"level":"INFO","message":"[11:27:52.221 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:52.222 PM]: Creating Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: debansu, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:52.222 PM]: Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:52.222 PM]: Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:52.222 PM]: Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:52.223 PM]: Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:52.224 PM]: Connection[id: 2307f7fd-c36f-4b21-91cd-68f029adf217] - connected successfully after 1.6786999999999352 milliseconds"}
+{"level":"INFO","message":"[11:27:52.407 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:27:52.408 PM]: Creating Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSU, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:27:52.409 PM]: Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:27:52.409 PM]: Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] - connection object created successfully."}
+{"level":"INFO","message":"[11:27:52.409 PM]: Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:27:52.410 PM]: Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:27:52.411 PM]: Connection[id: 31efd27c-cc76-49d4-b766-e4b34d62385e] - connected successfully after 1.4945999999999913 milliseconds"}
+{"level":"INFO","message":"[11:28:09.790 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:09.808 PM]: Creating Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] with host: 7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, account: 7iwxpzopr5gw5dzdaojhqrx4vi, accessUrl: https://7iwxpzopr5gw5dzdaojhqrx4vi.snowflakecomputing.com, user: snowflake_admin, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: COMPUTE_WH, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:09.810 PM]: Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:09.811 PM]: Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:09.812 PM]: Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:09.815 PM]: Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:09.816 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:28:09.821 PM]: No client config detected."}
+{"level":"INFO","message":"[11:28:09.821 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:28:09.822 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:28:09.827 PM]: Connection[id: 1ed925cb-2789-46dc-a683-0ecf963128eb] - connected successfully after 14.603800000000092 milliseconds"}
+{"level":"INFO","message":"[11:28:33.168 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:33.184 PM]: Creating Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: saswataghatak70@gmail.com, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:33.185 PM]: Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:33.186 PM]: Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:33.186 PM]: Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:33.189 PM]: Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:33.190 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:28:33.197 PM]: No client config detected."}
+{"level":"INFO","message":"[11:28:33.198 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:28:33.199 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:28:33.204 PM]: Connection[id: 4dc73fc6-b775-45b5-81fd-f629cb5ceff9] - connected successfully after 17.786299999999983 milliseconds"}
+{"level":"INFO","message":"[11:28:33.682 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:33.683 PM]: Creating Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: saswata, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:33.683 PM]: Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:33.683 PM]: Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:33.683 PM]: Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:33.683 PM]: Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:33.683 PM]: Connection[id: afd3fccb-d4d3-40e5-913b-d6b76d61258b] - connected successfully after 0.5253000000000156 milliseconds"}
+{"level":"INFO","message":"[11:28:33.795 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:33.797 PM]: Creating Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: SASWATA, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:33.797 PM]: Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:33.798 PM]: Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:33.798 PM]: Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:33.798 PM]: Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:33.800 PM]: Connection[id: dad92770-df04-48ff-b9ee-d87aa2a789f3] - connected successfully after 1.9615999999998621 milliseconds"}
+{"level":"INFO","message":"[11:28:33.895 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:33.895 PM]: Creating Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: saswataghatak, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:33.895 PM]: Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:33.896 PM]: Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:33.896 PM]: Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:33.896 PM]: Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:33.896 PM]: Connection[id: 2ef77adf-eab9-4aa0-ad9c-c65d6aa9849b] - connected successfully after 0.47220000000015716 milliseconds"}
+{"level":"INFO","message":"[11:28:33.988 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:33.989 PM]: Creating Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: SASWATAGHATAK, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:33.989 PM]: Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:33.989 PM]: Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:33.989 PM]: Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:33.989 PM]: Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:33.990 PM]: Connection[id: 9b63ecc8-7c99-4502-a845-92ea21bda3a8] - connected successfully after 0.49129999999991014 milliseconds"}
+{"level":"INFO","message":"[11:28:34.081 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:34.082 PM]: Creating Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: admin, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:34.082 PM]: Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:34.082 PM]: Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:34.082 PM]: Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:34.082 PM]: Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:34.082 PM]: Connection[id: 5b16abe2-66c5-4cd0-8e43-cefbb17e5edd] - connected successfully after 0.4226000000001022 milliseconds"}
+{"level":"INFO","message":"[11:28:34.175 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:34.175 PM]: Creating Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: ADMIN, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:34.176 PM]: Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:34.176 PM]: Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:34.176 PM]: Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:34.176 PM]: Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:34.176 PM]: Connection[id: 026ed2c1-9b63-4db0-ba8a-87554fb5eaa8] - connected successfully after 0.5828999999998814 milliseconds"}
+{"level":"INFO","message":"[11:28:34.264 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:34.265 PM]: Creating Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: snowflake_admin, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:34.265 PM]: Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:34.266 PM]: Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:34.266 PM]: Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:34.267 PM]: Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:34.267 PM]: Connection[id: a1c37064-bb30-4002-8bfb-76ffeb332b50] - connected successfully after 1.026299999999992 milliseconds"}
+{"level":"INFO","message":"[11:28:34.360 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:34.360 PM]: Creating Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: SNOWFLAKE_ADMIN, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:34.360 PM]: Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:34.360 PM]: Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:34.361 PM]: Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:34.361 PM]: Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:34.361 PM]: Connection[id: c7352c2b-870c-495f-8c3d-96a1a4c5cb70] - connected successfully after 0.5253999999999905 milliseconds"}
+{"level":"INFO","message":"[11:28:40.709 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:28:40.724 PM]: Creating Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] with host: this-does-not-exist-xyz123.snowflakecomputing.com, account: this-does-not-exist-xyz123, accessUrl: https://this-does-not-exist-xyz123.snowflakecomputing.com, user: DEBANSUM, password is provided, role: undefined, database: undefined, schema: undefined, warehouse: undefined, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:28:40.725 PM]: Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:28:40.725 PM]: Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] - connection object created successfully."}
+{"level":"INFO","message":"[11:28:40.726 PM]: Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:28:40.728 PM]: Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:28:40.729 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:28:40.733 PM]: No client config detected."}
+{"level":"INFO","message":"[11:28:40.733 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:28:40.733 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:28:40.739 PM]: Connection[id: 0eb755e3-7504-4a31-9f74-bcfcdf011c23] - connected successfully after 12.706099999999935 milliseconds"}
+{"level":"INFO","message":"[11:29:08.113 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:29:08.134 PM]: Creating Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:29:08.134 PM]: Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:29:08.135 PM]: Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] - connection object created successfully."}
+{"level":"INFO","message":"[11:29:08.135 PM]: Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:29:08.137 PM]: Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:29:08.138 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:29:08.144 PM]: No client config detected."}
+{"level":"INFO","message":"[11:29:08.144 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:29:08.145 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:29:08.150 PM]: Connection[id: f6d8282d-84ea-45f4-aa46-53dcf0909a18] - connected successfully after 14.564200000000028 milliseconds"}
+{"level":"INFO","message":"[11:29:16.729 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:29:16.751 PM]: Creating Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:29:16.752 PM]: Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:29:16.752 PM]: Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] - connection object created successfully."}
+{"level":"INFO","message":"[11:29:16.753 PM]: Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:29:16.755 PM]: Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:29:16.756 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:29:16.761 PM]: No client config detected."}
+{"level":"INFO","message":"[11:29:16.762 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:29:16.762 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:29:16.768 PM]: Connection[id: df3c318f-2ade-4a46-9bbe-70ed57e5426c] - connected successfully after 15.250200000000063 milliseconds"}
+{"level":"INFO","message":"[11:29:29.429 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:29:29.446 PM]: Creating Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:29:29.447 PM]: Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:29:29.448 PM]: Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] - connection object created successfully."}
+{"level":"INFO","message":"[11:29:29.448 PM]: Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:29:29.450 PM]: Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:29:29.451 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:29:29.455 PM]: No client config detected."}
+{"level":"INFO","message":"[11:29:29.456 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:29:29.456 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:29:29.470 PM]: Connection[id: 49477132-69e5-46e2-8a4d-ae2dafc32984] - connected successfully after 21.75509999999997 milliseconds"}
+{"level":"INFO","message":"[11:30:42.362 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:30:42.378 PM]: Creating Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:30:42.379 PM]: Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:30:42.379 PM]: Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] - connection object created successfully."}
+{"level":"INFO","message":"[11:30:42.380 PM]: Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:30:42.382 PM]: Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:30:42.383 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:30:42.390 PM]: No client config detected."}
+{"level":"INFO","message":"[11:30:42.391 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:30:42.391 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:30:42.395 PM]: Connection[id: 31937238-3bf0-4b9c-a759-f7b1f74862b1] - connected successfully after 15.618200000000002 milliseconds"}
+{"level":"INFO","message":"[11:30:49.025 PM]: Creating new connection object"}
+{"level":"INFO","message":"[11:30:49.040 PM]: Creating Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: undefined, schema: undefined, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[11:30:49.040 PM]: Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[11:30:49.041 PM]: Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] - connection object created successfully."}
+{"level":"INFO","message":"[11:30:49.042 PM]: Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[11:30:49.045 PM]: Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[11:30:49.046 PM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[11:30:49.051 PM]: No client config detected."}
+{"level":"INFO","message":"[11:30:49.052 PM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[11:30:49.052 PM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[11:30:49.056 PM]: Connection[id: c2721e67-c6df-4a10-8533-2403f1ea4874] - connected successfully after 13.922799999999938 milliseconds"}
+{"level":"INFO","message":"[11:36:44.258 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:38:11.230 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:38:23.410 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:38:30.544 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:38:50.307 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:39:03.211 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:39:44.450 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:39:58.834 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:40:40.552 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:40:53.922 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:41:21.390 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:41:38.051 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:42:22.157 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:43:07.088 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[11:51:57.450 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:16:10.616 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:16:35.991 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:17:16.854 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:19:14.199 AM]: Creating new connection object"}
+{"level":"INFO","message":"[12:19:14.221 AM]: Creating Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] with host: vopzapz-os64818.snowflakecomputing.com, account: vopzapz-os64818, accessUrl: https://vopzapz-os64818.snowflakecomputing.com, user: DEBANSUM, password is provided, role: ACCOUNTADMIN, database: EDUBRIDGE_ADAPTIVE, schema: APP, warehouse: edubridge, region: undefined, authenticator: SNOWFLAKE, ocsp mode: FAIL_OPEN, os: win32, os version: 10.0.26200"}
+{"level":"INFO","message":"[12:19:14.222 AM]: Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] additional details: passcode in password is provided, passcode is not provided, private key is not provided, application: undefined, client name: snowflake-sdk, client version: 1.15.0, retry timeout: 300, private key path: undefined, private key pass is not provided, client store temporary credential: false, browser response timeout: 120000"}
+{"level":"INFO","message":"[12:19:14.222 AM]: Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] - connection object created successfully."}
+{"level":"INFO","message":"[12:19:14.223 AM]: Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] - connecting. Associated Snowflake domain: GLOBAL"}
+{"level":"INFO","message":"[12:19:14.226 AM]: Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] - authentication successful using: SNOWFLAKE"}
+{"level":"INFO","message":"[12:19:14.227 AM]: Trying to initialize Easy Logging"}
+{"level":"INFO","message":"[12:19:14.233 AM]: No client config detected."}
+{"level":"INFO","message":"[12:19:14.233 AM]: No config file path found. Client config will not be used."}
+{"level":"INFO","message":"[12:19:14.233 AM]: Easy Logging is disabled as no config has been found"}
+{"level":"INFO","message":"[12:19:14.237 AM]: Connection[id: b2010333-9e4d-428b-b853-6ade48426a46] - connected successfully after 14.096700000000055 milliseconds"}
+{"level":"INFO","message":"[12:19:36.026 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:20:00.979 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:20:20.591 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:23:54.361 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:24:12.057 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:24:57.677 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:30:57.782 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:34:06.373 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:34:20.726 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:34:36.538 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:34:57.973 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:36:01.311 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:37:05.446 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:38:30.580 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:38:50.328 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:39:21.290 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:39:37.356 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:39:49.922 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:40:09.391 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:40:17.284 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:40:38.446 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:41:09.408 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:41:32.383 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:41:54.383 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:42:22.557 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:11.069 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:42.617 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:45:09.508 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:46:03.764 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:46:52.890 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:48:04.443 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:48:27.868 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:49:58.676 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:50:13.821 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:50:52.262 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:50:52.619 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:51:25.220 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:57:44.056 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[1:05:56.821 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:09:46.215 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:44:21.423 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"ERROR","message":"[4:00:52.874 AM]: Error issuing heartbeat call: Network error. Could not reach Snowflake."}
+{"level":"ERROR","message":"[6:13:20.682 AM]: Error issuing heartbeat call: Network error. Could not reach Snowflake."}
+{"level":"INFO","message":"[4:11:57.238 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[8:31:50.466 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:11:52.056 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:12:32.808 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:12:59.793 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:13:20.921 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:13:28.201 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[9:13:37.613 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:19:41.056 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:42:45.327 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:43:24.397 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:43:42.152 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:43:50.789 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:07.658 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:13.093 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:15.759 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:44:21.272 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
