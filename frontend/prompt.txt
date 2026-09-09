@@ -1,0 +1,375 @@
+I need you to FIX the Next.js production build/deployment architecture for my EduBridge Adaptive frontend.
+
+IMPORTANT:
+DO NOT DELETE ANY PAGE.
+DO NOT REMOVE ANY DYNAMIC ROUTE.
+DO NOT REPLACE DYNAMIC ROUTES WITH STATIC PLACEHOLDER PAGES.
+DO NOT MOCK lesson IDs, crop IDs, textbook IDs, quiz IDs, or user data just to make the build pass.
+
+The following build error is currently occurring:
+
+Error: Page "/lessons/[lessonId]/quiz" is missing "generateStaticParams()" so it cannot be used with "output: export" config.
+
+The frontend contains real dynamic routes such as:
+- /lessons/[lessonId]/quiz
+- /lessons/[lessonId]
+- /crops/[cropId]/edit
+- any other [id], [lessonId], [cropId], [textbookId], [questionId], or similar dynamic routes discovered during the audit.
+
+These pages MUST remain accessible in the deployed website because they are real application pages whose IDs are determined dynamically at runtime from the backend/Snowflake.
+
+PROJECT REQUIREMENTS:
+
+1. First inspect the entire frontend before changing anything.
+
+2. Find:
+   - next.config.mjs
+   - package.json
+   - all app/ routes
+   - all dynamic route folders containing [param]
+   - generateStaticParams implementations
+   - server components
+   - client components
+   - API calls
+   - middleware
+   - authentication/protected routes
+   - environment variables
+   - any existing Cloudflare configuration
+   - wrangler configuration if present.
+
+3. DO NOT solve this by simply adding fake generateStaticParams() values.
+
+The application has runtime-created data. For example:
+
+/lessons/[lessonId]/quiz
+
+must work for a lesson created after deployment.
+
+Therefore this cannot be solved correctly by generating a small fixed list of lesson IDs at build time.
+
+4. Change the Cloudflare deployment strategy from "Next.js static export on Pages" to a deployment architecture that supports the existing dynamic Next.js application.
+
+Use the current recommended Cloudflare Workers-compatible Next.js deployment approach.
+
+Prefer the current Cloudflare-recommended vinext approach if it is compatible with this existing Next.js project.
+
+If vinext compatibility is not suitable for this project, use the OpenNext Cloudflare adapter instead.
+
+Do NOT migrate the project to another frontend framework.
+
+Keep Next.js.
+
+5. IMPORTANT:
+Preserve the existing Next.js App Router structure.
+
+Do NOT flatten routes.
+
+Do NOT convert the application into a single HTML page.
+
+Do NOT remove:
+- /dashboard
+- /lessons/[lessonId]
+- /lessons/[lessonId]/quiz
+- /crops/[cropId]/edit
+- authentication pages
+- textbook pages
+- question/quiz pages
+- any other existing page.
+
+6. Remove the static-export restriction if it is incompatible with the application's dynamic routes.
+
+The current configuration likely contains:
+
+output: "export"
+
+Remove this only if the chosen Cloudflare Workers deployment strategy requires server/runtime rendering.
+
+Do NOT remove it merely to hide the build error without implementing the correct deployment strategy.
+
+7. Preserve all dynamic routes exactly as application routes.
+
+For example:
+
+app/lessons/[lessonId]/quiz/page.js
+
+must remain a valid route.
+
+The deployed application must be capable of opening:
+
+/lessons/abc123/quiz
+
+and:
+
+/lessons/anotherLessonId/quiz
+
+without requiring those IDs to exist during the build.
+
+8. Preserve runtime API communication.
+
+The frontend must continue calling the existing Node.js/Express backend.
+
+Use an environment variable such as:
+
+NEXT_PUBLIC_API_URL
+
+Do not hardcode localhost.
+
+Local development may use:
+
+NEXT_PUBLIC_API_URL=http://localhost:5000
+
+Production must use the deployed Render backend URL.
+
+9. Preserve authentication.
+
+The following must continue working:
+
+/login
+/signup
+/dashboard
+
+Protected pages must remain protected.
+
+Do not make private dashboard/lesson data publicly accessible just to make static generation work.
+
+10. Preserve the existing backend architecture:
+
+Frontend:
+Next.js + JavaScript
+
+Backend:
+Node.js + Express
+
+Database:
+Snowflake only
+
+Media:
+Cloudinary
+
+AI:
+Gemini
+
+TTS:
+Piper
+
+Speech recognition:
+faster-whisper
+
+Do NOT introduce PostgreSQL, MySQL, MongoDB, SQLite, or another application database.
+
+11. Check every dynamic route.
+
+Search the entire frontend for:
+
+[
+generateStaticParams
+output: "export"
+dynamicParams
+revalidate
+cookies()
+headers()
+useSearchParams()
+useParams()
+useRouter()
+server components
+client components
+
+Identify which routes require runtime rendering and make sure the deployment strategy supports them.
+
+12. Do not use generateStaticParams as a fake workaround.
+
+Only use generateStaticParams where it genuinely makes sense for fixed/static content.
+
+For user-generated/runtime-generated entities such as lessons, textbooks, crops, quizzes, questions, etc., keep them dynamic.
+
+13. Configure Cloudflare correctly.
+
+If using vinext:
+
+- install the required vinext/Cloudflare dependencies
+- add the appropriate Cloudflare/Vite configuration
+- add the required Wrangler configuration
+- add correct build/deploy scripts
+- verify compatibility
+- keep the existing Next.js app structure.
+
+If using OpenNext:
+
+- install @opennextjs/cloudflare
+- install Wrangler
+- create the correct OpenNext configuration
+- create the correct wrangler configuration
+- configure nodejs compatibility
+- configure the Cloudflare Worker entry point
+- add correct build/deploy scripts.
+
+Do not blindly install both approaches.
+
+Choose ONE deployment approach and configure it completely.
+
+14. The final production build must actually succeed.
+
+Run:
+
+npm install
+
+npm run build
+
+and, if using Cloudflare Workers/vinext/OpenNext, run the appropriate Cloudflare production build/preview command as well.
+
+Do not report success until the actual production build completes successfully.
+
+15. Test all important routes after building.
+
+At minimum verify:
+
+/
+ /login
+/signup
+/dashboard
+/lessons/[lessonId]
+/lessons/[lessonId]/quiz
+/crops/[cropId]/edit
+
+Use realistic runtime IDs where necessary.
+
+16. Verify direct navigation.
+
+This is extremely important.
+
+A user must be able to paste a URL directly into the browser such as:
+
+https://production-domain.com/lessons/REAL_LESSON_ID/quiz
+
+and the page must load correctly.
+
+It must NOT return:
+
+404
+missing generateStaticParams
+static export error
+blank page
+hydration failure
+
+17. Verify browser refresh.
+
+Open a dynamic lesson quiz page and press browser refresh.
+
+It must still work.
+
+18. Verify navigation from the application.
+
+Dashboard → Lesson → Quiz
+
+must work.
+
+19. Verify that backend data is loaded at runtime.
+
+The lesson page must obtain its actual data from the existing backend API/Snowflake-backed system.
+
+Do not replace it with hardcoded demo data.
+
+20. Preserve responsive UI.
+
+Do not redesign or remove existing UI.
+
+Keep mobile/tablet/desktop support.
+
+21. Check for client/server component problems created by the deployment migration.
+
+Fix only what is actually required.
+
+Do not unnecessarily convert the entire application to "use client".
+
+Keep server components where appropriate.
+
+22. Do not modify backend code unless required for frontend deployment.
+
+The current Node.js/Express backend remains deployed separately on Render.
+
+23. Do not expose Snowflake credentials, Gemini credentials, Cloudinary secrets, JWT secrets, Piper secrets, or backend secrets to the browser.
+
+Only variables intentionally prefixed with NEXT_PUBLIC_ may be exposed to the client.
+
+24. Check the Cloudflare deployment root.
+
+This repository is a monorepo.
+
+The frontend is inside:
+
+frontend/
+
+Therefore Cloudflare Workers/Build configuration must operate from:
+
+frontend/
+
+and must find:
+
+frontend/package.json
+
+Do not expect:
+
+/repo/package.json
+
+25. Make sure package.json contains the correct production scripts.
+
+Do not use:
+
+npm run dev
+
+for production.
+
+Do not use nodemon in production.
+
+The production frontend deployment must use the appropriate production build/deploy command for the selected Cloudflare deployment strategy.
+
+26. After implementation, provide me with:
+
+A. Exact files changed
+
+B. Exact contents/important sections of:
+   - next.config.mjs
+   - package.json
+   - wrangler.jsonc/wrangler.toml if created
+   - vite/vinext configuration if created
+   - open-next.config.* if OpenNext is used
+
+C. Exact Cloudflare settings:
+   - Root directory
+   - Build command
+   - Deploy command
+   - Production branch
+   - required environment variables
+
+D. Exact local commands to test
+
+E. Exact Cloudflare deployment commands
+
+F. Explain why the original generateStaticParams error is fixed.
+
+FINAL ACCEPTANCE CRITERIA:
+
+- npm run build succeeds.
+- No "missing generateStaticParams" error.
+- No "output: export" incompatibility with runtime dynamic routes.
+- /lessons/[lessonId]/quiz still exists.
+- /lessons/[lessonId] still exists.
+- /crops/[cropId]/edit still exists.
+- No existing page has been deleted.
+- No dynamic page has been replaced with a fake static page.
+- Runtime-created lesson IDs work.
+- Direct URL navigation works.
+- Browser refresh on dynamic routes works.
+- Backend API integration still works.
+- Authentication still works.
+- Dashboard still works.
+- No mock data is introduced.
+- No PostgreSQL/MySQL/MongoDB/SQLite is introduced.
+- Snowflake remains the primary application database.
+- Cloudinary remains the media storage service.
+- The project remains JavaScript, not TypeScript.
+- Production deployment is configured for the actual Next.js application rather than forcing an incompatible static export.
+
+IMPORTANT:
+Do not stop after making the build command pass.
+The actual dynamic routes must continue functioning in the deployed website.

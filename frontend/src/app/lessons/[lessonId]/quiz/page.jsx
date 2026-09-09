@@ -47,7 +47,7 @@ export default function QuizPage() {
   // Fetch lesson title for breadcrumbs and header
   useEffect(() => {
     if (!lessonId) return;
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://edubridge-1-69f4.onrender.com';
     let isMounted = true;
 
     fetch(`${apiUrl}/api/lessons/${lessonId}`, { credentials: 'include' })

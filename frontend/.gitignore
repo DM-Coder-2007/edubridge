@@ -27,3 +27,9 @@
 # TypeScript cache
 *.tsbuildinfo
 next-env.d.ts
+
+# Cloudflare & OpenNext
+.open-next/
+.wrangler/
+.dev.vars
+
