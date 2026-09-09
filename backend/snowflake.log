@@ -754,3 +754,8 @@
 {"level":"INFO","message":"[12:44:13.093 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
 {"level":"INFO","message":"[12:44:15.759 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
 {"level":"INFO","message":"[12:44:21.272 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[2:25:34.147 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[3:00:44.239 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[3:37:20.762 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[5:00:09.739 AM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
+{"level":"INFO","message":"[12:32:50.077 PM]: Configuring logger with level: 0, filePath: undefined, additionalLogToConsole: undefined"}
