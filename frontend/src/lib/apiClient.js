@@ -192,14 +192,19 @@ class ApiClient {
       }
 
       if (!response.ok) {
-        // Handle 401 Unauthorized: invalidate session caches, clear token and notify auth listeners
+        // Handle 401 Unauthorized for protected resources (never wipe for auth attempts or initial /auth/me checks)
         if (response.status === 401) {
-          this.setToken(null);
-          this.clearCache();
-          if (typeof window !== 'undefined' && !endpoint.includes('/auth/me')) {
-            window.dispatchEvent(new CustomEvent('edubridge:unauthorized', {
-              detail: { status: 401, endpoint }
-            }));
+          const isAuthEndpoint = endpoint.includes('/auth/login') ||
+                                 endpoint.includes('/auth/signup') ||
+                                 endpoint.includes('/auth/me');
+          if (!isAuthEndpoint) {
+            this.setToken(null);
+            this.clearCache();
+            if (typeof window !== 'undefined') {
+              window.dispatchEvent(new CustomEvent('edubridge:unauthorized', {
+                detail: { status: 401, endpoint }
+              }));
+            }
           }
         }
 

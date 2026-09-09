@@ -19,20 +19,57 @@ export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
 
-  // Fetch current user from /api/auth/me on mount
+  // Initialize cached user from localStorage immediately on client mount
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const storedUser = localStorage.getItem('edubridge_user');
+        const storedToken = localStorage.getItem('edubridge_token');
+        if (storedUser && storedToken) {
+          setUser(JSON.parse(storedUser));
+          setIsLoading(false);
+        }
+      } catch (e) {
+        console.warn('Failed to parse cached user from storage:', e);
+      }
+    }
+  }, []);
+
+  // Fetch current user from /api/auth/me to keep session in sync
   const refreshUser = useCallback(async () => {
+    const token = apiClient.getToken();
+    if (!token) {
+      setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('edubridge_user');
+      }
+      setIsLoading(false);
+      return;
+    }
+
     try {
       const data = await apiClient.get(API_ENDPOINTS.AUTH_ME);
       if (data && data.user) {
         setUser(data.user);
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('edubridge_user', JSON.stringify(data.user));
+        }
       } else {
         setUser(null);
         apiClient.setToken(null);
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('edubridge_user');
+        }
       }
-    } catch {
-      // Not logged in or expired session
-      setUser(null);
-      apiClient.setToken(null);
+    } catch (err) {
+      // Only wipe session if server explicitly rejects with 401 Unauthorized
+      if (err?.status === 401) {
+        setUser(null);
+        apiClient.setToken(null);
+        if (typeof window !== 'undefined') {
+          localStorage.removeItem('edubridge_user');
+        }
+      }
     } finally {
       setIsLoading(false);
     }
@@ -48,6 +85,7 @@ export function AuthProvider({ children }) {
     const handleUnauthorized = () => {
       apiClient.setToken(null);
       setUser(null);
+      localStorage.removeItem('edubridge_user');
       apiClient.clearCache();
     };
 
@@ -65,6 +103,9 @@ export function AuthProvider({ children }) {
         apiClient.setToken(data.token);
       }
       if (data && data.user) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('edubridge_user', JSON.stringify(data.user));
+        }
         setUser(data.user);
       }
       return data;
@@ -81,6 +122,9 @@ export function AuthProvider({ children }) {
         apiClient.setToken(data.token);
       }
       if (data && data.user) {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('edubridge_user', JSON.stringify(data.user));
+        }
         setUser(data.user);
       }
       return data;
@@ -97,6 +141,9 @@ export function AuthProvider({ children }) {
     } finally {
       apiClient.setToken(null);
       setUser(null);
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('edubridge_user');
+      }
       apiClient.clearCache();
     }
   };

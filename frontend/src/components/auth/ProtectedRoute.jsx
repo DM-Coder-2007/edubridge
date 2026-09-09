@@ -21,7 +21,8 @@ export default function ProtectedRoute({ children, allowedRoles }) {
 
   useEffect(() => {
     if (!loading && !authenticated) {
-      const redirectUrl = encodeURIComponent(pathname);
+      const returnPath = (pathname && !pathname.startsWith('/login')) ? pathname : '/dashboard';
+      const redirectUrl = encodeURIComponent(returnPath);
       router.replace(`/login?redirect=${redirectUrl}`);
     }
   }, [loading, authenticated, router, pathname]);

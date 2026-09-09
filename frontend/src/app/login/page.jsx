@@ -12,10 +12,23 @@ import { getReadableErrorMessage } from '../../lib/errorHandler';
 function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectUrl = searchParams.get('redirect') || '/dashboard';
+  const rawRedirect = searchParams.get('redirect');
+  const redirectUrl = (rawRedirect && !rawRedirect.startsWith('/login') && rawRedirect.startsWith('/'))
+    ? decodeURIComponent(rawRedirect)
+    : '/dashboard';
 
-  const { login } = useAuth();
+  const { login, user, isAuthenticated, loading: authLoading } = useAuth();
   const { isHighContrast, toggleHighContrast } = useAccessibility();
+
+  // If already authenticated, redirect immediately away from login
+  React.useEffect(() => {
+    if (!authLoading && (isAuthenticated || user)) {
+      router.replace(redirectUrl);
+      if (typeof window !== 'undefined') {
+        window.location.href = redirectUrl;
+      }
+    }
+  }, [authLoading, isAuthenticated, user, redirectUrl, router]);
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -48,15 +61,20 @@ function LoginForm() {
 
     setIsLoading(true);
     try {
-      await login({
+      const res = await login({
         email: email.trim().toLowerCase(),
         password
       });
 
-      router.push(redirectUrl);
+      if (res) {
+        // Double-barrel redirection: router.replace + window.location.href
+        router.replace(redirectUrl);
+        if (typeof window !== 'undefined') {
+          window.location.href = redirectUrl;
+        }
+      }
     } catch (err) {
       setErrorMessage(getReadableErrorMessage(err));
-    } finally {
       setIsLoading(false);
     }
   };

@@ -18,6 +18,11 @@ export function useDashboard() {
   const [error, setError] = useState(null);
 
   const fetchDashboardData = useCallback(async () => {
+    if (!apiClient.getToken()) {
+      setLoading(false);
+      return;
+    }
+
     setLoading(true);
     setError(null);
 

@@ -17,7 +17,7 @@ export function useAdaptiveQuiz(lessonId) {
   const timeStartedRef = useRef(Date.now());
   const initialQuestionsRef = useRef([]);
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://edubridge-1-69f4.onrender.com';
 
   /**
    * Fetch initial lesson questions

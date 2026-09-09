@@ -11,8 +11,18 @@ import { getReadableErrorMessage } from '../../lib/errorHandler';
 
 export default function SignupPage() {
   const router = useRouter();
-  const { signup } = useAuth();
+  const { signup, user, isAuthenticated, loading: authLoading } = useAuth();
   const { isHighContrast, toggleHighContrast } = useAccessibility();
+
+  // If already authenticated, redirect immediately to dashboard
+  React.useEffect(() => {
+    if (!authLoading && (isAuthenticated || user)) {
+      router.replace('/dashboard');
+      if (typeof window !== 'undefined') {
+        window.location.href = '/dashboard';
+      }
+    }
+  }, [authLoading, isAuthenticated, user, router]);
 
   const [fullName, setFullName] = useState('');
   const [email, setEmail] = useState('');
@@ -67,17 +77,21 @@ export default function SignupPage() {
     setIsLoading(true);
     try {
       // NOTE: Do NOT send confirmPassword to backend (backend contract doesn't expect it)
-      await signup({
+      const res = await signup({
         fullName: fullName.trim(),
         email: email.trim().toLowerCase(),
         password,
         role
       });
 
-      router.push('/dashboard');
+      if (res) {
+        router.replace('/dashboard');
+        if (typeof window !== 'undefined') {
+          window.location.href = '/dashboard';
+        }
+      }
     } catch (err) {
       setErrorMessage(getReadableErrorMessage(err));
-    } finally {
       setIsLoading(false);
     }
   };

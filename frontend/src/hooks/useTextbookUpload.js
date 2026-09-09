@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useEffect } from 'react';
 import { getReadableErrorMessage } from '../lib/errorHandler';
 import { validateUploadFile, sanitizeFilename } from '../lib/security';
+import apiClient from '../lib/apiClient';
 
 const MIN_DIMENSION_PX = 100;
 
@@ -227,7 +228,7 @@ export function useTextbookUpload() {
     setStepStatuses({ ...updatedSteps });
     setAnnouncement('Uploading textbook scan to backend...');
 
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://edubridge-1-69f4.onrender.com';
 
     try {
       // ------------------------------------------------------------------------
@@ -250,10 +251,16 @@ export function useTextbookUpload() {
       setStepStatuses({ ...updatedSteps });
       setAnnouncement('Preparing image and optimizing resolution...');
 
+      const token = apiClient.getToken();
+      const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
+
       // Note: POST /api/textbooks performs Sharp preprocessing, Cloudinary upload, and Gemini OCR
       const uploadRes = await fetch(`${apiUrl}/api/textbooks`, {
         method: 'POST',
         credentials: 'include',
+        headers: {
+          ...authHeaders
+        },
         body: formData
       });
 
@@ -289,7 +296,10 @@ export function useTextbookUpload() {
 
       const genRes = await fetch(`${apiUrl}/api/lessons/${lessonId}/generate`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...authHeaders
+        },
         credentials: 'include',
         body: JSON.stringify({
           textbookAssetId: textbook.id,
@@ -325,6 +335,9 @@ export function useTextbookUpload() {
       try {
         const audioRes = await fetch(`${apiUrl}/api/lessons/${lessonId}/audio`, {
           method: 'POST',
+          headers: {
+            ...authHeaders
+          },
           credentials: 'include'
         });
         const audioData = await audioRes.json();
@@ -344,6 +357,9 @@ export function useTextbookUpload() {
       let questionsCount = 3;
       try {
         const qRes = await fetch(`${apiUrl}/api/lessons/${lessonId}/questions`, {
+          headers: {
+            ...authHeaders
+          },
           credentials: 'include'
         });
         const qData = await qRes.json();
