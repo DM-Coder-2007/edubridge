@@ -18,6 +18,8 @@ const evaluationService = require('./evaluation.service');
 const aiMetadataRepository = require('../../repositories/aiMetadataRepository');
 const logger = require('../../utils/logger');
 
+const localOcrEngine = require('../../services/ocr/localOcrEngine');
+
 /**
  * Multimodal textbook OCR & diagram analysis
  *
@@ -82,22 +84,39 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
     };
   };
 
+  const tryLocalOcr = async () => {
+    if (imageBuffer && (Buffer.isBuffer(imageBuffer) ? imageBuffer.length > 0 : String(imageBuffer).length > 0)) {
+      try {
+        const buf = Buffer.isBuffer(imageBuffer) ? imageBuffer : Buffer.from(imageBuffer, 'base64');
+        const ocrResult = await localOcrEngine.extractAndStructure(buf, context);
+        if (ocrResult && ocrResult.rawText && ocrResult.rawText.length >= 5) {
+          logger.info(`[GeminiMultimodal] Local OCR extracted ${ocrResult.rawText.length} characters from image`);
+          return ocrResult;
+        }
+      } catch (err) {
+        logger.warn('[GeminiMultimodal] Local OCR extraction error:', err.message);
+      }
+    }
+    return null;
+  };
+
   if (client.isMockMode()) {
-    const mockResult = getStructuredFallback(context.title, context.subject, context.chapterTitle);
+    const localResult = await tryLocalOcr();
+    const resultToUse = localResult || getStructuredFallback(context.title, context.subject, context.chapterTitle);
 
     await aiMetadataRepository.record({
       entityType: 'TEXTBOOK_OCR',
       entityId,
-      modelName: `${client.getModelName()}-autonomous`,
+      modelName: localResult ? 'local-sharp-tesseract' : `${client.getModelName()}-autonomous`,
       promptTokens: 180,
       candidateTokens: 220,
       totalTokens: 400,
       latencyMs: Date.now() - startTime,
       promptPreview: typeof prompt === 'string' ? prompt.substring(0, 500) : '',
-      rawResponse: mockResult
+      rawResponse: resultToUse
     });
 
-    return mockResult;
+    return resultToUse;
   }
 
   try {
@@ -130,8 +149,9 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
 
     return parsed;
   } catch (err) {
-    logger.warn('[GeminiMultimodal] Live OCR extraction failed; activating autonomous fallback engine:', err.message);
-    const fallbackResult = getStructuredFallback(context.title, context.subject, context.chapterTitle);
+    logger.warn('[GeminiMultimodal] Live OCR extraction failed; attempting high-accuracy local OCR:', err.message);
+    const localResult = await tryLocalOcr();
+    const fallbackResult = localResult || getStructuredFallback(context.title, context.subject, context.chapterTitle);
     return fallbackResult;
   }
 }

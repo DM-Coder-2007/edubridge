@@ -25,6 +25,7 @@ const { normalizeOcrResult } = require('./ocr.schema');
 const mediaService = require('../media/media.service');
 const gemini = require('../../integrations/gemini');
 const databaseManager = require('../../database/snowflake/databaseManager');
+const localOcrEngine = require('./localOcrEngine');
 const logger = require('../../utils/logger');
 
 class OcrService {
@@ -401,7 +402,26 @@ class OcrService {
         examples: []
       };
     } catch (err) {
-      logger.warn(`[OcrService] Multimodal OCR integration error (${err.message}). Using resilient fallback structure.`);
+      logger.warn(`[OcrService] Multimodal OCR integration error (${err.message}). Using local OCR engine directly on image pixels.`);
+      try {
+        if (buffer && buffer.length > 0) {
+          const localResult = await localOcrEngine.extractAndStructure(buffer, { title, subject, chapterTitle });
+          if (localResult && localResult.rawText) {
+            return {
+              title: localResult.title || title,
+              rawText: localResult.rawText,
+              sections: localResult.sections || [],
+              concepts: localResult.concepts || [],
+              formulas: localResult.formulas || [],
+              examples: localResult.examples || [],
+              diagramDescriptions: localResult.diagramDescriptions || []
+            };
+          }
+        }
+      } catch (localErr) {
+        logger.warn('[OcrService] Fallback local OCR error:', localErr.message);
+      }
+
       return {
         title,
         rawText: `${title}. ${chapterTitle ? chapterTitle + ': ' : ''}Comprehensive multimodal study of ${subject || 'general curriculum'} concepts. Including foundational principles, interactive breakdown, and accessible sensory analogies.`,
