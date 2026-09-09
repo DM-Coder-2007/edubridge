@@ -181,6 +181,7 @@ function LoginForm() {
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
                       aria-label={showPassword ? 'Hide password text' : 'Show password text'}
+                      suppressHydrationWarning
                       style={{
                         background: 'none',
                         border: 'none',

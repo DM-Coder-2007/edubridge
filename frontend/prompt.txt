@@ -1,561 +1,127 @@
-URGENT: FIX CLOUDFLARE DEPLOYMENT — CURRENT ERROR IS "frontend/out NOT FOUND"
-
-The Next.js application build is now SUCCESSFUL.
-
-The remaining failure is ONLY in the Cloudflare deployment configuration.
-
-Current log:
-
-Finished
-
-Checking for configuration in a Wrangler configuration file
-
-Found wrangler.json file. Reading build configuration...
-
-A Wrangler configuration file was found but it does not appear to be valid.
-
-Note: No functions dir at /functions found. Skipping.
-
-Validating asset output directory
-
-Error: Output directory "frontend/out" not found.
-
-Failed: build output directory not found
-
-
-DO NOT REVERT THE PREVIOUS DYNAMIC-ROUTE FIX.
-
-DO NOT add:
-
-output: "export"
-
-back to next.config.mjs.
-
-DO NOT add fake generateStaticParams().
-
-DO NOT create a fake frontend/out directory.
-
-DO NOT copy .next files into out.
-
-DO NOT delete any pages.
-
-DO NOT delete any dynamic routes.
-
-The Next.js application MUST remain a dynamic Next.js application.
-
-====================================================
-WHY THIS IS HAPPENING
-====================================================
-
-The Next.js production build now succeeds because the static export restriction was removed.
-
-However Cloudflare is still configured as a CLOUDFLARE PAGES STATIC deployment and therefore expects:
-
-frontend/out
-
-That is incompatible with the current dynamic Next.js application.
-
-EduBridge contains runtime dynamic routes:
-
-/lessons/[lessonId]
-/lessons/[lessonId]/quiz
-/crops/[cropId]/edit
-
-Lesson IDs and other entity IDs are created dynamically after deployment.
-
-Therefore the final deployment MUST support runtime Next.js rendering.
-
-====================================================
-IMPORTANT: INSPECT BEFORE MODIFYING
-====================================================
-
-Inspect the actual repository.
-
-Frontend:
-
-frontend/
-
-Inspect:
-
-frontend/package.json
-frontend/next.config.mjs
-frontend/next.config.js
-frontend/wrangler.json
-frontend/wrangler.jsonc
-frontend/wrangler.toml
-
-Also inspect:
-
-frontend/node_modules/next/package.json
-
-and determine the exact installed Next.js version.
-
-Search for:
-
-output: "export"
-output: 'export'
-pages_build_output_dir
-frontend/out
-./out
-next export
-wrangler pages
-wrangler deploy
-vinext
-open-next
-
-Find EVERY place where "frontend/out" is being configured.
-
-DO NOT assume the current configuration is correct.
-
-====================================================
-CRITICAL: CURRENT CLOUDflare ARCHITECTURE
-====================================================
-
-The current deployment is still behaving like:
-
-Cloudflare Pages
-    ↓
-static build
-    ↓
-frontend/out
-
-That is NOT the architecture I want.
-
-The required architecture is:
-
-Cloudflare Workers
-       ↓
-Dynamic Next.js application
-       ↓
-Render Node.js/Express API
-       ↓
-Snowflake / Cloudinary / Gemini / Python AI
-
-
-====================================================
-USE CURRENT CLOUDFLARE RECOMMENDED NEXT.JS PATH
-====================================================
-
-Cloudflare currently recommends vinext for Next.js applications deployed to Cloudflare Workers.
-
-Use the current official vinext migration process.
-
-FIRST run from:
-
-frontend/
-
-the compatibility check:
-
-npx vinext check
-
-Do not blindly migrate before checking compatibility.
-
-Record the result.
-
-If compatible:
-
-migrate the existing application to vinext.
-
-The migration MUST be non-destructive.
-
-Preserve:
-
-app/
-components/
-lib/
-hooks/
-context/
-public/
-
-and all existing pages.
-
-DO NOT scaffold a new application.
-
-DO NOT replace the existing frontend.
-
-DO NOT create a second frontend.
-
-====================================================
-VERY IMPORTANT: EXISTING NEXT.JS VERSION
-====================================================
-
-The existing project currently uses an older Next.js version.
-
-DO NOT automatically upgrade Next.js to the latest version without checking compatibility.
-
-First inspect:
-
-npm list next
-
-Then inspect vinext compatibility.
-
-If vinext requires a Next.js upgrade, determine whether the upgrade is safe for this application.
-
-Do not perform a major framework upgrade blindly.
-
-If vinext cannot safely support the existing project because of a real compatibility blocker, use the Cloudflare OpenNext adapter as the fallback.
-
-Do NOT install both vinext and OpenNext simultaneously.
-
-Choose ONE deployment architecture.
-
-====================================================
-WRANGLER CONFIGURATION
-====================================================
-
-The current wrangler.json is causing Cloudflare to validate:
-
-frontend/out
-
-This indicates that it contains or is being interpreted as a Pages configuration.
-
-Inspect the file.
-
-If it contains:
-
-pages_build_output_dir
-
-remove the Pages configuration IF we are migrating this project to Workers.
-
-Do NOT use:
-
-pages_build_output_dir
-
-for the Workers deployment.
-
-Do NOT configure:
-
-frontend/out
-
-as the production output directory.
-
-A Workers deployment needs the correct Worker configuration generated by the selected Next.js Cloudflare adapter.
-
-Use the current official vinext/Workers configuration.
-
-====================================================
-PACKAGE.JSON
-====================================================
-
-Update frontend/package.json according to the selected Workers architecture.
-
-If using vinext, use the appropriate current scripts.
-
-The deployment must have a real production build and deployment process.
-
-Do NOT use:
-
-npm run dev
-
-for production.
-
-Do NOT use:
-
-nodemon
-
-for frontend production.
-
-The final production deployment must use the appropriate Cloudflare Workers deploy command.
-
-For vinext, verify the currently documented command, such as:
-
-npx @vinext/cloudflare deploy
-
-Do not invent commands.
-
-====================================================
-CLOUDFLARE DASHBOARD
-====================================================
-
-IMPORTANT:
-
-The existing Cloudflare project is behaving as a Pages project.
-
-Determine whether the current project is:
-
-1. Cloudflare Pages
-
-or
-
-2. Cloudflare Workers Builds.
-
-If it is still a Pages project configured for static output, DO NOT try to force the dynamic Worker application into the Pages "Build output directory" field.
-
-Use a Cloudflare Workers deployment for the dynamic Next.js application.
-
-The final Workers configuration should use:
-
-Root directory:
-
-frontend
-
-Build/deployment configuration appropriate for vinext.
-
-Do NOT configure:
-
-Build output directory = frontend/out
-
-because this is no longer a static Pages application.
-
-====================================================
-MONOREPO
-====================================================
-
-Repository:
-
-edubridge-adaptive/
-
-Structure:
-
-edubridge-adaptive/
-├── backend/
-└── frontend/
-
-The frontend project is:
-
-frontend/
-
-All Next.js/Cloudflare frontend commands must execute from:
-
-frontend/
-
-The configuration must locate:
-
-frontend/package.json
-
-Do not expect:
-
-/repo/package.json
-
-====================================================
-DYNAMIC ROUTES MUST REMAIN
-====================================================
-
-DO NOT DELETE:
-
-app/lessons/[lessonId]/
-app/lessons/[lessonId]/quiz/
-app/crops/[cropId]/edit/
-
-Verify the files physically exist after migration.
-
-These routes must continue to support arbitrary runtime IDs.
-
-For example:
-
-/lessons/lesson_123/quiz
-
-must work.
-
-Later:
-
-/lessons/lesson_999/quiz
-
-must work without rebuilding the frontend.
-
-====================================================
-DO NOT USE GENERATESTATICPARAMS AS A WORKAROUND
-====================================================
-
-Do not add:
-
-export async function generateStaticParams() {
-    return [];
-}
-
-Do not add fake IDs.
-
-Do not fetch all lessons at build time.
-
-Lessons are runtime/user-generated data.
-
-The deployed Worker must render the route dynamically.
-
-====================================================
-BACKEND
-====================================================
-
-Preserve the existing backend.
-
-Node.js + Express remains hosted on Render.
-
-Frontend calls:
-
-NEXT_PUBLIC_API_URL
-
-Local:
-
-NEXT_PUBLIC_API_URL=http://localhost:5000
-
-Production:
-
-NEXT_PUBLIC_API_URL=<ACTUAL_RENDER_BACKEND_URL>
-
-Do not hardcode localhost in production.
-
-Do not move Node.js into Cloudflare.
-
-====================================================
-DATABASE
-====================================================
-
-Preserve:
-
-Snowflake
-
-as the ONLY application database.
-
-Do NOT introduce:
-
-PostgreSQL
-MySQL
-MongoDB
-SQLite
-
-====================================================
-MEDIA / AI
-====================================================
-
-Preserve:
-
-Cloudinary
-Gemini
-Piper
-faster-whisper
-
-The frontend deployment migration must not modify these services unnecessarily.
-
-====================================================
-AUTHENTICATION
-====================================================
-
-Preserve:
-
-/login
-/signup
-/dashboard
-
-Do not make protected routes public.
-
-Do not remove JWT authentication.
-
-====================================================
-BUILD VERIFICATION
-====================================================
-
-After migration, run from frontend:
-
-npm install
-
-Then:
-
-npx vinext check
-
-if using vinext.
-
-Then run the official production build command.
-
-Verify the build succeeds.
-
-The output MUST NOT contain:
-
-missing "generateStaticParams()"
-
-or:
-
-cannot be used with "output: export"
-
-or:
-
-Output directory "frontend/out" not found
-
-====================================================
-CLOUDFLARE DEPLOYMENT VERIFICATION
-====================================================
-
-Before deploying, verify the project is recognized as a Worker rather than a Pages static site.
-
-Run the appropriate Wrangler/vinext deployment validation.
-
-Do NOT use:
-
-wrangler pages deploy
-
-for this dynamic Next.js Worker deployment.
-
-Use the correct Workers/vinext deployment command.
-
-====================================================
-TEST DYNAMIC ROUTES
-====================================================
-
-After deployment, test with a REAL lesson ID.
-
-Test:
-
-/
- /login
-/signup
-/dashboard
-/lessons/<REAL_LESSON_ID>
-/lessons/<REAL_LESSON_ID>/quiz
-/crops/<REAL_CROP_ID>/edit
-
-Then:
-
-1. Refresh each dynamic page.
-2. Open the exact dynamic URL directly in a new browser tab.
-3. Verify backend API calls work.
-4. Verify authentication still works.
-
-====================================================
-FINAL ACCEPTANCE CRITERIA
-====================================================
-
-The task is COMPLETE only when:
-
-[ ] Next.js build succeeds
-[ ] vinext compatibility was checked
-[ ] Correct Cloudflare Workers architecture is selected
-[ ] Static Pages deployment is no longer being used for this dynamic app
-[ ] No output: "export"
-[ ] No generateStaticParams workaround
-[ ] No frontend/out requirement
-[ ] Wrangler recognizes a Worker configuration
-[ ] Worker deployment succeeds
-[ ] /lessons/[lessonId] exists
-[ ] /lessons/[lessonId]/quiz exists
-[ ] /crops/[cropId]/edit exists
-[ ] /dashboard exists
-[ ] /login exists
-[ ] /signup exists
-[ ] No pages deleted
-[ ] No routes deleted
-[ ] Runtime lesson IDs work
-[ ] Direct URL navigation works
-[ ] Browser refresh works
-[ ] Backend API works
-[ ] Authentication works
-[ ] Snowflake remains primary database
-[ ] Render remains backend host
-[ ] Cloudinary remains media storage
-[ ] Gemini remains AI service
-[ ] Piper/faster-whisper remain intact
-
-MOST IMPORTANT:
-
-The current error is NOT a Next.js build error anymore.
-
-The current error is a CLOUDFLARE DEPLOYMENT CONFIGURATION ERROR.
-
-Do not fix it by creating frontend/out.
-
-Finish the migration from:
-
-Cloudflare Pages static export
-
-to:
-
-Cloudflare Workers + dynamic Next.js.
-
-Do not tell me it is fixed until the actual Cloudflare Worker deployment succeeds.
+## Error Type
+Console Error
+
+## Error Message
+A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HTTPAccessFallbackBoundary notFound={undefined} forbidden={undefined} unauthorized={undefined}>
+      <RedirectBoundary>
+        <RedirectErrorBoundary router={{...}}>
+          <InnerLayoutRouter url="/login?red..." tree={[...]} cacheNode={{lazyData:null, ...}} segmentPath={[...]}>
+            <SegmentViewNode type="page" pagePath="login/page...">
+              <SegmentTrieNode>
+              <ClientPageRoot Component={function LoginPage} searchParams={{redirect:"..."}} params={{}}>
+                <LoginPage params={Promise} searchParams={Promise}>
+                  <Suspense fallback={<div>}>
+                    <LoginForm>
+                      <div style={{...}}>
+                        <header style={{display:"flex", ...}}>
+                          <LinkComponent>
+                          <Button variant="outline" size="sm" ...>
+                            <button
+                              type="button"
+                              disabled={false}
+                              aria-disabled={false}
+                              aria-busy={false}
+                              aria-label="Toggle high contrast accessibility theme"
+                              onClick={function AccessibilityProvider.useCallback[toggleHighContrast]}
+                              className="btn btn-outline btn-sm"
+-                             fdprocessedid="pxlec"
+                            >
+                        ...
+                          <CardBody>
+                            <div className="card-body">
+                              <div>
+                              <form onSubmit={function handleSubmit} noValidate={true} className="stack">
+                                <Input label="Email Address" type="email" name="email" placeholder="student@ed..." ...>
+                                  <div className="form-group">
+                                    <label>
+                                    <div className="input-cont...">
+                                      <input
+                                        id="input-_R_3minebmnlb_"
+                                        name="email"
+                                        type="email"
+                                        value=""
+                                        onChange={function onChange}
+                                        placeholder="student@edubridge.org"
+                                        required={true}
+                                        disabled={false}
+                                        aria-invalid={false}
+                                        aria-describedby={undefined}
+                                        aria-label={undefined}
+                                        className="input-control"
+                                        autoComplete="email"
+-                                       fdprocessedid="yv86q5"
+                                      >
+                                <div style={{position:"..."}}>
+                                  <Input label="Password" type="password" name="password" placeholder="Enter your..." ...>
+                                    <div className="form-group">
+                                      <label>
+                                      <div className="input-cont...">
+                                        <input
+                                          id="input-_R_5minebmnlb_"
+                                          name="password"
+                                          type="password"
+                                          value=""
+                                          onChange={function onChange}
+                                          placeholder="Enter your password"
+                                          required={true}
+                                          disabled={false}
+                                          aria-invalid={false}
+                                          aria-describedby={undefined}
+                                          aria-label={undefined}
+                                          className="input-control"
+                                          autoComplete="current-password"
+-                                         fdprocessedid="r5yfo"
+                                        >
+                                        <span className="input-icon..." aria-hidden="true">
+                                          <button
+                                            type="button"
+                                            onClick={function onClick}
+                                            aria-label="Show password text"
+                                            style={{background:"none",border:"none",cursor:"pointer",color:"var(--text...",padding:"4px", ...}}
+-                                           fdprocessedid="uff64l"
+                                          >
+                                <div>
+                                <Button type="submit" variant="primary" fullWidth={true} loading={false}>
+                                  <button
+                                    type="submit"
+                                    disabled={false}
+                                    aria-disabled={false}
+                                    aria-busy={false}
+                                    aria-label={undefined}
+                                    onClick={undefined}
+                                    className="btn btn-primary btn-md btn-full"
+-                                   fdprocessedid="pgxeu"
+                                  >
+            ...
+          ...
+
+
+
+    at button (<anonymous>:null:null)
+    at Button (src\components\ui\Button.jsx:44:5)
+    at LoginForm (src\app\login\page.jsx:107:9)
+    at LoginPage (src\app\login\page.jsx:246:7)
+
+## Code Frame
+  42 |
+  43 |   return (
+> 44 |     <button
+     |     ^
+  45 |       type={type}
+  46 |       disabled={isDisabled}
+  47 |       aria-disabled={isDisabled}
+
+Next.js version: 15.5.24 (Webpack)

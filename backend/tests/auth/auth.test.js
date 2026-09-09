@@ -62,10 +62,10 @@ describe('Secure Authentication & Authorization Service', () => {
       expect(res.body.data.user.fullName).toBe(testStudent.fullName);
       expect(res.body.data.user.role).toBe('student');
 
-      // SECURITY RULES: Never expose plain-text password, passwordHash, or return token in body
+      // SECURITY RULES: Never expose plain-text password or passwordHash
       expect(res.body.data.user.passwordHash).toBeUndefined();
       expect(res.body.data.user.password).toBeUndefined();
-      expect(res.body.data.token).toBeUndefined();
+      expect(res.body.data.token).toBeDefined();
 
       // Check HttpOnly cookie
       const cookies = res.headers['set-cookie'];
@@ -190,7 +190,7 @@ describe('Secure Authentication & Authorization Service', () => {
       expect(res.body.data.user.id).toBe(createdStudentId);
       expect(res.body.data.user.email).toBe(testStudent.email.toLowerCase());
       expect(res.body.data.user.passwordHash).toBeUndefined();
-      expect(res.body.data.token).toBeUndefined();
+      expect(res.body.data.token).toBeDefined();
 
       // Check HttpOnly cookie
       const cookies = res.headers['set-cookie'];

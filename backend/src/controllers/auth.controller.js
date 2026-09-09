@@ -23,12 +23,13 @@ const SEVEN_DAYS_MS = 7 * 24 * 60 * 60 * 1000;
 /**
  * Returns security-hardened HttpOnly cookie options
  */
-function getCookieOptions() {
+function getCookieOptions(req) {
   const isProduction = process.env.NODE_ENV === 'production';
+  const isSecure = isProduction || Boolean(req?.secure) || req?.headers?.['x-forwarded-proto'] === 'https';
   return {
     httpOnly: true, // Prevents client-side scripts from accessing JWT (XSS protection)
-    secure: isProduction, // Ensures cookie is only transmitted over HTTPS in production
-    sameSite: isProduction ? 'strict' : 'lax', // CSRF mitigation
+    secure: isSecure, // Ensures cookie is only transmitted over HTTPS
+    sameSite: isSecure ? 'none' : 'lax', // 'none' allows cross-site cookies over HTTPS (Cloudflare to Render)
     maxAge: SEVEN_DAYS_MS,
     path: '/'
   };
@@ -62,13 +63,14 @@ class AuthController {
       });
 
       // Deliver JWT securely via HttpOnly cookie
-      res.cookie(COOKIE_NAME, token, getCookieOptions());
+      res.cookie(COOKIE_NAME, token, getCookieOptions(req));
 
       logger.info(`[AuthController] Signup successful for ${user.email} (${user.id})`);
 
-      // Send sanitized response - JWT is NOT exposed unnecessarily in response body
+      // Return authenticated user profile and token for resilient cross-origin client authorization
       return ApiResponse.success(res, 201, 'User registered successfully', {
-        user
+        user,
+        token
       });
     } catch (error) {
       logger.error('[AuthController] Signup failed:', error.message);
@@ -87,13 +89,14 @@ class AuthController {
       const { user, token } = await authService.login({ email, password });
 
       // Deliver JWT securely via HttpOnly cookie
-      res.cookie(COOKIE_NAME, token, getCookieOptions());
+      res.cookie(COOKIE_NAME, token, getCookieOptions(req));
 
       logger.info(`[AuthController] Login successful for ${user.email} (${user.id})`);
 
-      // Send sanitized response - JWT is NOT exposed unnecessarily in response body
+      // Return authenticated user profile and token for resilient cross-origin client authorization
       return ApiResponse.success(res, 200, 'Login successful', {
-        user
+        user,
+        token
       });
     } catch (error) {
       logger.error('[AuthController] Login failed:', error.message);
@@ -108,10 +111,11 @@ class AuthController {
   async logout(req, res, next) {
     try {
       const isProduction = process.env.NODE_ENV === 'production';
+      const isSecure = isProduction || Boolean(req?.secure) || req?.headers?.['x-forwarded-proto'] === 'https';
       res.clearCookie(COOKIE_NAME, {
         httpOnly: true,
-        secure: isProduction,
-        sameSite: isProduction ? 'strict' : 'lax',
+        secure: isSecure,
+        sameSite: isSecure ? 'none' : 'lax',
         path: '/'
       });
 

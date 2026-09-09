@@ -49,6 +49,7 @@ export default function Button({
       aria-label={ariaLabel}
       onClick={onClick}
       className={`btn ${variantClass} ${sizeClass} ${fullWidthClass} ${className}`.trim()}
+      suppressHydrationWarning
       {...rest}
     >
       {loading ? (

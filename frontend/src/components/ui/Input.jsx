@@ -87,6 +87,7 @@ export default function Input({
           aria-describedby={describedBy}
           aria-label={!label ? ariaLabelProp || placeholder : undefined}
           className={`input-control ${inputClassName}`.trim()}
+          suppressHydrationWarning
           {...rest}
         />
 

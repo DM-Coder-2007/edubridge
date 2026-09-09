@@ -51,6 +51,37 @@ class ApiClient {
   }
 
   /**
+   * Retrieve JWT auth token for Authorization header (resilient cross-origin auth)
+   */
+  getToken() {
+    if (typeof window !== 'undefined') {
+      try {
+        return localStorage.getItem('edubridge_token');
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  }
+
+  /**
+   * Set or clear stored JWT auth token
+   */
+  setToken(token) {
+    if (typeof window !== 'undefined') {
+      try {
+        if (token) {
+          localStorage.setItem('edubridge_token', token);
+        } else {
+          localStorage.removeItem('edubridge_token');
+        }
+      } catch (err) {
+        console.warn('Storage error for edubridge_token:', err);
+      }
+    }
+  }
+
+  /**
    * Clear in-memory response cache
    */
   clearCache(pattern) {
@@ -128,8 +159,10 @@ class ApiClient {
    * Raw request executor
    */
   async _executeRequest(url, endpoint, method, options) {
+    const token = this.getToken();
     const headers = {
       Accept: 'application/json',
+      ...(token ? { Authorization: `Bearer ${token}` } : {}),
       ...options.headers
     };
 
@@ -159,8 +192,9 @@ class ApiClient {
       }
 
       if (!response.ok) {
-        // Handle 401 Unauthorized: invalidate session caches and notify auth listeners
+        // Handle 401 Unauthorized: invalidate session caches, clear token and notify auth listeners
         if (response.status === 401) {
+          this.setToken(null);
           this.clearCache();
           if (typeof window !== 'undefined' && !endpoint.includes('/auth/me')) {
             window.dispatchEvent(new CustomEvent('edubridge:unauthorized', {

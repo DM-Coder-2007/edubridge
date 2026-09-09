@@ -20,20 +20,21 @@ const logger = require('../utils/logger');
  * @returns {string|null}
  */
 function extractToken(req) {
-  // 1. Primary: HttpOnly cookie
+  // 1. Primary: Authorization: Bearer <token> (explicit client authorization header)
+  const authHeader = req.headers.authorization || req.headers.Authorization;
+  if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
+    const bearer = authHeader.slice(7).trim();
+    if (bearer) return bearer;
+  }
+
+  // 2. Fallback: HttpOnly cookie
   if (req.cookies && (req.cookies.token || req.cookies.auth_token)) {
     return req.cookies.token || req.cookies.auth_token;
   }
 
-  // 2. Signed cookies
+  // 3. Fallback: Signed cookies
   if (req.signedCookies && (req.signedCookies.token || req.signedCookies.auth_token)) {
     return req.signedCookies.token || req.signedCookies.auth_token;
-  }
-
-  // 3. Fallback: Authorization: Bearer <token>
-  const authHeader = req.headers.authorization || req.headers.Authorization;
-  if (authHeader && typeof authHeader === 'string' && authHeader.startsWith('Bearer ')) {
-    return authHeader.slice(7).trim();
   }
 
   return null;

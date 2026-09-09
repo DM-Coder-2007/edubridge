@@ -27,10 +27,12 @@ export function AuthProvider({ children }) {
         setUser(data.user);
       } else {
         setUser(null);
+        apiClient.setToken(null);
       }
     } catch {
       // Not logged in or expired session
       setUser(null);
+      apiClient.setToken(null);
     } finally {
       setIsLoading(false);
     }
@@ -44,6 +46,7 @@ export function AuthProvider({ children }) {
   useEffect(() => {
     if (typeof window === 'undefined') return;
     const handleUnauthorized = () => {
+      apiClient.setToken(null);
       setUser(null);
       apiClient.clearCache();
     };
@@ -58,6 +61,9 @@ export function AuthProvider({ children }) {
     setIsLoading(true);
     try {
       const data = await apiClient.post(API_ENDPOINTS.AUTH_LOGIN, { email, password });
+      if (data && data.token) {
+        apiClient.setToken(data.token);
+      }
       if (data && data.user) {
         setUser(data.user);
       }
@@ -71,6 +77,9 @@ export function AuthProvider({ children }) {
     setIsLoading(true);
     try {
       const data = await apiClient.post(API_ENDPOINTS.AUTH_SIGNUP, payload);
+      if (data && data.token) {
+        apiClient.setToken(data.token);
+      }
       if (data && data.user) {
         setUser(data.user);
       }
@@ -86,6 +95,7 @@ export function AuthProvider({ children }) {
     } catch (err) {
       console.warn('Logout API error:', err);
     } finally {
+      apiClient.setToken(null);
       setUser(null);
       apiClient.clearCache();
     }

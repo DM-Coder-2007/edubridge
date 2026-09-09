@@ -25,6 +25,9 @@ const ApiResponse = require('./utils/apiResponse');
 
 const app = express();
 
+// Trust reverse proxy (Render / Cloudflare) for accurate client IP and secure cookies
+app.set('trust proxy', 1);
+
 // 1. Security HTTP Headers
 app.use(helmet());
 
