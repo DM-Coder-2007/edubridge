@@ -8,6 +8,7 @@ const nextConfig = {
   compress: true,
   poweredByHeader: false,
   images: {
+    unoptimized: true,
     remotePatterns: [
       {
         protocol: 'https',
