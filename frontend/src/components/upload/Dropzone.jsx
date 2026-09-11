@@ -10,7 +10,8 @@ export function Dropzone({
   onDragEnter,
   onDragLeave,
   onDragOver,
-  onDrop
+  onDrop,
+  onOpenCloudinaryWidget
 }) {
   const fileInputRef = useRef(null);
 
@@ -70,7 +71,7 @@ export function Dropzone({
         onDrop={onDrop}
         role="button"
         tabIndex={0}
-        aria-label="Upload textbook page scan. Press Enter or Space to open file picker, or drag and drop an image file here."
+        aria-label="Upload textbook page scan. Use the Cloudinary upload button, browse files, or drag and drop an image file here."
       >
         <input
           ref={fileInputRef}
@@ -95,7 +96,7 @@ export function Dropzone({
             {isDragging ? 'Drop your textbook scan here' : 'Scan or upload textbook page'}
           </div>
           <p className="text-body" style={{ color: 'var(--text-secondary)' }}>
-            Drag and drop your page scan or click anywhere in this area to browse
+            Upload via the Cloudinary Widget, drag & drop your page scan, or choose a file from your device
           </p>
         </div>
 
@@ -108,23 +109,46 @@ export function Dropzone({
           <Badge variant="primary">Min 100×100 px</Badge>
         </div>
 
-        <Button
-          type="button"
-          variant="outline"
-          size="md"
-          onClick={(e) => {
-            e.stopPropagation();
-            handleClick();
-          }}
-          aria-label="Browse files from device"
-        >
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-            <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <polyline points="21 15 16 10 5 21" />
-          </svg>
-          <span>Choose Image File</span>
-        </Button>
+        <div className="flex gap-3 flex-wrap items-center justify-center" style={{ marginTop: 'var(--spacing-2)' }}>
+          {onOpenCloudinaryWidget && (
+            <Button
+              type="button"
+              variant="primary"
+              size="md"
+              onClick={(e) => {
+                e.stopPropagation();
+                onOpenCloudinaryWidget();
+              }}
+              aria-label="Upload image using Cloudinary Upload Widget"
+              id="cloudinary-upload-widget-btn"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                <polyline points="12 12 12 16 12 12" />
+                <polyline points="9 13 12 10 15 13" />
+              </svg>
+              <span>Upload via Cloudinary Widget</span>
+            </Button>
+          )}
+
+          <Button
+            type="button"
+            variant="outline"
+            size="md"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleClick();
+            }}
+            aria-label="Browse files from device"
+          >
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+              <circle cx="8.5" cy="8.5" r="1.5" />
+              <polyline points="21 15 16 10 5 21" />
+            </svg>
+            <span>Choose Image File</span>
+          </Button>
+        </div>
       </div>
     </div>
   );

@@ -19,6 +19,7 @@ export const INITIAL_STEP_STATUSES = {
 export function useTextbookUpload() {
   const [status, setStatus] = useState('idle'); // idle | dragging | selected | uploading | processing | completed | failed
   const [file, setFile] = useState(null);
+  const [cloudinaryAsset, setCloudinaryAsset] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [imageDimensions, setImageDimensions] = useState(null);
   const [metadata, setMetadata] = useState({
@@ -96,6 +97,7 @@ export function useTextbookUpload() {
     async (selectedFile) => {
       setValidationError(null);
       setError(null);
+      setCloudinaryAsset(null);
 
       try {
         const dimensions = await validateFile(selectedFile);
@@ -132,6 +134,173 @@ export function useTextbookUpload() {
     },
     [validateFile, cleanPreviewUrl]
   );
+
+  /**
+   * Handle successful Cloudinary Widget upload
+   */
+  const handleCloudinarySuccess = useCallback(
+    (info) => {
+      if (!info) return;
+      cleanPreviewUrl();
+
+      const secureUrl = info.secure_url || info.url;
+      const publicId = info.public_id;
+      const rawFileName = info.original_filename || (publicId ? publicId.split('/').pop() : 'Textbook Scan');
+      const format = info.format || 'jpg';
+      const width = info.width;
+      const height = info.height;
+      const bytes = info.bytes;
+
+      setPreviewUrl(secureUrl);
+      if (width && height) {
+        setImageDimensions({ width, height });
+      }
+
+      setFile({
+        name: `${rawFileName}.${format}`,
+        size: bytes,
+        isCloudinary: true
+      });
+
+      setCloudinaryAsset({
+        secureUrl,
+        publicId,
+        originalFilename: rawFileName,
+        format,
+        width,
+        height,
+        bytes
+      });
+
+      // Pre-fill metadata title if empty
+      setMetadata((prev) => {
+        if (!prev.title || prev.title.trim() === '') {
+          const cleanName = rawFileName.replace(/[_-]+/g, ' ').trim();
+          return {
+            ...prev,
+            title: cleanName.charAt(0).toUpperCase() + cleanName.slice(1)
+          };
+        }
+        return prev;
+      });
+
+      setValidationError(null);
+      setError(null);
+      setStatus('selected');
+      setAnnouncement(`Image uploaded via Cloudinary: "${rawFileName}". Ready to generate lesson.`);
+    },
+    [cleanPreviewUrl]
+  );
+
+  /**
+   * Open the Cloudinary Upload Widget (with backend signature generation)
+   */
+  const openCloudinaryWidget = useCallback(() => {
+    if (typeof window === 'undefined') return;
+
+    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME || 'zl3hvhyb';
+    const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY || '321849792533288';
+    const uploadPreset = process.env.NEXT_PUBLIC_CLOUDINARY_UPLOAD_PRESET || 'edubridge';
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://edubridge-1-69f4.onrender.com';
+
+    const launchWidget = () => {
+      if (!window.cloudinary) {
+        setValidationError('Cloudinary widget library is still loading. Please try again.');
+        return;
+      }
+
+      try {
+        const widgetConfig = {
+          cloudName,
+          apiKey,
+          uploadPreset,
+          folder: 'edubridge/textbooks/raw',
+          sources: ['local', 'camera', 'url'],
+          multiple: false,
+          resourceType: 'image',
+          clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp', 'tiff', 'bmp'],
+          maxFileSize: 25000000,
+          cropping: false,
+          styles: {
+            palette: {
+              window: '#FFFFFF',
+              windowBorder: '#90A4AE',
+              tabIcon: '#2563EB',
+              menuIcons: '#5B6F82',
+              textDark: '#000000',
+              textLight: '#FFFFFF',
+              link: '#2563EB',
+              action: '#2563EB',
+              inProgress: '#3B82F6',
+              complete: '#10B981',
+              error: '#EF4444',
+              sourceBg: '#F8FAFC'
+            }
+          },
+          uploadSignature: (callback, paramsToSign) => {
+            const token = apiClient.getToken();
+            fetch(`${apiUrl}/api/media/signature`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+              },
+              credentials: 'include',
+              body: JSON.stringify(paramsToSign)
+            })
+              .then((res) => res.json())
+              .then((resData) => {
+                const sig = resData.data?.signature || resData.signature;
+                if (sig) {
+                  callback(sig);
+                } else {
+                  console.error('[CloudinaryWidget] Signature missing in response:', resData);
+                  callback('');
+                }
+              })
+              .catch((err) => {
+                console.error('[CloudinaryWidget] Signature fetch error:', err);
+                callback('');
+              });
+          }
+        };
+
+        const widget = window.cloudinary.createUploadWidget(
+          widgetConfig,
+          (err, result) => {
+            if (!err && result && result.event === 'success') {
+              handleCloudinarySuccess(result.info);
+            } else if (err) {
+              console.error('[CloudinaryWidget] Upload error:', err);
+              setValidationError(err.message || 'Error occurred during Cloudinary upload.');
+            }
+          }
+        );
+
+        widget.open();
+      } catch (widgetErr) {
+        console.error('[CloudinaryWidget] Widget launch error:', widgetErr);
+        setValidationError('Failed to initialize Cloudinary upload widget.');
+      }
+    };
+
+    if (window.cloudinary) {
+      launchWidget();
+    } else {
+      const existingScript = document.getElementById('cloudinary-widget-script');
+      if (!existingScript) {
+        const script = document.createElement('script');
+        script.id = 'cloudinary-widget-script';
+        script.src = 'https://upload-widget.cloudinary.com/global/all.js';
+        script.async = true;
+        script.onload = () => launchWidget();
+        script.onerror = () => setValidationError('Failed to load Cloudinary Upload Widget script.');
+        document.head.appendChild(script);
+      } else {
+        existingScript.addEventListener('load', launchWidget, { once: true });
+      }
+    }
+  }, [handleCloudinarySuccess]);
 
   /**
    * Drag and drop handlers
@@ -182,6 +351,7 @@ export function useTextbookUpload() {
   const handleRemoveFile = useCallback(() => {
     cleanPreviewUrl();
     setFile(null);
+    setCloudinaryAsset(null);
     setPreviewUrl(null);
     setImageDimensions(null);
     setValidationError(null);
@@ -203,8 +373,8 @@ export function useTextbookUpload() {
    * Start multi-stage upload & generation pipeline
    */
   const startUpload = useCallback(async () => {
-    if (!file) {
-      setValidationError('Please choose an image file to upload.');
+    if (!file && !cloudinaryAsset) {
+      setValidationError('Please choose an image file or upload via Cloudinary Widget.');
       return;
     }
 
@@ -231,38 +401,64 @@ export function useTextbookUpload() {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'https://edubridge-1-69f4.onrender.com';
 
     try {
-      // ------------------------------------------------------------------------
-      // STAGE 1: Upload textbook image -> Sharp preprocess -> Cloudinary -> Gemini OCR
-      // ------------------------------------------------------------------------
-      const formData = new FormData();
-      formData.append('image', file);
-      formData.append('title', metadata.title.trim());
-      formData.append('subject', metadata.subject.trim());
-      if (metadata.chapterTitle && metadata.chapterTitle.trim()) {
-        formData.append('chapterTitle', metadata.chapterTitle.trim());
-      }
-      if (metadata.gradeLevel) {
-        formData.append('gradeLevel', metadata.gradeLevel);
-      }
-
-      setStatus('processing');
-      updatedSteps.uploading = 'completed';
-      updatedSteps.preparing_image = 'active';
-      setStepStatuses({ ...updatedSteps });
-      setAnnouncement('Preparing image and optimizing resolution...');
-
       const token = apiClient.getToken();
       const authHeaders = token ? { Authorization: `Bearer ${token}` } : {};
 
-      // Note: POST /api/textbooks performs Sharp preprocessing, Cloudinary upload, and Gemini OCR
-      const uploadRes = await fetch(`${apiUrl}/api/textbooks`, {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          ...authHeaders
-        },
-        body: formData
-      });
+      let uploadRes;
+
+      if (cloudinaryAsset) {
+        // Direct Cloudinary Upload Flow: send asset details as JSON to backend
+        setStatus('processing');
+        updatedSteps.uploading = 'completed';
+        updatedSteps.preparing_image = 'active';
+        setStepStatuses({ ...updatedSteps });
+        setAnnouncement('Processing Cloudinary scan and extracting document text...');
+
+        uploadRes = await fetch(`${apiUrl}/api/textbooks`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            'Content-Type': 'application/json',
+            ...authHeaders
+          },
+          body: JSON.stringify({
+            imageUrl: cloudinaryAsset.secureUrl,
+            rawImageUrl: cloudinaryAsset.secureUrl,
+            rawImagePublicId: cloudinaryAsset.publicId,
+            title: metadata.title.trim(),
+            subject: metadata.subject.trim(),
+            chapterTitle: metadata.chapterTitle ? metadata.chapterTitle.trim() : null,
+            gradeLevel: metadata.gradeLevel
+          })
+        });
+      } else {
+        // Multipart Form Data File Upload Flow
+        const formData = new FormData();
+        formData.append('image', file);
+        formData.append('title', metadata.title.trim());
+        formData.append('subject', metadata.subject.trim());
+        if (metadata.chapterTitle && metadata.chapterTitle.trim()) {
+          formData.append('chapterTitle', metadata.chapterTitle.trim());
+        }
+        if (metadata.gradeLevel) {
+          formData.append('gradeLevel', metadata.gradeLevel);
+        }
+
+        setStatus('processing');
+        updatedSteps.uploading = 'completed';
+        updatedSteps.preparing_image = 'active';
+        setStepStatuses({ ...updatedSteps });
+        setAnnouncement('Preparing image and optimizing resolution...');
+
+        uploadRes = await fetch(`${apiUrl}/api/textbooks`, {
+          method: 'POST',
+          credentials: 'include',
+          headers: {
+            ...authHeaders
+          },
+          body: formData
+        });
+      }
 
       const uploadData = await uploadRes.json();
       if (!uploadRes.ok || !uploadData.success) {
@@ -393,7 +589,7 @@ export function useTextbookUpload() {
       setStatus('failed');
       setAnnouncement(`Upload failed: ${getReadableErrorMessage(err)}`);
     }
-  }, [file, metadata]);
+  }, [file, cloudinaryAsset, metadata]);
 
   /**
    * Retry upload with existing file and metadata
@@ -405,6 +601,7 @@ export function useTextbookUpload() {
   return {
     status,
     file,
+    cloudinaryAsset,
     previewUrl,
     imageDimensions,
     metadata,
@@ -422,6 +619,7 @@ export function useTextbookUpload() {
     handleRemoveFile,
     handleRetry,
     handleReset,
+    openCloudinaryWidget,
     startUpload
   };
 }

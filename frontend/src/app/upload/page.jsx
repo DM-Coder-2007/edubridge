@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Script from 'next/script';
 import { PageContainer } from '../../components/shell';
 import { ProtectedRoute } from '../../components/auth';
 import { Card, CardBody, Badge, Button } from '../../components/ui';
@@ -18,6 +19,7 @@ export default function UploadPage() {
   const {
     status,
     file,
+    cloudinaryAsset,
     previewUrl,
     imageDimensions,
     metadata,
@@ -35,11 +37,17 @@ export default function UploadPage() {
     handleRemoveFile,
     handleRetry,
     handleReset,
+    openCloudinaryWidget,
     startUpload
   } = useTextbookUpload();
 
   return (
     <ProtectedRoute>
+      <Script
+        id="cloudinary-widget-loader"
+        src="https://upload-widget.cloudinary.com/global/all.js"
+        strategy="afterInteractive"
+      />
       <PageContainer>
         <div className="stack-lg">
           {/* Accessible Screen Reader Announcer */}
@@ -84,6 +92,7 @@ export default function UploadPage() {
                   onDragLeave={handleDragLeave}
                   onDragOver={handleDragOver}
                   onDrop={handleDrop}
+                  onOpenCloudinaryWidget={openCloudinaryWidget}
                 />
 
                 {/* Scan Tips for Visually Impaired & Sighted Learners */}
@@ -177,12 +186,14 @@ export default function UploadPage() {
             {status === 'selected' && (
               <ImagePreview
                 file={file}
+                cloudinaryAsset={cloudinaryAsset}
                 previewUrl={previewUrl}
                 imageDimensions={imageDimensions}
                 metadata={metadata}
                 setMetadata={setMetadata}
                 validationError={validationError}
                 onReplaceFile={handleSelectFile}
+                onOpenCloudinaryWidget={openCloudinaryWidget}
                 onRemoveFile={handleRemoveFile}
                 onStartUpload={startUpload}
               />

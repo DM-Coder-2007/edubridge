@@ -5,12 +5,14 @@ import { Card, CardHeader, CardTitle, CardBody, Button, Input } from '../ui';
 
 export function ImagePreview({
   file,
+  cloudinaryAsset,
   previewUrl,
   imageDimensions,
   metadata,
   setMetadata,
   validationError,
   onReplaceFile,
+  onOpenCloudinaryWidget,
   onRemoveFile,
   onStartUpload
 }) {
@@ -43,6 +45,24 @@ export function ImagePreview({
       <CardHeader>
         <CardTitle>Selected Textbook Scan</CardTitle>
         <div className="flex gap-2">
+          {onOpenCloudinaryWidget && (
+            <Button
+              type="button"
+              variant="ghost"
+              size="sm"
+              onClick={onOpenCloudinaryWidget}
+              aria-label="Replace image via Cloudinary Widget"
+              title="Replace using Cloudinary Widget"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+                <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+                <polyline points="12 12 12 16 12 12" />
+                <polyline points="9 13 12 10 15 13" />
+              </svg>
+              <span>Cloudinary</span>
+            </Button>
+          )}
+
           <Button
             type="button"
             variant="ghost"
@@ -53,7 +73,7 @@ export function ImagePreview({
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67" />
             </svg>
-            <span>Replace</span>
+            <span>Replace File</span>
           </Button>
 
           <Button
@@ -104,16 +124,17 @@ export function ImagePreview({
               /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={previewUrl}
-                alt={`Preview of textbook page: ${file?.name || 'Selected scan'}`}
+                alt={`Preview of textbook page: ${file?.name || cloudinaryAsset?.originalFilename || 'Selected scan'}`}
                 className="upload-preview-img"
               />
             )}
             <div className="upload-preview-badge-overlay">
-              <span>{file?.name}</span>
+              <span>{file?.name || cloudinaryAsset?.originalFilename || 'Scan'}</span>
               {imageDimensions && (
                 <span> • {imageDimensions.width}×{imageDimensions.height}px</span>
               )}
               {file?.size && <span> • {formatFileSize(file.size)}</span>}
+              {cloudinaryAsset && <span> • Cloudinary</span>}
             </div>
           </div>
 
