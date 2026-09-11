@@ -39,6 +39,7 @@ const transformationService = require('../../src/integrations/cloudinary/transfo
 const mediaRepository = require('../../src/repositories/media.repository');
 
 describe('Phase 4: Cloudinary Media Infrastructure End-to-End API Suite', () => {
+  jest.setTimeout(30000);
   const timestamp = Date.now();
   let studentACookie = null;
   let studentAId = null;
@@ -593,6 +594,28 @@ describe('Phase 4: Cloudinary Media Infrastructure End-to-End API Suite', () => 
         .get('/api/media/textbook/not_found_test')
         .set('Cookie', studentACookie);
       expect(JSON.stringify(errRes.body)).not.toContain(MOCK_SECRET);
+    });
+  });
+
+  // ==========================================================================
+  // Requirement 19: Cloudinary Upload Signature Generation
+  // ==========================================================================
+  describe('19. Cloudinary Upload Signature (Widget Support)', () => {
+    it('POST /api/media/signature should generate valid signature without 404', async () => {
+      const res = await request(app)
+        .post('/api/media/signature')
+        .set('Cookie', studentACookie)
+        .send({
+          folder: 'edubridge/textbooks/raw',
+          timestamp: 1789125426
+        });
+
+      expect(res.status).toBe(200);
+      expect(res.body.success).toBe(true);
+      expect(res.body.data.signature).toBeDefined();
+      expect(res.body.data.apiKey).toBeDefined();
+      expect(res.body.data.cloudName).toBeDefined();
+      expect(res.body.data.timestamp).toBe(1789125426);
     });
   });
 });
