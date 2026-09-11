@@ -16,7 +16,7 @@ const express = require('express');
 const multer = require('multer');
 const router = express.Router();
 const mediaController = require('../controllers/media.controller');
-const { authenticate } = require('../middleware/auth.middleware');
+const { authenticate, optionalAuth } = require('../middleware/auth.middleware');
 const ApiResponse = require('../utils/apiResponse');
 
 // Multer memory storage configured with 50MB limit
@@ -62,6 +62,12 @@ function handleMediaUpload(fieldNames = ['image', 'file']) {
 // 1. Health Check Endpoint (Public)
 // --------------------------------------------------------------------------
 router.get('/health', (req, res, next) => mediaController.getHealth(req, res, next));
+
+// --------------------------------------------------------------------------
+// 1b. Cloudinary Upload Signature Endpoint (For Cloudinary Widget / Direct Uploads)
+// --------------------------------------------------------------------------
+router.post('/signature', optionalAuth, (req, res, next) => mediaController.getUploadSignature(req, res, next));
+router.get('/signature', optionalAuth, (req, res, next) => mediaController.getUploadSignature(req, res, next));
 
 // --------------------------------------------------------------------------
 // 2. Textbook Image Endpoints (Authenticated)

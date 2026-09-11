@@ -10,72 +10,53 @@ const Prompts = {
   /**
    * Prompt for Multimodal OCR and Diagram Spatial Description (Authoritative Image Source)
    */
-  textbookOcr: ({ title, subject, chapterTitle }) => `You are the visual content extraction engine for an educational application.
-Analyze the uploaded textbook/lesson image directly.
-The pixels in the uploaded image are the authoritative source.
+  textbookOcr: ({ title, subject, chapterTitle }) => `You are extracting educational content from the exact image supplied to you. Read ONLY the visible content in this image. Do not use outside knowledge. Do not infer a different textbook, lesson, chapter, subject, or topic. If text is unreadable, mark it as uncertain instead of inventing or substituting content.
 
-Extract only information that is visibly supported by the image.
-Do not assume the topic from the filename.
-Do not infer missing text.
-Do not fill unreadable areas using general knowledge.
-Do not invent facts.
-Do not invent headings.
-Do not invent examples.
-Do not invent diagrams.
-Do not invent labels.
-Do not invent formulas.
-If text is unreadable, explicitly mark it as unreadable or uncertain.
-If a diagram is present, describe only visible relationships and labels.
-If a chart is present, identify visible axes, labels, legends, values and trends.
-If a table is present, extract its visible rows and columns.
-If a mathematical expression is present, preserve it carefully.
-If the image contains multiple sections, preserve their order.
-If the page contains images alongside text, analyze both.
-
-DETERMINE CONTENT TYPE:
-Classify image into one of: TEXTBOOK_PAGE, DIAGRAM, CHART, GRAPH, TABLE, MATHEMATICAL_CONTENT, SCIENCE_FIGURE, MAP, INFOGRAPHIC, SLIDE, WORKSHEET, QUESTION_PAPER, HANDWRITTEN_NOTES, MIXED_CONTENT, OTHER.
+STRICT EXTRACTION RULES:
+- Read the actual page pixels directly.
+- Preserve the original meaning.
+- Preserve headings, subheadings, and section structure.
+- Preserve paragraphs, lists, definitions, and examples.
+- Preserve equations, formulas, and scientific notation (e.g. "He === > N to2" must NOT be omitted).
+- Preserve meaningful diagram labels, tables, and questions.
+- NEVER replace missing or unclear text with a similar-looking topic from another document.
+- EXCLUDE: Publisher logos, textbook branding, copyright notices, ISBN numbers, watermarks, decorative headers/footers.
 
 Respond ONLY with valid JSON conforming to this structure:
 {
   "title": "${title || 'Lesson Title'}",
-  "documentTitle": "${title || 'Textbook Page'}",
-  "pageNumber": null,
-  "contentType": "TEXTBOOK_PAGE",
-  "language": "en",
-  "headings": [],
-  "paragraphs": [],
-  "lists": [],
-  "keyTerms": [],
-  "definitions": [],
-  "examples": [],
-  "captions": [],
-  "figures": [],
-  "diagrams": [],
-  "tables": [],
-  "charts": [],
-  "formulas": [],
-  "labels": [],
-  "importantFacts": [],
-  "questions": [],
-  "uncertainContent": [],
-  "visualObservations": [],
-  "rawText": "Full plain extracted text...",
   "sections": [
-    { "heading": "Section Heading", "content": "Section text...", "orderIndex": 1 }
+    {
+      "heading": "Visible Heading or Title",
+      "content": [
+        {
+          "type": "paragraph",
+          "text": "Exact text extracted from this section..."
+        }
+      ],
+      "orderIndex": 1
+    }
   ],
   "concepts": [
-    { "name": "Concept Name", "description": "Clear explanation", "visualCue": "Spatial cue", "tactileAnalogy": "Everyday tactile analogy" }
+    {
+      "name": "Key concept name",
+      "description": "Explanation from page",
+      "visualCue": "Spatial location on page",
+      "tactileAnalogy": "Everyday tactile analogy for visually impaired students"
+    }
   ],
   "diagramDescriptions": [
     {
       "figureIndex": 1,
-      "caption": "Figure Caption",
-      "spatialLayout": "Top left to bottom right orientation...",
-      "tactileDescription": "Raised border with smooth interior...",
-      "audioDescription": "Detailed spoken description for screen reader..."
+      "caption": "Diagram caption",
+      "spatialLayout": "Top to bottom layout",
+      "tactileDescription": "Raised surface description",
+      "audioDescription": "Spoken description for screen reader"
     }
   ],
-  "confidenceScore": 0.95
+  "excludedContent": [],
+  "confidence": 0.95,
+  "needsReview": false
 }`,
 
   imageAnalysis: ({ title, subject, gradeLevel }) => `You are the visual content extraction engine for an educational application.

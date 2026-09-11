@@ -143,50 +143,86 @@ class LocalOcrEngine {
       };
     }
 
-    const lines = cleanRaw.split(/\r?\n/).map(l => l.trim()).filter(Boolean);
+    const rawLines = cleanRaw.split(/\r?\n/).map(l => l.trim());
 
     // 1. Detect Document Title and Section Headings
     let detectedTitle = defaultTitle;
-    const headings = [];
-    const paragraphBlocks = [];
-    let currentParagraph = [];
-
-    // Check if the very first line looks like a title
-    const firstLine = lines[0];
-    if (firstLine && firstLine.length < 90 && !firstLine.endsWith('.')) {
-      detectedTitle = firstLine.replace(/^[#*\-•\s]+/, '').trim();
+    const rawNonEmpty = rawLines.filter(Boolean);
+    if (rawNonEmpty.length > 0 && rawNonEmpty[0].length < 80 && !/[.,;]$/.test(rawNonEmpty[0])) {
+      detectedTitle = rawNonEmpty[0].replace(/^[#*\-•\s]+/, '').trim();
     }
 
-    for (let i = 0; i < lines.length; i++) {
-      const line = lines[i];
+    const sections = [];
+    let currentHeading = null;
+    let currentParagraphs = [];
+
+    for (let i = 0; i < rawLines.length; i++) {
+      const line = rawLines[i];
+      if (!line) continue;
 
       const isHeadingPattern = (
-        /^(chapter|section|unit|part|lesson|topic|\d+\.)/i.test(line) ||
-        (line.length < 65 && line === line.toUpperCase() && /[A-Z]/.test(line) && !line.endsWith('.')) ||
-        (line.length < 55 && !line.endsWith('.') && !line.endsWith(',') && (i === 0 || lines[i - 1] === ''))
+        line.length <= 60 &&
+        !/[.,;:]$/.test(line) &&
+        /^[A-Z0-9]/.test(line) &&
+        (
+          i === 0 ||
+          rawLines[i - 1] === '' ||
+          /^(chapter|section|part|unit|topic|problem|usage|vibe|cloudinary|[0-9]+\.)/i.test(line)
+        )
       );
 
-      if (isHeadingPattern && line.length < 80) {
-        const cleanHeading = line.replace(/^[#*\-•\s]+/, '').trim();
-        if (cleanHeading && !headings.includes(cleanHeading)) {
-          headings.push(cleanHeading);
+      if (isHeadingPattern) {
+        if (currentHeading) {
+          const bodyText = currentParagraphs.join(' ').trim();
+          if (bodyText) {
+            sections.push({
+              heading: currentHeading,
+              content: [
+                {
+                  type: 'paragraph',
+                  text: bodyText
+                }
+              ],
+              orderIndex: sections.length + 1
+            });
+          }
+          currentParagraphs = [];
         }
-        if (currentParagraph.length > 0) {
-          paragraphBlocks.push(currentParagraph.join(' '));
-          currentParagraph = [];
-        }
+        currentHeading = line.replace(/^[#*\-•\s]+/, '').trim();
       } else {
-        currentParagraph.push(line);
+        currentParagraphs.push(line);
       }
     }
 
-    if (currentParagraph.length > 0) {
-      paragraphBlocks.push(currentParagraph.join(' '));
+    if (currentHeading) {
+      const bodyText = currentParagraphs.join(' ').trim();
+      sections.push({
+        heading: currentHeading,
+        content: [
+          {
+            type: 'paragraph',
+            text: bodyText || currentHeading
+          }
+        ],
+        orderIndex: sections.length + 1
+      });
     }
 
-    if (headings.length === 0) {
-      headings.push(detectedTitle);
+    if (sections.length === 0) {
+      sections.push({
+        heading: detectedTitle,
+        content: [
+          {
+            type: 'paragraph',
+            text: cleanRaw
+          }
+        ],
+        orderIndex: 1
+      });
     }
+
+    const headings = sections.map(s => s.heading);
+    const paragraphBlocks = sections.map(s => s.content[0]?.text || '');
 
     // 2. Extract Key Vocabulary and Pedagogical Terms
     const termCandidates = cleanRaw.match(/\b[A-Z][a-z]{2,}(?:\s+[A-Z][a-z]{2,})*\b/g) || [];
@@ -208,25 +244,6 @@ class LocalOcrEngine {
     let keyTerms = sortedTerms.slice(0, 5);
     if (keyTerms.length === 0) {
       keyTerms = [detectedTitle, defaultSubject];
-    }
-
-    // 3. Build Structured Sections
-    const sections = [];
-    if (paragraphBlocks.length > 0) {
-      paragraphBlocks.forEach((block, idx) => {
-        const heading = headings[idx] || `${detectedTitle} - Part ${idx + 1}`;
-        sections.push({
-          heading,
-          content: block,
-          orderIndex: idx + 1
-        });
-      });
-    } else {
-      sections.push({
-        heading: detectedTitle,
-        content: cleanRaw,
-        orderIndex: 1
-      });
     }
 
     // 4. Form Concepts with Tactile and Sensory Analogies
@@ -283,9 +300,11 @@ class LocalOcrEngine {
       }
     ];
 
+    const effectiveTitle = context.title || detectedTitle;
+
     return {
-      title: detectedTitle,
-      documentTitle: detectedTitle,
+      title: effectiveTitle,
+      documentTitle: effectiveTitle,
       contentType: 'TEXTBOOK_PAGE',
       rawText: cleanRaw,
       extractedText: cleanRaw,
@@ -298,7 +317,10 @@ class LocalOcrEngine {
       formulas,
       examples,
       diagramDescriptions,
-      confidenceScore: Math.min(0.98, Math.max(0.85, confidenceScore))
+      excludedContent: [],
+      confidence: Math.min(0.98, Math.max(0.85, confidenceScore)),
+      overallConfidence: Math.min(0.98, Math.max(0.85, confidenceScore)),
+      needsReview: false
     };
   }
 

@@ -127,6 +127,104 @@ class OcrValidator {
       throw new ValidationError('OCR result must contain an array of examples');
     }
   }
+
+  /**
+   * Distinguishes lesson content from extraneous noise (Section 7)
+   * Keeps: headings, subheadings, paragraphs, definitions, formulas, scientific notation
+   * Excludes: publisher logos, textbook branding, copyright notices, ISBN, watermarks
+   * Preserves unusual scientific notation such as "He === > N to2"
+   *
+   * @param {object} structuredResult
+   * @returns {object} Sanitized result with excludedContent list
+   */
+  sanitizeAndValidateExtractedContent(structuredResult) {
+    if (!structuredResult) return structuredResult;
+
+    const excludedList = [];
+    const copyrightPatterns = [
+      /\bcopyright\s*(?:©|\(c\))?\s*\d{4}/i,
+      /\ball rights reserved\b/i,
+      /\bisbn(?:-1[03])?:\s*[0-9-x]+/i,
+      /\bprinted in\s+[a-z\s]+/i,
+      /\bpublished by\s+[a-z\s]+/i
+    ];
+
+    if (Array.isArray(structuredResult.sections)) {
+      structuredResult.sections = structuredResult.sections.filter(sec => {
+        const headingText = (sec.heading || '').trim();
+        const isExcluded = copyrightPatterns.some(pattern => pattern.test(headingText));
+        if (isExcluded) {
+          excludedList.push(`Header/Branding: ${headingText}`);
+          return false;
+        }
+        return true;
+      });
+    }
+
+    structuredResult.excludedContent = [
+      ...(Array.isArray(structuredResult.excludedContent) ? structuredResult.excludedContent : []),
+      ...excludedList
+    ];
+
+    return structuredResult;
+  }
+
+  /**
+   * Validates that the extracted result is grounded in the actual document image (Section 9)
+   * Rejects ungrounded synthetic biology placeholders when context or image is unrelated.
+   *
+   * @param {object} structuredResult
+   * @param {object} [context={}]
+   * @returns {{ isValid: boolean, groundingScore: number, needsReview: boolean, reason?: string }}
+   */
+  validateExtractionGrounding(structuredResult, context = {}) {
+    if (!structuredResult) {
+      return { isValid: false, groundingScore: 0, reason: 'Empty OCR result', needsReview: true };
+    }
+
+    const raw = (structuredResult.rawText || '').trim();
+    if (raw.length < 15) {
+      return {
+        isValid: false,
+        groundingScore: 0.1,
+        reason: 'Extracted text is too short or unreadable (< 15 characters)',
+        needsReview: true
+      };
+    }
+
+    // Check for cellular biology hallucination leak when title/subject is not biology
+    const biologyKeywords = [
+      'cellular structures consist of distinct membrane-bound compartments',
+      'mitochondria are the powerhouse',
+      'chloroplasts carry out photosynthesis',
+      'endoplasmic reticulum'
+    ];
+
+    const lowerRaw = raw.toLowerCase();
+    const isSuspectBiology = biologyKeywords.some(kw => lowerRaw.includes(kw));
+
+    const contextTitle = (context.title || structuredResult.title || '').toLowerCase();
+    const contextSubject = (context.subject || '').toLowerCase();
+    const isLegitBiologyContext = contextTitle.includes('cell') ||
+      contextTitle.includes('biology') ||
+      contextSubject.includes('biology') ||
+      contextSubject.includes('cell');
+
+    if (isSuspectBiology && !isLegitBiologyContext) {
+      return {
+        isValid: false,
+        groundingScore: 0.1,
+        reason: 'Grounding failure: Extracted content contains unrelated cellular biology placeholder.',
+        needsReview: true
+      };
+    }
+
+    return {
+      isValid: true,
+      groundingScore: 0.95,
+      needsReview: false
+    };
+  }
 }
 
 const ocrValidator = new OcrValidator();

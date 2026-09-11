@@ -40,13 +40,16 @@ class TextbookController {
         mimeType = req.body.mimeType || 'image/jpeg';
       }
 
+      const targetUrl = req.body.imageUrl || req.body.rawImageUrl || req.body.url || req.body.secure_url;
+      const targetPublicId = req.body.rawImagePublicId || req.body.publicId;
+
       // If buffer or URL provided, run through OCR pipeline service
-      if (imageBuffer || req.body.rawImageUrl || req.body.imageUrl) {
+      if (imageBuffer || targetUrl) {
         logger.info(`[TextbookController] Processing textbook image for user ${req.user.id}: "${title}"`);
         const result = await ocrService.processTextbookImage({
           buffer: imageBuffer,
-          imageUrl: req.body.imageUrl || req.body.rawImageUrl,
-          rawImageUrl: req.body.rawImageUrl || req.body.imageUrl,
+          imageUrl: targetUrl,
+          rawImageUrl: targetUrl,
           userId: req.user.id,
           title: title.trim(),
           subject: subject.trim(),
@@ -61,12 +64,23 @@ class TextbookController {
           subject: subject.trim(),
           gradeLevel: gradeLevel || req.user.gradeLevel,
           chapterTitle: chapterTitle ? chapterTitle.trim() : null,
-          rawImageUrl: result.media?.rawImageUrl || req.body.rawImageUrl || 'https://res.cloudinary.com/edubridge/image/upload/sample.jpg',
-          rawImagePublicId: `edubridge/textbooks/raw/raw_${result.assetId || Date.now()}`,
+          rawImageUrl: result.media?.rawImageUrl || targetUrl || 'https://res.cloudinary.com/edubridge/image/upload/sample.jpg',
+          rawImagePublicId: targetPublicId || (result.media?.publicId) || `edubridge/textbooks/raw/raw_${result.assetId || Date.now()}`,
           processedImageUrl: result.media?.processedImageUrl,
           accessibleImageUrl: result.media?.accessibleImageUrl,
           processingStatus: result.status || 'COMPLETED',
-          metadata: result.structuredOcr || {}
+          metadata: {
+            ...(result.structuredOcr || {}),
+            rawText: result.structuredOcr?.rawText
+          }
+        });
+
+        // Structured Debugging Log (UPLOAD requirement - Section 11)
+        logger.info('[OCR_DEBUG][UPLOAD]', {
+          lessonId: req.body.lessonId || null,
+          assetId: created.id || result.assetId,
+          rawImagePublicId: created.rawImagePublicId,
+          rawImageUrl: created.rawImageUrl
         });
 
         return ApiResponse.success(res, 201, 'Textbook uploaded and OCR pipeline completed', {
@@ -75,24 +89,7 @@ class TextbookController {
         });
       }
 
-      // If no file but URL provided or placeholder created
-      const rawImageUrl = req.body.rawImageUrl || 'https://res.cloudinary.com/edubridge/image/upload/v1/sample_textbook.jpg';
-      const rawImagePublicId = req.body.rawImagePublicId || `edubridge/textbooks/raw/txt_${Date.now()}`;
-
-      const created = await mediaRepository.create({
-        userId: req.user.id,
-        title: title.trim(),
-        subject: subject.trim(),
-        gradeLevel: gradeLevel || req.user.gradeLevel,
-        chapterTitle: chapterTitle ? chapterTitle.trim() : null,
-        rawImageUrl,
-        rawImagePublicId,
-        processingStatus: 'COMPLETED'
-      });
-
-      return ApiResponse.success(res, 201, 'Textbook created successfully', {
-        textbook: created
-      });
+      throw new ValidationError('An image file or Cloudinary image URL is required to process textbook.');
     } catch (error) {
       logger.error('[TextbookController] uploadTextbook failed:', error.message);
       next(error);

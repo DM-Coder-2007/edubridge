@@ -101,7 +101,7 @@ class SyntheticGenerator {
       contentType: 'TEXTBOOK_PAGE',
       rawText: `${title}. Core instructional content for ${subject}. Comprehensive study of foundational concepts and interactive physical principles.`,
       extractedText: `${title}. Core instructional content for ${subject}. Comprehensive study of foundational concepts and interactive physical principles.`,
-      headings: [title, `${title} - Core Principles`],
+      headings: [title, `${title} - Overview`],
       paragraphs: [
         `This curriculum page focuses on ${title} within ${subject}.`,
         'Multimodal descriptions and sensory analogies are provided for multisensory learners.'
@@ -110,7 +110,7 @@ class SyntheticGenerator {
       confidenceScore: 0.95,
       sections: [
         {
-          heading: `${title} - Core Principles`,
+          heading: `${title} - Overview`,
           content: `In-depth exploration of ${subject} fundamentals, structured for accessible learning.`,
           orderIndex: 1
         }
@@ -236,13 +236,28 @@ class SyntheticGenerator {
         analogy: analogies[0]?.analogy || 'A clear raised tactile shape with distinct boundaries.',
         additionalContext: `Scaffolded for accessible multisensory learning in ${subject}.`
       },
-      sections: [
-        {
-          sectionTitle: `${title} - Core Principles`,
-          content: simplifiedText,
-          sourceReferences: [{ type: 'paragraph', index: 1 }]
-        }
-      ],
+      sections: paragraphs.length > 1
+        ? paragraphs.map((p, idx) => {
+            const firstLine = p.split('\n')[0].trim();
+            const heading = (firstLine.length < 50 && !/[.,;]$/.test(firstLine))
+              ? firstLine
+              : (idx === 0 ? title : `${title} - Part ${idx + 1}`);
+            const contentText = (firstLine === heading && p.includes('\n'))
+              ? p.slice(firstLine.length).trim()
+              : p;
+            return {
+              sectionTitle: heading,
+              content: contentText || heading,
+              sourceReferences: [{ type: 'paragraph', index: idx + 1 }]
+            };
+          })
+        : [
+            {
+              sectionTitle: title,
+              content: simplifiedText,
+              sourceReferences: [{ type: 'paragraph', index: 1 }]
+            }
+          ],
       concepts,
       analogies,
       examples: [

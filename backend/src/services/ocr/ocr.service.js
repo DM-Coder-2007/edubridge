@@ -19,6 +19,8 @@
  */
 
 const { v4: uuidv4 } = require('uuid');
+const crypto = require('crypto');
+const sharp = require('sharp');
 const imagePreprocessor = require('./imagePreprocessor');
 const ocrValidator = require('./ocr.validator');
 const { normalizeOcrResult } = require('./ocr.schema');
@@ -71,27 +73,49 @@ class OcrService {
       try {
         const res = await fetch(targetUrl);
         if (!res.ok) {
-          throw new ImageRetrievalError(`Cloudinary returned HTTP ${res.status}: ${res.statusText}`);
+          throw new Error(`Cloudinary returned HTTP ${res.status}: ${res.statusText}`);
         }
         const contentType = res.headers.get('content-type') || 'image/jpeg';
         if (contentType.includes('html') || contentType.includes('json') || !contentType.startsWith('image/')) {
-          throw new ImageRetrievalError(`Cloudinary URL returned invalid non-image content-type "${contentType}"`);
+          throw new Error(`Cloudinary URL returned invalid non-image content-type "${contentType}"`);
         }
         activeMime = contentType;
         const arrayBuf = await res.arrayBuffer();
         buffer = Buffer.from(arrayBuf);
       } catch (fetchErr) {
         logger.error(`[OcrService] Image retrieval failed from Cloudinary: ${fetchErr.message}`);
-        if (fetchErr instanceof ImageRetrievalError) throw fetchErr;
-        throw new ImageRetrievalError(`Failed to download image from Cloudinary: ${fetchErr.message}`);
+        throw new Error(`Failed to download image from Cloudinary: ${fetchErr.message}`);
       }
     }
+
+    if (!buffer || buffer.length === 0) {
+      throw new Error('No image buffer or reachable image URL was provided for OCR processing.');
+    }
+
+    // Binary Image Verification: SHA-256 hash & dimensions
+    const imageHash = crypto.createHash('sha256').update(buffer).digest('hex');
+    let sharpMeta = { width: 0, height: 0 };
+    try {
+      sharpMeta = await sharp(buffer).metadata();
+    } catch (sharpErr) {
+      logger.warn('[OcrService] Could not parse Sharp image dimensions:', sharpErr.message);
+    }
+
+    // Structured Debugging Log (FETCH requirement - Section 11)
+    logger.info('[OCR_DEBUG][FETCH]', {
+      requestedUrl: targetUrl || 'DIRECT_BUFFER_UPLOAD',
+      httpStatus: 200,
+      contentType: activeMime,
+      imageSize: buffer.length,
+      dimensions: { width: sharpMeta.width || 0, height: sharpMeta.height || 0 },
+      imageHash
+    });
 
     logger.info(`[OcrService] Starting OCR processing pipeline for asset: ${assetId}`, {
       userId,
       title,
       subject,
-      bytes: buffer ? buffer.length : 0,
+      bytes: buffer.length,
       mimeType: activeMime
     });
 
@@ -210,7 +234,37 @@ class OcrService {
         resolution: preprocessed.metadata.original
       });
 
+      // Remove publisher/branding noise while preserving formulas/notation (Section 7)
+      ocrValidator.sanitizeAndValidateExtractedContent(structuredResult);
       ocrValidator.validateStructuredResult(structuredResult);
+
+      // Critical Grounding Validation (Section 9)
+      const groundingCheck = ocrValidator.validateExtractionGrounding(structuredResult, {
+        title,
+        subject,
+        chapterTitle
+      });
+
+      const characterCount = structuredResult.rawText ? structuredResult.rawText.length : 0;
+      const detectedConfidence = structuredResult.overallConfidence || structuredResult.qualityMetrics?.confidenceScore || 0.95;
+      const needsReview = !groundingCheck.isValid || Boolean(structuredResult.needsReview);
+
+      // Structured Debugging Log (VALIDATION requirement - Section 11)
+      logger.info('[OCR_DEBUG][VALIDATION]', {
+        extractedCharacterCount: characterCount,
+        detectedTitle: structuredResult.title,
+        confidence: detectedConfidence,
+        groundingValidationResult: groundingCheck.isValid ? 'PASSED' : 'FAILED',
+        needsReview
+      });
+
+      if (!groundingCheck.isValid) {
+        await this._updateStatus(assetId, 'NEEDS_REVIEW', {
+          OCR_EXTRACTED_TEXT: structuredResult.rawText,
+          ERROR_MESSAGE: groundingCheck.reason
+        });
+        throw new Error(`Extraction grounding validation failed: ${groundingCheck.reason}`);
+      }
 
       // ----------------------------------------------------------------------
       // Step 8: Persist Final Structured Results to Snowflake
@@ -376,83 +430,30 @@ class OcrService {
    * @private
    */
   async _invokeGeminiOcr(buffer, { title, subject, chapterTitle, entityId, mimeType = 'image/jpeg' }) {
-    try {
-      // Calls gemini multimodal integration
-      const rawResult = await gemini.extractAndUnderstandTextbook(buffer, mimeType, entityId, { title, subject, chapterTitle });
+    // Calls gemini multimodal integration
+    const rawResult = await gemini.extractAndUnderstandTextbook(buffer, mimeType, entityId, { title, subject, chapterTitle });
 
-      // If result is already an object, return it
-      if (rawResult && typeof rawResult === 'object') {
-        return {
-          title: rawResult.title || title,
-          rawText: rawResult.extractedText || rawResult.rawText || '',
-          sections: rawResult.sections || [],
-          concepts: rawResult.concepts || (rawResult.keyTopics ? rawResult.keyTopics.map(t => ({ name: t, description: '' })) : []),
-          formulas: rawResult.formulas || [],
-          examples: rawResult.examples || [],
-          diagramDescriptions: rawResult.diagramDescriptions || []
-        };
-      }
-
+    // If result is already an object, return it
+    if (rawResult && typeof rawResult === 'object') {
       return {
-        title,
-        rawText: String(rawResult),
-        sections: [],
-        concepts: [],
-        formulas: [],
-        examples: []
-      };
-    } catch (err) {
-      logger.warn(`[OcrService] Multimodal OCR integration error (${err.message}). Using local OCR engine directly on image pixels.`);
-      try {
-        if (buffer && buffer.length > 0) {
-          const localResult = await localOcrEngine.extractAndStructure(buffer, { title, subject, chapterTitle });
-          if (localResult && localResult.rawText) {
-            return {
-              title: localResult.title || title,
-              rawText: localResult.rawText,
-              sections: localResult.sections || [],
-              concepts: localResult.concepts || [],
-              formulas: localResult.formulas || [],
-              examples: localResult.examples || [],
-              diagramDescriptions: localResult.diagramDescriptions || []
-            };
-          }
-        }
-      } catch (localErr) {
-        logger.warn('[OcrService] Fallback local OCR error:', localErr.message);
-      }
-
-      return {
-        title,
-        rawText: `${title}. ${chapterTitle ? chapterTitle + ': ' : ''}Comprehensive multimodal study of ${subject || 'general curriculum'} concepts. Including foundational principles, interactive breakdown, and accessible sensory analogies.`,
-        sections: [
-          {
-            heading: `${title} - Core Principles`,
-            content: `An in-depth exploration of ${subject} fundamentals, structured for accessible learning with tactile analogies and audio narration.`,
-            orderIndex: 1
-          }
-        ],
-        concepts: [
-          {
-            name: title,
-            description: `Key concept in ${subject || 'general science'}.`,
-            visualCue: 'Central highlighted diagram area',
-            tactileAnalogy: 'A distinct tactile surface with structured borders.'
-          }
-        ],
-        formulas: [],
-        examples: [
-          {
-            title: `Application of ${title}`,
-            problem: `How do we apply ${title} in practical scenarios?`,
-            solution: `By observing the structural principles and interacting with guided multimodal analogies.`
-          }
-        ],
-        diagramDescriptions: [
-          `Visual and tactile diagram for ${title}: Clear spatial orientation displaying structural components and relationship hierarchy.`
-        ]
+        title: rawResult.title || title,
+        rawText: rawResult.extractedText || rawResult.rawText || '',
+        sections: rawResult.sections || [],
+        concepts: rawResult.concepts || (rawResult.keyTopics ? rawResult.keyTopics.map(t => ({ name: t, description: '' })) : []),
+        formulas: rawResult.formulas || [],
+        examples: rawResult.examples || [],
+        diagramDescriptions: rawResult.diagramDescriptions || []
       };
     }
+
+    return {
+      title,
+      rawText: String(rawResult),
+      sections: [],
+      concepts: [],
+      formulas: [],
+      examples: []
+    };
   }
 
   /**

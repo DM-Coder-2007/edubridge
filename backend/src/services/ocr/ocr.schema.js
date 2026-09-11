@@ -51,18 +51,38 @@ function normalizeOcrResult(rawOutput = {}, extraContext = {}) {
 
   // 3. Sections
   if (Array.isArray(rawOutput.sections)) {
-    result.sections = rawOutput.sections.map((sec, idx) => ({
-      heading: String(sec.heading || sec.title || `Section ${idx + 1}`).trim(),
-      content: String(sec.content || sec.text || sec.body || '').trim(),
-      orderIndex: typeof sec.orderIndex === 'number' ? sec.orderIndex : idx + 1
-    }));
+    result.sections = rawOutput.sections.map((sec, idx) => {
+      let content = sec.content !== undefined ? sec.content : (sec.text !== undefined ? sec.text : (sec.body || ''));
+      let textContent = '';
+      if (Array.isArray(content)) {
+        textContent = content
+          .map(item => (typeof item === 'object' && item !== null ? (item.text || JSON.stringify(item)) : String(item)))
+          .join('\n\n')
+          .trim();
+      } else {
+        textContent = String(content || '').trim();
+      }
+
+      return {
+        heading: String(sec.heading || sec.title || `Section ${idx + 1}`).trim(),
+        content: textContent,
+        structuredContent: Array.isArray(content) ? content : [{ type: 'paragraph', text: textContent }],
+        orderIndex: typeof sec.orderIndex === 'number' ? sec.orderIndex : idx + 1
+      };
+    });
   } else if (result.rawText) {
     // If raw sections weren't explicitly split by Gemini, create a primary section
     result.sections = [{
       heading: result.title,
       content: result.rawText,
+      structuredContent: [{ type: 'paragraph', text: result.rawText }],
       orderIndex: 1
     }];
+  }
+
+  // Synthesize rawText from sections if rawText was empty
+  if (!result.rawText && result.sections.length > 0) {
+    result.rawText = result.sections.map(s => `${s.heading}\n\n${s.content}`).join('\n\n').trim();
   }
 
   // 4. Concepts
@@ -147,6 +167,13 @@ function normalizeOcrResult(rawOutput = {}, extraContext = {}) {
       height: extraContext.resolution?.height || 0
     }
   };
+
+  // 9. Additional Structured Metadata (Requirement 8)
+  result.excludedContent = Array.isArray(rawOutput.excludedContent) ? rawOutput.excludedContent : [];
+  result.needsReview = Boolean(rawOutput.needsReview);
+  result.overallConfidence = typeof rawOutput.overallConfidence === 'number'
+    ? rawOutput.overallConfidence
+    : (typeof rawOutput.confidence === 'number' ? rawOutput.confidence : result.qualityMetrics.confidenceScore);
 
   return result;
 }

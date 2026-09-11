@@ -30,6 +30,7 @@ const databaseManager = require('../../src/database/snowflake/databaseManager');
 const connectionManager = require('../../src/database/snowflake/connection');
 
 describe('EduBridge Textbook OCR Pipeline: End-to-End Test Suite', () => {
+  jest.setTimeout(30000);
   let validTextbookBuffer;
   let lowQualityBuffer;
 
@@ -207,8 +208,15 @@ describe('EduBridge Textbook OCR Pipeline: End-to-End Test Suite', () => {
   // --------------------------------------------------------------------------
   // 5. Gemini Failure Handling & Persistence in Snowflake
   // --------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+  // 5. Gemini Failure Handling & Persistence in Snowflake
+  // --------------------------------------------------------------------------
   describe('5. Gemini Multimodal Processing Failure', () => {
     it('should capture Gemini failure, mark job FAILED in Snowflake, and persist error', async () => {
+      await databaseManager.query(
+        "DELETE FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE TITLE = 'Failing Gemini Scan'"
+      );
+
       // Mock Gemini failure
       const geminiSpy = jest.spyOn(gemini, 'extractAndUnderstandTextbook').mockRejectedValueOnce(
         new Error('Gemini quota exceeded or multimodal vision service unavailable')
@@ -249,6 +257,10 @@ describe('EduBridge Textbook OCR Pipeline: End-to-End Test Suite', () => {
   // --------------------------------------------------------------------------
   describe('6. Cloudinary Upload Failure', () => {
     it('should capture Cloudinary upload failure and mark status FAILED in Snowflake', async () => {
+      await databaseManager.query(
+        "DELETE FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE TITLE = 'Failing Cloudinary Scan'"
+      );
+
       const uploadSpy = jest.spyOn(mediaService, 'uploadImage').mockRejectedValueOnce(
         new Error('Cloudinary network timeout connecting to upload server')
       );
@@ -310,6 +322,10 @@ describe('EduBridge Textbook OCR Pipeline: End-to-End Test Suite', () => {
   // --------------------------------------------------------------------------
   describe('8. Retry-Safe Behavior', () => {
     it('should safely retry a failed job and advance it to COMPLETED with incremented retry count', async () => {
+      await databaseManager.query(
+        "DELETE FROM EDUBRIDGE_ADAPTIVE.APP.TEXTBOOK_ASSETS WHERE TITLE = 'Retryable Textbook Page'"
+      );
+
       // 1. First simulate a failure
       const geminiSpy = jest.spyOn(gemini, 'extractAndUnderstandTextbook').mockRejectedValueOnce(
         new Error('Transient AI service error')

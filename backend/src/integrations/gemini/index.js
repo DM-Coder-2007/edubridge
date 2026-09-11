@@ -84,6 +84,17 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
     };
   };
 
+  const hasImage = Boolean(
+    imageBuffer && (Buffer.isBuffer(imageBuffer) ? imageBuffer.length > 0 : String(imageBuffer).length > 0)
+  );
+
+  // Structured Debugging Log (GEMINI requirement - Section 11)
+  logger.info('[OCR_DEBUG][GEMINI]', {
+    model: client.isMockMode() ? 'local-sharp-tesseract' : client.getModelName(),
+    imageAttached: hasImage,
+    extractionStarted: true
+  });
+
   const tryLocalOcr = async () => {
     if (imageBuffer && (Buffer.isBuffer(imageBuffer) ? imageBuffer.length > 0 : String(imageBuffer).length > 0)) {
       try {
@@ -103,6 +114,13 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
   if (client.isMockMode()) {
     const localResult = await tryLocalOcr();
     const resultToUse = localResult || getStructuredFallback(context.title, context.subject, context.chapterTitle);
+
+    logger.info('[OCR_DEBUG][GEMINI]', {
+      model: localResult ? 'local-sharp-tesseract' : 'autonomous-fallback',
+      imageAttached: hasImage,
+      extractionCompleted: true,
+      charactersExtracted: resultToUse.rawText ? resultToUse.rawText.length : 0
+    });
 
     await aiMetadataRepository.record({
       entityType: 'TEXTBOOK_OCR',
@@ -135,6 +153,13 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
     if (parsed.extractedText && !parsed.rawText) parsed.rawText = parsed.extractedText;
     if (parsed.concepts && !parsed.keyTopics) parsed.keyTopics = parsed.concepts.map(c => c.name || c);
 
+    logger.info('[OCR_DEBUG][GEMINI]', {
+      model: client.getModelName(),
+      imageAttached: hasImage,
+      extractionCompleted: true,
+      charactersExtracted: (parsed.rawText || parsed.extractedText || '').length
+    });
+
     await aiMetadataRepository.record({
       entityType: 'TEXTBOOK_OCR',
       entityId,
@@ -152,6 +177,14 @@ async function extractAndUnderstandTextbook(imageBuffer, mimeType = 'image/jpeg'
     logger.warn('[GeminiMultimodal] Live OCR extraction failed; attempting high-accuracy local OCR:', err.message);
     const localResult = await tryLocalOcr();
     const fallbackResult = localResult || getStructuredFallback(context.title, context.subject, context.chapterTitle);
+
+    logger.info('[OCR_DEBUG][GEMINI]', {
+      model: localResult ? 'local-sharp-tesseract' : 'fallback',
+      imageAttached: hasImage,
+      extractionCompleted: true,
+      charactersExtracted: fallbackResult.rawText ? fallbackResult.rawText.length : 0
+    });
+
     return fallbackResult;
   }
 }

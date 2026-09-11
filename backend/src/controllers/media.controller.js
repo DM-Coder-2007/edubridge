@@ -194,6 +194,21 @@ class MediaController {
       next(error);
     }
   }
+
+  /**
+   * POST/GET /api/media/signature
+   * Generate Cloudinary upload signature for client-side uploads (e.g. Cloudinary widget)
+   */
+  async getUploadSignature(req, res, next) {
+    try {
+      const paramsToSign = req.method === 'POST' ? (req.body || {}) : (req.query || {});
+      const signatureData = mediaService.generateUploadSignature(paramsToSign);
+      return ApiResponse.success(res, 200, 'Upload signature generated successfully', signatureData);
+    } catch (error) {
+      logger.error('[MediaController] getUploadSignature error:', error);
+      next(error);
+    }
+  }
 }
 
 const mediaController = new MediaController();

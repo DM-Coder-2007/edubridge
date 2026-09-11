@@ -20,6 +20,7 @@ const cloudinaryTransform = require('../../integrations/cloudinary/transformatio
 const cloudinaryAsset = require('../../integrations/cloudinary/asset.service');
 const cloudinaryDelete = require('../../integrations/cloudinary/delete.service');
 const cloudinaryHealth = require('../../integrations/cloudinary/healthCheck');
+const cloudinaryClient = require('../../integrations/cloudinary/client');
 const mediaRepository = require('../../repositories/media.repository');
 const audioRepository = require('../../repositories/audio.repository');
 const { ValidationError, NotFoundError, ForbiddenError } = require('../../utils/errors');
@@ -369,6 +370,15 @@ class MediaService {
    */
   async checkCloudinaryHealth() {
     return cloudinaryHealth.checkHealth();
+  }
+
+  /**
+   * Generate signature for Cloudinary upload widget
+   * @param {object} paramsToSign
+   * @returns {{ signature: string, timestamp: number, apiKey: string, cloudName: string }}
+   */
+  generateUploadSignature(paramsToSign = {}) {
+    return cloudinaryClient.generateSignature(paramsToSign);
   }
 
   // --- Convenience delegates for backward compatibility ---

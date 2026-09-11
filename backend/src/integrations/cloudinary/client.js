@@ -87,6 +87,28 @@ class CloudinaryClient {
   }
 
   /**
+   * Generate signed upload parameters for Cloudinary Upload Widget
+   * @param {object} paramsToSign
+   * @returns {{ signature: string, timestamp: number, apiKey: string, cloudName: string }}
+   */
+  generateSignature(paramsToSign = {}) {
+    const timestamp = paramsToSign.timestamp || Math.round(Date.now() / 1000);
+    const params = { ...paramsToSign, timestamp };
+    const apiSecret = this.apiSecret || process.env.CLOUDINARY_API_SECRET || 'mock_secret';
+    const apiKey = this.apiKey || process.env.CLOUDINARY_API_KEY || 'mock_api_key';
+
+    // Cloudinary signature calculation via SDK
+    const signature = cloudinary.utils.api_sign_request(params, apiSecret);
+
+    return {
+      signature,
+      timestamp,
+      apiKey,
+      cloudName: this.getCloudName()
+    };
+  }
+
+  /**
    * Test connection to Cloudinary
    */
   async ping() {
